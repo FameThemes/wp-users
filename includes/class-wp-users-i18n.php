@@ -20,11 +20,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    ST_User
- * @subpackage ST_User/includes
+ * @package    WP_Users
+ * @subpackage wp-users/includes
  * @author     SmoothThemes
  */
-class ST_User_i18n {
+class WP_Users_i18n {
 
 	/**
 	 * The domain specified for this plugin.
@@ -45,7 +45,7 @@ class ST_User_i18n {
 		load_plugin_textdomain(
 			$this->domain,
 			false,
-			ST_USER_PATH . 'languages/'
+			WP_USERS_PATH . 'languages/'
 		);
 
 	}

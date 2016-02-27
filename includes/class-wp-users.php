@@ -23,11 +23,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    ST_User
- * @subpackage ST_User/includes
+ * @package    WP_Users
+ * @subpackage wp-users/includes
  * @author     SmoothThemes
  */
-class ST_User {
+class WP_Users {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +35,7 @@ class ST_User {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      ST_User_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      WP_Users_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -77,7 +77,7 @@ class ST_User {
 
 	public function __construct() {
 
-		$this->st_user = 'st-user';
+		$this->st_user = 'wp-users';
 		$this->version = '1.0.0';
 
         $this->settings();
@@ -95,7 +95,7 @@ class ST_User {
             show_admin_bar( false );
         }
 
-        do_action( 'st_user_init', $this );
+        do_action( 'wp_users_init', $this );
 
 	}
 
@@ -104,10 +104,10 @@ class ST_User {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - ST_User_Loader. Orchestrates the hooks of the plugin.
-	 * - ST_User_i18n. Defines internationalization functionality.
-	 * - ST_User_Admin. Defines all hooks for the admin area.
-	 * - ST_User_Public. Defines all hooks for the public side of the site.
+	 * - WP_Users_Loader. Orchestrates the hooks of the plugin.
+	 * - WP_Users_i18n. Defines internationalization functionality.
+	 * - WP_Users_Admin. Defines all hooks for the admin area.
+	 * - WP_Users_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -121,19 +121,19 @@ class ST_User {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-st-user-loader.php';
-        $this->loader = new ST_User_Loader();
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-users-loader.php';
+        $this->loader = new WP_Users_Loader();
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-st-user-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-users-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-st-user-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wp-users-admin.php';
 
         /**
          * Load Cores
@@ -148,7 +148,7 @@ class ST_User {
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-st-user-public.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-users-public.php';
 
         include_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-ajax.php';
 
@@ -157,15 +157,15 @@ class ST_User {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the ST_User_i18n class in order to set the domain and to register the hook
+	 * Uses the WP_Users_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
 	 * @access   private
 	 */
 	private function set_locale() {
-		$plugin_i18n = new ST_User_i18n();
-		$plugin_i18n->set_domain( $this->get_st_user() );
+		$plugin_i18n = new WP_Users_i18n();
+		$plugin_i18n->set_domain( $this->get_wp_users() );
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
@@ -177,7 +177,7 @@ class ST_User {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-		$plugin_admin = new ST_User_Admin( $this->get_st_user(), $this->get_version() );
+		$plugin_admin = new WP_Users_Admin( $this->get_wp_users(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
@@ -193,7 +193,7 @@ class ST_User {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new ST_User_Public( $this );
+		$plugin_public = new WP_Users_Public( $this );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -206,24 +206,24 @@ class ST_User {
         /**
          * Set default plugin page url
          */
-        $this->loader->add_filter( 'st_user_url', $this, 'page_url');
+        $this->loader->add_filter( 'wp_users_url', $this, 'page_url');
 
         /**
          * Set default logout redirect to url
          */
-        $this->loader->add_filter( 'st_user_logout_url', $this, 'logout_url' );
+        $this->loader->add_filter( 'wp_users_logout_url', $this, 'logout_url' );
         $this->loader->add_filter( 'logout_redirect', $this, 'logout_url' );
 
         /**
          * Redirect to url when user logged in
          */
-        $this->loader->add_filter('st_user_logged_in_redirect_to', $this, 'logged_in_url');
+        $this->loader->add_filter('wp_users_logged_in_redirect_to', $this, 'logged_in_url');
         $this->loader->add_filter('login_redirect', $this, 'logged_in_url');
 
         /**
          * Login url
          */
-        $this->loader->add_filter('st_user_login_url', $this, 'login_url');
+        $this->loader->add_filter('wp_users_login_url', $this, 'login_url');
 
         // disable default login url
 
@@ -243,18 +243,18 @@ class ST_User {
         /**
          * Lost pwd url
          */
-        $this->loader->add_filter( 'st_user_lost_passoword_url', $this, 'lost_pwd_url' );
+        $this->loader->add_filter( 'wp_users_lost_passoword_url', $this, 'lost_pwd_url' );
         $this->loader->add_filter( 'lostpassword_url', $this, 'lost_pwd_url' );
 
         /**
          * Change  term condition link
          */
-        $this->loader->add_filter( 'st_user_term_link', $this, 'term_link' );
+        $this->loader->add_filter( 'wp_users_term_link', $this, 'term_link' );
 
         $ajax = new ST_User_Ajax( $this );
 
-        $this->loader->add_action( 'wp_ajax_st_user_ajax', $ajax, 'ajax' );
-        $this->loader->add_action( 'wp_ajax_nopriv_st_user_ajax', $ajax, 'ajax' );
+        $this->loader->add_action( 'wp_ajax_wp_users_ajax', $ajax, 'ajax' );
+        $this->loader->add_action( 'wp_ajax_nopriv_wp_users_ajax', $ajax, 'ajax' );
 
 	}
 
@@ -270,31 +270,31 @@ class ST_User {
          * The url of St User page
          * Change it in admin setting
          */
-        $page_id = get_option( 'st_user_account_page' );
+        $page_id = get_option( 'wp_users_account_page' );
         $page_url =  get_permalink( $page_id );
         $this->settings['url'] = ($page_id) ?  $page_url :  site_url('/');
 
-        $this->settings['disable_default_login'] = get_option( 'st_user_disable_default_login' );
+        $this->settings['disable_default_login'] = get_option( 'wp_users_disable_default_login' );
 
-        $this->settings['logout_url'] =  get_option( 'st_user_logout_redirect_url' );
+        $this->settings['logout_url'] =  get_option( 'wp_users_logout_redirect_url' );
         if ( $this->settings['logout_url'] == '' ) {
             $this->settings['logout_url'] = $this->settings['url'];
         }
 
-        if ( ! ( $this->settings['logged_in_url'] = get_option( 'st_user_login_redirect_url' ) ) ) {
+        if ( ! ( $this->settings['logged_in_url'] = get_option( 'wp_users_login_redirect_url' ) ) ) {
             $this->settings['logged_in_url'] = $this->settings['url'];
         }
 
         $this->settings['lost_pwd_url'] = add_query_arg( array( 'st_action' => 'lost-pass' ), $page_url );
         $this->settings['register_url'] = add_query_arg( array( 'st_action' => 'register' ), $page_url );
 
-        $this->settings['term_link'] = get_permalink( get_option( 'st_user_term_page' ) );
+        $this->settings['term_link'] = get_permalink( get_option( 'wp_users_term_page' ) );
 
         /**
          * Hook to change settings if you want
          * @since 1.0.0
          */
-        $this->settings = apply_filters('st_user_setup_settings', $this->settings, $this );
+        $this->settings = apply_filters('wp_users_setup_settings', $this->settings, $this );
     }
 
     /**
@@ -412,7 +412,7 @@ class ST_User {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_st_user() {
+	public function get_wp_users() {
 		return $this->st_user;
 	}
 
@@ -420,7 +420,7 @@ class ST_User {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    ST_User_Loader    Orchestrates the hooks of the plugin.
+	 * @return    WP_Users_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;
@@ -442,8 +442,8 @@ class ST_User {
      *
      * Override template in your theme
      * YOUR_THEME_DIR/templates/{$template}
-     * or YOUR_THEME_DIR/templates/st-user/{$template}
-     * or YOUR_THEME_DIR/st-user/{$template}
+     * or YOUR_THEME_DIR/templates/wp-users/{$template}
+     * or YOUR_THEME_DIR/wp-users/{$template}
      *
      * @since 1.0
      * @param string $template
@@ -453,13 +453,13 @@ class ST_User {
         /**
          * Overridden template in your theme
          * YOUR_THEME_DIR/templates/{$template}
-         * or YOUR_THEME_DIR/templates/st-user/{$template}
-         * or YOUR_THEME_DIR/st-user/{$template}
+         * or YOUR_THEME_DIR/templates/wp-users/{$template}
+         * or YOUR_THEME_DIR/wp-users/{$template}
          */
         $templates =  array(
             'templates/'.$template,
-            'templates/st-user/'.$template,
-            'st-user/'.$template,
+            'templates/wp-users/'.$template,
+            'wp-users/'.$template,
         );
 
         if ( $overridden_template = locate_template( $templates ) ) {
@@ -469,7 +469,7 @@ class ST_User {
         } else {
             // If neither the child nor parent theme have overridden the template,
             // we load the template from the 'templates' directory if this plugin
-            return ST_USER_PATH . 'public/partials/'.$template;
+            return WP_USERS_PATH . 'public/partials/'.$template;
         }
     }
 

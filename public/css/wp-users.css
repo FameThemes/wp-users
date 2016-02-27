@@ -3,7 +3,7 @@
 xsigin/signup popup 
 
 -------------------------------- */
-.st-user-modal {
+.wp-users-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -20,7 +20,7 @@ xsigin/signup popup
     transition: opacity 0.3s 0, visibility 0 0.3s;
 }
 
-.st-user-modal.is-visible {
+.wp-users-modal.is-visible {
     visibility: visible;
     opacity: 1;
     -webkit-transition: opacity 0.3s 0, visibility 0 0;
@@ -28,7 +28,7 @@ xsigin/signup popup
     transition: opacity 0.3s 0, visibility 0 0;
 }
 
-.st-user-modal.is-visible .st-user-modal-container {
+.wp-users-modal.is-visible .wp-users-modal-container {
     -webkit-transform: translateY(0);
     -moz-transform: translateY(0);
     -ms-transform: translateY(0);
@@ -36,7 +36,7 @@ xsigin/signup popup
     transform: translateY(0);
 }
 
-.st-user-modal-container {
+.wp-users-modal-container {
     position: relative;
     width: 90%;
     max-width: 600px;
@@ -57,30 +57,30 @@ xsigin/signup popup
     transition-duration: 0.3s;
 }
 
-.st-user-modal-container .st-switcher:after {
+.wp-users-modal-container .st-switcher:after {
     content: "";
     display: table;
     clear: both;
 }
-.st-user-modal-container .st-switcher {
+.wp-users-modal-container .st-switcher {
     margin-bottom: 0px;
 }
-.st-user-modal-container .st-switcher li {
+.wp-users-modal-container .st-switcher li {
     width: 50%;
     float: left;
     text-align: center;
     list-style: none;
 }
 
-.st-user-modal-container .st-switcher li:first-child a {
+.wp-users-modal-container .st-switcher li:first-child a {
     border-radius: .25em 0 0 0;
 }
 
-.st-user-modal-container .st-switcher li:last-child a {
+.wp-users-modal-container .st-switcher li:last-child a {
     border-radius: 0 .25em 0 0;
 }
 
-.st-user-modal-container .st-switcher a {
+.wp-users-modal-container .st-switcher a {
     display: block;
     width: 100%;
     height: 50px;
@@ -89,17 +89,17 @@ xsigin/signup popup
     color: #809191;
 }
 
-.st-user-modal-container .st-switcher a.selected {
+.wp-users-modal-container .st-switcher a.selected {
     background: #FFF;
     color: #505260;
 }
 
 @media only screen and (min-width: 600px) {
-    .st-user-modal-container {
+    .wp-users-modal-container {
         margin: 4em auto;
     }
 
-    .st-user-modal-container .st-switcher a {
+    .wp-users-modal-container .st-switcher a {
         height: 70px;
         line-height: 70px;
     }
@@ -169,7 +169,7 @@ xsigin/signup popup
     background-position: 50% 0;
 }
 
-.st-form label.st-username {
+.st-form label.wp-usersname {
     background-image: url("../img/st-icon-username.svg");
 }
 
@@ -354,7 +354,7 @@ xsigin/signup popup
     font-size: 0.875rem;
 }
 
-.st-user-msg {
+.wp-users-msg {
     font-size: 14px;
     line-height: 1.4;
     text-align: center;
@@ -387,7 +387,7 @@ xsigin/signup popup
     }
 }
 
-#st-login, #st-signup, #st-reset-password , .st-user-msg , #st-change-password {
+#st-login, #st-signup, #st-reset-password , .wp-users-msg , #st-change-password {
     display: none;
 }
 .st-login-wrapper #st-login, .st-register-wrapper #st-signup, .st-reset-password-wrapper #st-reset-password, .st-change-password-wrapper #st-change-password{
@@ -399,18 +399,18 @@ xsigin/signup popup
 }
 
 .st-errors-msg { color: #ff0000; }
-.st-user-wrapper .st-form-bottom-message , .st-user-wrapper .st-form-bottom-message a{ color: #333333; position: relative; }
-.st-user-msg.st-show {
+.wp-users-wrapper .st-form-bottom-message , .wp-users-wrapper .st-form-bottom-message a{ color: #333333; position: relative; }
+.wp-users-msg.st-show {
     display: block;
 }
 
 /*
 Loggin info
 */
-.st-user-wrapper .st-form {
+.wp-users-wrapper .st-form {
     padding: 0px;
 }
-.st-user-info .st-username .avatar{
+.wp-users-info .wp-usersname .avatar{
     float: left; margin-right: 15px;
 }
 .st-ui:after{

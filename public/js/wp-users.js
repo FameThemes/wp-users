@@ -48,31 +48,31 @@ jQuery(document).ready(function($) {
     __init();
 
     // forec reset password form
-    if ( ST_User.current_action == 'rp' ) {
-        $('.st-user-modal').addClass('is-visible');
-        $('body').trigger('st_user_before_open');
+    if ( WP_Users.current_action == 'rp' ) {
+        $('.wp-users-modal').addClass('is-visible');
+        $('body').trigger('wp_users_before_open');
         $('body').trigger('login_selected');
         $('#st-login').removeClass('is-selected');
         $('#st-change-password').addClass('is-selected');
     }
 
-    $('.st-user-wrapper').each(function() {
+    $('.wp-users-wrapper').each(function() {
         var w = $(this);
         if ( w.data('ajax-load') !== true ) {
             return ;
         }
 
         var _act = w.data('action');
-        var data = { action :'st_user_ajax', 'act' : _act, 'current_url' : ST_User.current_url  };
+        var data = { action :'wp_users_ajax', 'act' : _act, 'current_url' : WP_Users.current_url  };
         $.ajax({
             data: data,
-            url: ST_User.ajax_url,
+            url: WP_Users.ajax_url,
             type: 'GET',
             success: function( html ) {
                 html = $( html );
                 w.html( html );
                 __init( html  );
-                $( "body").trigger( "st_user_content_loaded", [ html ] );
+                $( "body").trigger( "wp_users_content_loaded", [ html ] );
             }
         });
     });
@@ -89,9 +89,9 @@ jQuery(document).ready(function($) {
             }
         }
 
-        if ($('.st-user-modal').length > 0 ) {
-            $('.st-user-modal').addClass('is-visible');
-            $('body').trigger('st_user_before_open');
+        if ($('.wp-users-modal').length > 0 ) {
+            $('.wp-users-modal').addClass('is-visible');
+            $('body').trigger('wp_users_before_open');
             if ( is_login ) {
                 $('body').trigger('login_selected');
             } else {
@@ -99,17 +99,17 @@ jQuery(document).ready(function($) {
             }
 
         } else {
-            var data = { action :'st_user_ajax', 'act' : 'modal-template' };
+            var data = { action :'wp_users_ajax', 'act' : 'modal-template' };
             $.ajax({
                 data: data,
-                url: ST_User.ajax_url,
+                url: WP_Users.ajax_url,
                 type: 'GET',
                 success: function( html ) {
                     html = $( html );
                     $('body').append( html );
                     __init( html );
-                    $('body').trigger('st_user_before_open');
-                    $('.st-user-modal').addClass('is-visible');
+                    $('body').trigger('wp_users_before_open');
+                    $('.wp-users-modal').addClass('is-visible');
                     if ( is_login ) {
                         $('body').trigger('login_selected');
                     } else {
@@ -128,7 +128,7 @@ jQuery(document).ready(function($) {
         if ( typeof w === 'undefined' ) {
             w = $('body');
         }
-        var $form_modal = ( $('.st-user-modal' , w).not('.st-loaded').length >0 )  ?  $('.st-user-modal' , w).not('.st-loaded') :  $('.st-user-modal').not('.st-loaded'),
+        var $form_modal = ( $('.wp-users-modal' , w).not('.st-loaded').length >0 )  ?  $('.wp-users-modal' , w).not('.st-loaded') :  $('.wp-users-modal').not('.st-loaded'),
             $form_login = $form_modal.find('#st-login'),
             $form_signup = $form_modal.find('#st-signup'  ),
             $form_forgot_password = $form_modal.find('#st-reset-password'),
@@ -142,7 +142,7 @@ jQuery(document).ready(function($) {
         $form_modal.addClass('st-loaded');
 
 
-        $('body').on('st_user_before_open', function() {
+        $('body').on('wp_users_before_open', function() {
             hide_all_errors();
         });
         $('body').on('signup_selected', function() {
@@ -164,7 +164,7 @@ jQuery(document).ready(function($) {
         });
 
         //close modal
-        $('.st-user-modal').on('click', function(event) {
+        $('.wp-users-modal').on('click', function(event) {
             if ( $form_modal.hasClass('st-disabled') ) {
                 return false;
             }
@@ -200,10 +200,10 @@ jQuery(document).ready(function($) {
 
             if ( 'password' == $password_field.attr('type') ) {
                 $password_field.attr('type', 'text');
-                $this.text( ST_User.hide_txt );
+                $this.text( WP_Users.hide_txt );
             } else {
                 $password_field.attr('type', 'password');
-                $this.text( ST_User.show_txt );
+                $this.text( WP_Users.show_txt );
             }
             //focus and move cursor to the end of input field
             $password_field.putCursorAtEnd();
@@ -280,10 +280,10 @@ jQuery(document).ready(function($) {
             //return false;
             var form = $(this);
             var formData = form.serializeObject();
-            formData.action = 'st_user_ajax';
+            formData.action = 'wp_users_ajax';
             formData.act = 'do_login';
             $.ajax({
-                url: ST_User.ajax_url,
+                url: WP_Users.ajax_url,
                 data: formData,
                 type: 'POST',
                 success: function( response ) {
@@ -303,7 +303,7 @@ jQuery(document).ready(function($) {
                             }
 
                             if ( typeof res.invalid_username !== 'undefined' ) {
-                                var  p = $('.st-username', form );
+                                var  p = $('.wp-usersname', form );
                                 $('.st-error-message', p).html( res.invalid_username );
                                 p.find('input[name="st_username"]').toggleClass('has-error');
                                 p.find('span').toggleClass('is-visible');
@@ -328,7 +328,7 @@ jQuery(document).ready(function($) {
 
             var form = $(this);
             var formData = form.serializeObject();
-            formData.action = 'st_user_ajax';
+            formData.action = 'wp_users_ajax';
             formData.act = 'do_register';
 
             if ( $('input[name="st_accept_terms"]:checked', form ).length == 0  ) {
@@ -344,7 +344,7 @@ jQuery(document).ready(function($) {
             }
 
             $.ajax({
-                url: ST_User.ajax_url,
+                url: WP_Users.ajax_url,
                 data: formData,
                 type: 'POST',
                 success: function( response ) {
@@ -358,7 +358,7 @@ jQuery(document).ready(function($) {
                         $('input[type=text], input[type=email], input[type=password], input[type=number]',form).val('');
                         $('input[type=checkbox]',form).removeAttr('checked');
 
-                        $('.st-user-msg',form).show(0);
+                        $('.wp-users-msg',form).show(0);
                         return ;
                     } else {
                         var res = JSON.parse( response );
@@ -377,7 +377,7 @@ jQuery(document).ready(function($) {
                                 || typeof res.existing_user_login !== 'undefined'
 
                             ) {
-                                var  p = $('.st-username', form );
+                                var  p = $('.wp-usersname', form );
                                 var msg = res.invalidate_username
                                     || res.empty_user_login
                                     || res.existing_user_login;
@@ -403,7 +403,7 @@ jQuery(document).ready(function($) {
         $('.st-form-reset-password', w ).submit( function() {
             var form = $(this);
             var formData = form.serializeObject();
-            formData.action = 'st_user_ajax';
+            formData.action = 'wp_users_ajax';
             formData.act = 'retrieve_password';
 
             var submit_btn =  $('.st-submit', form);
@@ -415,7 +415,7 @@ jQuery(document).ready(function($) {
             }
 
             $.ajax({
-                url: ST_User.ajax_url,
+                url: WP_Users.ajax_url,
                 data: formData,
                 type: 'POST',
                 success: function( response ) {
@@ -424,11 +424,11 @@ jQuery(document).ready(function($) {
                     if ( response == 'sent' ) {
                         $('input[type=text], input[type=email], input[type=password], input[type=number]',form).val('');
                         $('input[type=checkbox]',form).removeAttr('checked');
-                        $('.st-user-msg', form).show(100);
+                        $('.wp-users-msg', form).show(100);
                     } else {
                         var res = JSON.parse( response );
                         $('.st-error-message', form ).html( res.invalid_combo).toggleClass('is-visible');
-                        $('input[name="st_user_login"]', form ).toggleClass('has-error');
+                        $('input[name="wp_users_login"]', form ).toggleClass('has-error');
                     }
                 }
             });
@@ -442,7 +442,7 @@ jQuery(document).ready(function($) {
 
             var form = $(this);
             var formData = form.serializeObject();
-            formData.action = 'st_user_ajax';
+            formData.action = 'wp_users_ajax';
             formData.act = 'do_reset_pass';
 
             var submit_btn =  $('.st-submit', form);
@@ -453,10 +453,10 @@ jQuery(document).ready(function($) {
                 submit_btn.attr('disabled', 'disabled');
             }
 
-            $('.st-user-msg', form).hide(1);
+            $('.wp-users-msg', form).hide(1);
 
             $.ajax({
-                url: ST_User.ajax_url,
+                url: WP_Users.ajax_url,
                 data: formData,
                 type: 'POST',
                 success: function( response ) {
@@ -466,10 +466,10 @@ jQuery(document).ready(function($) {
 
                     if ( response == 'changed' ) {
                         $('input[type=text], input[type=email], input[type=password], input[type=number]',form).val('');
-                        $('.st-user-msg', form).show(1);
+                        $('.wp-users-msg', form).show(1);
                     } else {
                         var res = JSON.parse( response );
-                        $('.st-user-msg', form).hide(1);
+                        $('.wp-users-msg', form).hide(1);
                        if ( typeof res.error !== 'undefined'  && res.error !=='' ) {
                            $('.st-errors-msg', form).html(res.error).show(1);
                        }
@@ -491,7 +491,7 @@ jQuery(document).ready(function($) {
 
             var form = $(this);
             var formData = form.serializeObject();
-            formData.action = 'st_user_ajax';
+            formData.action = 'wp_users_ajax';
             formData.act = 'do_update_profile';
 
             var submit_btn =  $('.st-submit', form);
@@ -502,10 +502,10 @@ jQuery(document).ready(function($) {
                 submit_btn.attr('disabled', 'disabled');
             }
 
-            $('.st-user-msg', form).hide(1);
+            $('.wp-users-msg', form).hide(1);
 
             $.ajax({
-                url: ST_User.ajax_url,
+                url: WP_Users.ajax_url,
                 data: formData,
                 type: 'POST',
                 success: function( response ) {
@@ -524,10 +524,10 @@ jQuery(document).ready(function($) {
                         }
                         // refresh page
                         window.location =  c_url;
-                        $('.st-user-msg', form).show(1);
+                        $('.wp-users-msg', form).show(1);
                     } else {
                         var res = JSON.parse( response );
-                        $('.st-user-msg', form).hide(1);
+                        $('.wp-users-msg', form).hide(1);
                         if ( typeof res.error !== 'undefined'  && res.error !=='' ) {
                             $('.st-errors-msg', form).html(res.error).show(1);
                         }
@@ -575,7 +575,7 @@ jQuery(document).ready(function($) {
         /**
          * Trigger when init
          */
-        $( "body").trigger( "st_user_init", [ w ] );
+        $( "body").trigger( "wp_users_init", [ w ] );
 
     }// end function init
 

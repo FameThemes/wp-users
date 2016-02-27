@@ -18,12 +18,12 @@ class ST_User_Shortcodes{
     function __construct( $instance ) {
         $this->instance = $instance;
         add_shortcode( 'st_user',                  array( $this, 'user' ) );
-        add_shortcode( 'st_user_login',            array( $this, 'login' ) );
-        add_shortcode( 'st_user_register',         array( $this, 'register' ) );
-        add_shortcode( 'st_user_lost_password',    array( $this, 'lost_password' ) );
-        add_shortcode( 'st_user_reset_password',   array( $this, 'reset_password' ) );
-        add_shortcode( 'st_user_change_password',  array( $this, 'change_password' ) );
-        add_shortcode( 'st_user_profile',          array( $this, 'profile' ) );
+        add_shortcode( 'wp_users_login',            array( $this, 'login' ) );
+        add_shortcode( 'wp_users_register',         array( $this, 'register' ) );
+        add_shortcode( 'wp_users_lost_password',    array( $this, 'lost_password' ) );
+        add_shortcode( 'wp_users_reset_password',   array( $this, 'reset_password' ) );
+        add_shortcode( 'wp_users_change_password',  array( $this, 'change_password' ) );
+        add_shortcode( 'wp_users_profile',          array( $this, 'profile' ) );
         add_shortcode( 'st_login_btn',             array( $this, 'login_button' ) );
         add_shortcode( 'st_singup_btn',            array( $this, 'singup_button' ) );
     }
@@ -31,7 +31,7 @@ class ST_User_Shortcodes{
     /**
      * Login shortcode: Display Login form
      *
-     * @usage: [st_user_login ajax_load="true" redirect=""]
+     * @usage: [wp_users_login ajax_load="true" redirect=""]
      * @since 1.0
      * @param (array) $atts
      * @param string $content
@@ -55,13 +55,13 @@ class ST_User_Shortcodes{
         extract( $atts );
 
         $content =  $this->instance->get_template_content( 'login.php', $atts ) ;
-        $html = '<div '.st_user_array_to_html_atts( $atts ).' class="st-user-wrapper st-login-wrapper">'.$content.'</div>';
+        $html = '<div '.wp_users_array_to_html_atts( $atts ).' class="wp-users-wrapper st-login-wrapper">'.$content.'</div>';
         return $html;
     }
 
     /**
      * Register Shortcode: Display Register form
-     * @usage: [st_user_register ajax_load="true" redirect=""]
+     * @usage: [wp_users_register ajax_load="true" redirect=""]
      * @since 1.0
      *
      * @param $atts
@@ -86,12 +86,12 @@ class ST_User_Shortcodes{
             $content = $this->instance->get_template_content('register.php') ;
         }
 
-        return '<div class="st-user-wrapper st-register-wrapper" ' . st_user_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wp-users-wrapper st-register-wrapper" ' . wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
      * Lost password Shortcode: Display reset pwd form
-     * @usage [st_user_reset_password ajax_load="true"]
+     * @usage [wp_users_reset_password ajax_load="true"]
      * @since 1.0
      *
      * @param $atts
@@ -118,12 +118,12 @@ class ST_User_Shortcodes{
             $content =  $this->instance->get_template_content('reset.php') ;
         }
 
-        return '<div class="st-user-wrapper st-reset-password-wrapper" '.st_user_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wp-users-wrapper st-reset-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
      * Change Password Shortcode: Display change pwd form
-     * @usage [st_user_change_password ajax_load="true"]
+     * @usage [wp_users_change_password ajax_load="true"]
      * @since 1.0
      *
      * @param $atts
@@ -150,12 +150,12 @@ class ST_User_Shortcodes{
             $content =  $this->instance->get_template_content('change-password.php') ;
         }
 
-        return '<div class="st-user-wrapper st-change-password-wrapper" '.st_user_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wp-users-wrapper st-change-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
      *  User profile Shortcode: Display user profile
-     * @usage [st_user_reset_password ajax_load="true"]
+     * @usage [wp_users_reset_password ajax_load="true"]
      * @since 1.0
      *
      * @param $atts
@@ -179,7 +179,7 @@ class ST_User_Shortcodes{
         } else {
             $content =  $this->instance->get_template_content('profile.php') ;
         }
-        return '<div class="st-user-wrapper st-profile-wrapper" '.st_user_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wp-users-wrapper st-profile-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
@@ -196,8 +196,8 @@ class ST_User_Shortcodes{
     public   function login_button( $atts ) {
         $atts = shortcode_atts(array(
             'class'         => '' ,
-            'login_text'    => __('Login', 'st-user'),
-            'logout_text'   => __("Logout", 'st-user'),
+            'login_text'    => __('Login', 'wp-users'),
+            'logout_text'   => __("Logout", 'wp-users'),
         ), $atts );
         extract( $atts );
         $atts['class'].=' st-login-btn';
@@ -211,7 +211,7 @@ class ST_User_Shortcodes{
             $atts['is_logged'] = 'false';
             $text = $login_text;
         }
-        return  '<a href="'.$url.'" '.st_user_array_to_html_atts( $atts ).'>'.$text.'</a>';
+        return  '<a href="'.$url.'" '.wp_users_array_to_html_atts( $atts ).'>'.$text.'</a>';
     }
 
     /**
@@ -231,7 +231,7 @@ class ST_User_Shortcodes{
         $atts = shortcode_atts(array(
             'class'             => '' ,
             'hide_when_logged'  =>  'true' ,
-            'text'              => __('Singup', 'st-user'),
+            'text'              => __('Singup', 'wp-users'),
             'ajax'              => 'true'
         ), $atts );
         extract( $atts );
@@ -243,7 +243,7 @@ class ST_User_Shortcodes{
         } else {
             $url ='#';
         }
-        return  '<a href="'.$url.'" '.st_user_array_to_html_atts( $atts ).'>'.$text.'</a>';
+        return  '<a href="'.$url.'" '.wp_users_array_to_html_atts( $atts ).'>'.$text.'</a>';
     }
 
     /**
@@ -252,7 +252,7 @@ class ST_User_Shortcodes{
      * @see login
      * @see profile
      * @see reset_password
-     * @param $atts array that containers all attributes of other ST User shortcode
+     * @param $atts array that containers all attributes of other WP Users shortcode
      * @param string $content
      * @return string
      */

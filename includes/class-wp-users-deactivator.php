@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    ST_User
+ * @package    WP_Users
  * @subpackage ST_User/includes
  * @author     SmoothThemes
  */
-class ST_User_Deactivator {
+class WP_Users_Deactivator {
 
 	/**
 	 * Short Description. (use period)

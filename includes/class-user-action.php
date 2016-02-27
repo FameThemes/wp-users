@@ -21,17 +21,17 @@ class ST_User_Action{
         $secure_cookie          = '';
         $msgs                   = array();
         if ( trim( $creds['user_login'] ) == '' ) {
-            $msgs['invalid_username'] =  __('<strong>ERROR</strong>: Invalid username or email.', 'st-user');
+            $msgs['invalid_username'] =  __('<strong>ERROR</strong>: Invalid username or email.', 'wp-users');
         }
 
         if ( trim( $creds['user_password'] ) == '' ) {
-            $msgs['incorrect_password'] =  __('<strong>ERROR</strong>: The password you entered for the username <strong>admin</strong> is incorrect.', 'st-user');
+            $msgs['incorrect_password'] =  __('<strong>ERROR</strong>: The password you entered for the username <strong>admin</strong> is incorrect.', 'wp-users');
         }
 
         if ( is_email( $creds['user_login'] ) ) {
             $u =  get_user_by('email', $creds['user_login'] );
             if ( ! $u ) {
-                $msgs['invalid_username'] =  __('<strong>ERROR</strong>: This email does not exists.', 'st-user');
+                $msgs['invalid_username'] =  __('<strong>ERROR</strong>: This email does not exists.', 'wp-users');
             } else {
                 $creds['user_login'] = $u->user_login;
             }
@@ -62,10 +62,10 @@ class ST_User_Action{
             foreach ( $codes as $code ) {
                 switch( $code ) {
                     case 'invalid_username':
-                        $msgs['invalid_username'] =  __('<strong>ERROR</strong>: Invalid username.', 'st-user');
+                        $msgs['invalid_username'] =  __('<strong>ERROR</strong>: Invalid username.', 'wp-users');
                         break;
                     case 'incorrect_password':
-                        $msgs['incorrect_password'] =  __('<strong>ERROR</strong>: The password you entered for the username <strong>admin</strong> is incorrect.', 'st-user');
+                        $msgs['incorrect_password'] =  __('<strong>ERROR</strong>: The password you entered for the username <strong>admin</strong> is incorrect.', 'wp-users');
                         break;
                 }
             }
@@ -95,21 +95,21 @@ class ST_User_Action{
         $username   = $args['st_signup_username'];
 
         $msgs = array();
-        $pwd_length =  apply_filters('st_user_pwd_leng', 6 );
+        $pwd_length =  apply_filters('wp_users_pwd_leng', 6 );
         if ( empty( $username ) || ! validate_username( $username ) ) {
-            $msgs['invalidate_username'] = __('Invalidate username','st-user');
+            $msgs['invalidate_username'] = __('Invalidate username','wp-users');
         }
         if ( strlen( $pwd ) < $pwd_length ) {
-            $msgs['incorrect_password'] = sprintf( __('Please enter your password more than %s characters', 'st-user'), $pwd_length );
+            $msgs['incorrect_password'] = sprintf( __('Please enter your password more than %s characters', 'wp-users'), $pwd_length );
         }
         if ( ! is_email( $email ) ) {
-            $msgs['incorrect_email'] =  __('Please enter a correct your email', 'st-user');
+            $msgs['incorrect_email'] =  __('Please enter a correct your email', 'wp-users');
         }
 
         // check if show term and term checked
-        if ( apply_filters('st_user_register_show_term_link' , true ) ) {
+        if ( apply_filters('wp_users_register_show_term_link' , true ) ) {
             if ($args['st_accept_terms'] == '' ) {
-                $msgs['accept_terms'] = __('You must agree our Terms and Conditions to continue', 'st-user');
+                $msgs['accept_terms'] = __('You must agree our Terms and Conditions to continue', 'wp-users');
             }
         }
 
@@ -142,14 +142,14 @@ class ST_User_Action{
         global $wpdb, $wp_hasher;
         $errors =   array();
         $user_data =  false;
-        if ( empty ( $_POST['st_user_login'] ) ) {
+        if ( empty ( $_POST['wp_users_login'] ) ) {
             $errors['invalid_combo'] = __( '<strong>ERROR</strong>: Enter a username or e-mail address.' );
-        } elseif ( is_email( $_POST['st_user_login'] ) ) {
-            $user_data = get_user_by( 'email', trim( $_POST['st_user_login'] ) );
+        } elseif ( is_email( $_POST['wp_users_login'] ) ) {
+            $user_data = get_user_by( 'email', trim( $_POST['wp_users_login'] ) );
             if ( empty( $user_data ) )
                 $errors['invalid_combo'] = __( '<strong>ERROR</strong>: There is no user registered with that email address.' );
         } else {
-            $login = trim( $_POST['st_user_login'] );
+            $login = trim( $_POST['wp_users_login'] );
             $user_data = get_user_by( 'login', $login );
         }
 
@@ -214,7 +214,7 @@ class ST_User_Action{
         $message .= __('If this was a mistake, just ignore this email and nothing will happen.') . "\r\n\r\n";
         $message .= __('To reset your password, visit the following address:') . "\r\n\r\n";
 
-        $url = apply_filters( 'st_user_url', network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') );
+        $url = apply_filters( 'wp_users_url', network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') );
         $url = remove_query_arg( array( 'action', 'key', 'login' ), $url );
         $url =  add_query_arg( array(
                                     'st_action' => 'rp',
@@ -293,20 +293,20 @@ class ST_User_Action{
         $errors =  array();
 
         if ( !isset( $_REQUEST['st_pwd'] )  || $_REQUEST['st_pwd']  == '' ) {
-            $errors['pass1'] =  __( 'Please enter your password' ,'st-user');
+            $errors['pass1'] =  __( 'Please enter your password' ,'wp-users');
         }
 
         if ( isset($_REQUEST['st_pwd']) && $_REQUEST['st_pwd'] != $_REQUEST['st_pwd2'] ) {
-            $errors['pass2'] =  __( 'The passwords do not match.' ,'st-user');
+            $errors['pass2'] =  __( 'The passwords do not match.' ,'wp-users');
         }
 
         $user = check_password_reset_key( $rp_key, $rp_login );
 
         if ( ! $user || is_wp_error( $user ) ) {
             if ( $user && $user->get_error_code() === 'expired_key' )
-                $errors['error'] =  __( 'Your key is expired' ,'st-user');
+                $errors['error'] =  __( 'Your key is expired' ,'wp-users');
             else
-                $errors['error'] =  __( 'Your key is invalid' ,'st-user');
+                $errors['error'] =  __( 'Your key is invalid' ,'wp-users');
 
         }
 
@@ -331,11 +331,11 @@ class ST_User_Action{
 
     public static function update_profile() {
         if ( ! is_user_logged_in() ) {
-            $errors['error'] =  __( 'Please login to continue.' ,'st-user');
+            $errors['error'] =  __( 'Please login to continue.' ,'wp-users');
             return json_encode( $errors );
         }
 
-        $user_data =  wp_parse_args( $_POST['st_user_data'] , array(
+        $user_data =  wp_parse_args( $_POST['wp_users_data'] , array(
             'user_email'        => '',
             'user_firstname'    => '',
             'user_lastname'     => '',
@@ -346,23 +346,23 @@ class ST_User_Action{
 
         // check email
         if ( !is_email( $user_data['user_email'] ) ) {
-            $errors['st-email'] =  __( 'Invalid email.' ,'st-user' );
+            $errors['st-email'] =  __( 'Invalid email.' ,'wp-users' );
         } else {
             $check_u =  get_user_by('email', $user_data['user_email'] );
             if ( !empty( $check_u ) ) {
                 if ( $check_u->ID != $c_user->ID ) {
-                    $errors['st-email'] = __( 'Sorry, that email address is already used by other account!', 'st-user' ); // __( 'This email is used by other account.' ,'st-user');
+                    $errors['st-email'] = __( 'Sorry, that email address is already used by other account!', 'wp-users' ); // __( 'This email is used by other account.' ,'wp-users');
                 }
             }
         }
 
         // check password if enter
         if ( isset( $user_data['user_pass'] ) && $user_data['user_pass'] != '' ) {
-            $pass2  = isset( $_POST['st_user_pwd2'] ) ? trim( $_POST['st_user_pwd2'] ) : '';
+            $pass2  = isset( $_POST['wp_users_pwd2'] ) ? trim( $_POST['wp_users_pwd2'] ) : '';
             if ( $pass2 == '' ) {
-                $errors['pass2'] =  __( 'Please enter your confirm password.' ,'st-user' );
+                $errors['pass2'] =  __( 'Please enter your confirm password.' ,'wp-users' );
             }else if ( $user_data['user_pass'] != $pass2  ) {
-                $errors['pass2'] =  __( 'The passwords do not match.' ,'st-user' );
+                $errors['pass2'] =  __( 'The passwords do not match.' ,'wp-users' );
             }
         }
 
@@ -374,9 +374,9 @@ class ST_User_Action{
         /**
          * Hook to add data
          */
-        do_action( 'st_user_update_profile', $user_data, $errors );
-        $user_data = apply_filters( 'st_user_update_profile_data', $user_data );
-        $errors = apply_filters( 'st_user_update_profile_errors', $errors );
+        do_action( 'wp_users_update_profile', $user_data, $errors );
+        $user_data = apply_filters( 'wp_users_update_profile_data', $user_data );
+        $errors = apply_filters( 'wp_users_update_profile_errors', $errors );
 
         if ( !empty( $errors ) ) {
             return json_encode( $errors );
@@ -387,7 +387,7 @@ class ST_User_Action{
         $r = wp_update_user( $user_data );
 
         if ( is_wp_error( $r ) ) {
-            $errors['error'] =  __( 'Something wrong, please try again.' ,'st-user');
+            $errors['error'] =  __( 'Something wrong, please try again.' ,'wp-users');
             return json_encode( $errors );
         } else {
             // Success!

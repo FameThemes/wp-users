@@ -20,16 +20,16 @@
  * @subpackage ST_User/public
  * @author     SmoothThemes
  */
-class ST_User_Public {
+class WP_Users_Public {
 
 	/**
 	 * The ID of this plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $st_user    The ID of this plugin.
+	 * @var      string    $wp_users    The ID of this plugin.
 	 */
-	private $st_user;
+	private $wp_users;
 
 	/**
 	 * The version of this plugin.
@@ -44,14 +44,14 @@ class ST_User_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $st_user       The name of the plugin.
+	 * @param      string    $wp_users       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
 
     /**
-     * Instance classs ST_User
+     * Instance classs WP_Users
      * @since 1.0
-     * @var ST_User
+     * @var WP_Users
      */
     private  $instance;
 
@@ -66,7 +66,7 @@ class ST_User_Public {
         $this->instance = $instance;
         $this->current_action = isset( $_REQUEST['st_action'] ) ? sanitize_key( $_REQUEST['st_action'] ) : '';
 
-		$this->st_user = $this->instance->get_st_user();
+		$this->wp_users = $this->instance->get_wp_users();
 		$this->version = $this->instance->get_version();
 
 	}
@@ -82,17 +82,17 @@ class ST_User_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in ST_User_Loader as all of the hooks are defined
+		 * defined in WP_Users_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The ST_User_Loader will then create the relationship
+		 * The WP_Users_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
 
-        wp_register_style( $this->st_user, ST_USER_URL.'public/css/st-user.css' );
-        wp_enqueue_style( $this->st_user );
+        wp_register_style( $this->wp_users, WP_USERS_URL.'public/css/wp-users.css' );
+        wp_enqueue_style( $this->wp_users );
 	}
 
 	/**
@@ -106,25 +106,25 @@ class ST_User_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in ST_User_Loader as all of the hooks are defined
+		 * defined in WP_Users_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The ST_User_Loader will then create the relationship
+		 * The WP_Users_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
         wp_enqueue_script('jquery');
         wp_enqueue_script('json2');
-        wp_enqueue_script('modernizr', ST_USER_URL.'public/js/modernizr.js',array('jquery'), '2.7.1', true  );
-        wp_enqueue_script( $this->st_user , ST_USER_URL.'public/js/st-user.js',array('jquery'), '1.0', true  );
+        wp_enqueue_script('modernizr', WP_USERS_URL.'public/js/modernizr.js',array('jquery'), '2.7.1', true  );
+        wp_enqueue_script( $this->wp_users , WP_USERS_URL.'public/js/wp-users.js',array('jquery'), '1.0', true  );
 
-        wp_localize_script( $this->st_user , 'ST_User',
-            apply_filters('st_user_localize_script', array(
+        wp_localize_script( $this->wp_users , 'WP_Users',
+            apply_filters('wp_users_localize_script', array(
                 'ajax_url'          => admin_url( 'admin-ajax.php' ),
                 'current_action'    => $this->current_action,
-                'hide_txt'          => __('Hide','st-user'),
-                'show_txt'          => __('Show','st-user'),
+                'hide_txt'          => __('Hide','wp-users'),
+                'show_txt'          => __('Show','wp-users'),
                 'current_url'       => $_SERVER['REQUEST_URI'],
                 '_wpnonce'          => wp_create_nonce()
             ) )

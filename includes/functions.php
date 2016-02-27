@@ -5,24 +5,24 @@
  *
  * Override template in your theme
  * YOUR_THEME_DIR/templates/{$template}
- * or YOUR_THEME_DIR/templates/st-user/{$template}
- * or YOUR_THEME_DIR/st-user/{$template}
+ * or YOUR_THEME_DIR/templates/wp-users/{$template}
+ * or YOUR_THEME_DIR/wp-users/{$template}
  *
  * @since 1.0
  * @param string $template
  * @return string
  */
-function st_user_get_template( $template = '' ) {
+function wp_users_get_template( $template = '' ) {
     /**
      * Overridden template in your theme
      * YOUR_THEME_DIR/templates/{$template}
-     * or YOUR_THEME_DIR/templates/st-user/{$template}
-     * or YOUR_THEME_DIR/st-user/{$template}
+     * or YOUR_THEME_DIR/templates/wp-users/{$template}
+     * or YOUR_THEME_DIR/wp-users/{$template}
      */
     $templates =  array(
         'templates/'.$template,
-        'templates/st-user/'.$template,
-        'st-user/'.$template,
+        'templates/wp-users/'.$template,
+        'wp-users/'.$template,
     );
 
     if ( $overridden_template = locate_template( $templates ) ) {
@@ -32,7 +32,7 @@ function st_user_get_template( $template = '' ) {
     } else {
         // If neither the child nor parent theme have overridden the template,
         // we load the template from the 'templates' directory if this plugin
-        return ST_USER_PATH . 'public/partials/'.$template;
+        return WP_USERS_PATH . 'public/partials/'.$template;
     }
 }
 
@@ -45,7 +45,7 @@ function st_user_get_template( $template = '' ) {
  * @param array $custom_data
  * @return string
  */
-function st_user_get_content( $template, $custom_data = array() ) {
+function wp_users_get_content( $template, $custom_data = array() ) {
     ob_start();
     $old_content = ob_get_clean();
     ob_start();
@@ -69,7 +69,7 @@ function st_user_get_content( $template, $custom_data = array() ) {
  * @param $array
  * @return string
  */
-function st_user_array_to_html_atts( $array ) {
+function wp_users_array_to_html_atts( $array ) {
     $attr_html = array();
     foreach ( $array as $k => $v ) {
         $k = sanitize_title( $k );

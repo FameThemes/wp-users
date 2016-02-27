@@ -20,7 +20,7 @@
  * @subpackage ST_User/admin
  * @author     SmoothThemes
  */
-class ST_User_Admin {
+class WP_Users_Admin {
 
 	/**
 	 * The ID of this plugin.
@@ -56,11 +56,11 @@ class ST_User_Admin {
 	}
 
     public function add_option_menu() {
-        add_options_page( __( 'ST User', 'st-user' ), __( 'ST User','st-user' ), 'edit_users', 'st-user', array( $this, 'option_settings' ));
+        add_options_page( __( 'WP Users', 'wp-users' ), __( 'WP Users','wp-users' ), 'edit_users', 'wp-users', array( $this, 'option_settings' ));
     }
 
     function option_settings() {
-       include  dirname(__FILE__).'/partials/plugin-st-user-display.php';
+       include  dirname(__FILE__).'/partials/plugin-wp-users-display.php';
     }
 
 	/**
@@ -74,15 +74,15 @@ class ST_User_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in ST_User_Loader as all of the hooks are defined
+		 * defined in WP_Users_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The ST_User_Loader will then create the relationship
+		 * The WP_Users_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->st_user, plugin_dir_url( __FILE__ ) . 'css/st-user-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->st_user, plugin_dir_url( __FILE__ ) . 'css/wp-users-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -97,15 +97,15 @@ class ST_User_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in ST_User_Loader as all of the hooks are defined
+		 * defined in WP_Users_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The ST_User_Loader will then create the relationship
+		 * The WP_Users_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->st_user, plugin_dir_url( __FILE__ ) . 'js/st-user-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->st_user, plugin_dir_url( __FILE__ ) . 'js/wp-users-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 

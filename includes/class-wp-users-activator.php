@@ -5,11 +5,11 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    ST_User
- * @subpackage ST_User/includes
+ * @package    WP_Users
+ * @subpackage wp-users/includes
  * @author     SmoothThemes
  */
-class ST_User_Activator {
+class WP_Users_Activator {
 
 	/**
 	 * Run settings when plugin active
@@ -20,7 +20,7 @@ class ST_User_Activator {
         $account_slug   = 'account';
         $shortcode_base = 'st_user';
         $page = array(
-            'post_title'   => __('Account','st-user'),
+            'post_title'   => __('Account','wp-users'),
             'post_name'    => $account_slug,
             'post_type'    => 'page',
             'post_status'  => 'publish',
@@ -45,11 +45,11 @@ class ST_User_Activator {
         }
 
         $option_keys = array(
-            'st_user_account_page'          => $page_id ,
-            'st_user_disable_default_login' => 0 ,
-            'st_user_login_redirect_url'    => '',
-            'st_user_logout_redirect_url'   => '',
-            'st_user_term_page'             => '',
+            'wp_users_account_page'          => $page_id ,
+            'wp_users_disable_default_login' => 0 ,
+            'wp_users_login_redirect_url'    => '',
+            'wp_users_logout_redirect_url'   => '',
+            'wp_users_term_page'             => '',
         );
 
         foreach ( $option_keys as $k => $v ) {

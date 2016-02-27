@@ -19,29 +19,29 @@
  * @param array  $args  An array of {@see wp_nav_menu()} arguments.
  * @param int    $depth Depth of menu item. Used for padding.
  */
-function st_user_nav_menu_link_attributes( $atts, $item, $args = array(), $depth = false ){
+function wp_users_nav_menu_link_attributes( $atts, $item, $args = array(), $depth = false ){
     if ( get_post_meta( $item->ID, '_is_logout' , true ) == 'yes' ) {
         if ( is_user_logged_in() ) {
             //$title =  get_post_meta( $item->ID, '_logout_title', true );
             $atts['href']                   =  wp_logout_url( $atts['href'] );
-            $atts['data-st-user-logout']    = 'true';
+            $atts['data-wp-users-logout']    = 'true';
             $atts['class']                  = '';
         } else {
             //$title =  get_post_meta( $item->ID, '_logout_title', true );
             $atts['href']               =  wp_login_url( $atts['href'] );
-            $atts['data-st-user-login'] = 'true';
+            $atts['data-wp-users-login'] = 'true';
             $atts['class']              = 'st-login-btn';
         }
 
     }
     return $atts;
 }
-add_filter( 'nav_menu_link_attributes','st_user_nav_menu_link_attributes', 99, 4 );
-add_filter( 'megamenu_nav_menu_link_attributes','st_user_nav_menu_link_attributes', 99, 4 );
+add_filter( 'nav_menu_link_attributes','wp_users_nav_menu_link_attributes', 99, 4 );
+add_filter( 'megamenu_nav_menu_link_attributes','wp_users_nav_menu_link_attributes', 99, 4 );
 
 
 /** This filter is documented in wp-includes/post-template.php */
-function st_user_nav_item_title( $title, $id ){
+function wp_users_nav_item_title( $title, $id ){
     if ( get_post_type( $id ) == 'nav_menu_item' ) {
 
         if ( get_post_meta( $id, '_is_logout', true ) == 'yes' ) {
@@ -59,7 +59,7 @@ function st_user_nav_item_title( $title, $id ){
     return  $title;
 }
 
-add_filter( 'the_title', 'st_user_nav_item_title', 99, 2 );
+add_filter( 'the_title', 'wp_users_nav_item_title', 99, 2 );
 
 /**
  * Check Menu item permissions
@@ -69,7 +69,7 @@ add_filter( 'the_title', 'st_user_nav_item_title', 99, 2 );
  * @param (object) $item
  * @return bool
  */
-function st_user_can_see_nav_item( $item ){
+function wp_users_can_see_nav_item( $item ){
     /**
      * check menu condition by roles
      */
@@ -115,17 +115,17 @@ function st_user_can_see_nav_item( $item ){
  * @param int    $depth  Depth of menu item. Used for padding.
  * @param array  $args   An array of arguments. @see wp_nav_menu()
  */
-function st_user_menu_item_output( $item_output, $item, $depth = false, $args = array() ) {
-    if ( ! st_user_can_see_nav_item( $item ) ) {
+function wp_users_menu_item_output( $item_output, $item, $depth = false, $args = array() ) {
+    if ( ! wp_users_can_see_nav_item( $item ) ) {
         return '';
     }
 
-    $output = apply_filters( 'st_user_menu_item', $item_output, $item, $depth , $args );
+    $output = apply_filters( 'wp_users_menu_item', $item_output, $item, $depth , $args );
     return $output;
 }
 
-add_filter( 'walker_nav_menu_start_el', 'st_user_menu_item_output', 99, 4 );
-add_filter( 'megamenu_walker_nav_menu_start_el', 'st_user_menu_item_output', 99, 4 );
+add_filter( 'walker_nav_menu_start_el', 'wp_users_menu_item_output', 99, 4 );
+add_filter( 'megamenu_walker_nav_menu_start_el', 'wp_users_menu_item_output', 99, 4 );
 
 
 /**
@@ -139,14 +139,14 @@ add_filter( 'megamenu_walker_nav_menu_start_el', 'st_user_menu_item_output', 99,
  * @param array  $args    An array of {@see wp_nav_menu()} arguments.
  * @param int    $depth   Depth of menu item. Used for padding.
  */
-function st_user_nav_menu_css_class( $classes, $item, $args = array(), $dept = false ){
-    if ( ! st_user_can_see_nav_item(  $item ) ) {
+function wp_users_nav_menu_css_class( $classes, $item, $args = array(), $dept = false ){
+    if ( ! wp_users_can_see_nav_item(  $item ) ) {
         $classes['remove'] = 'js-remove-nav display-none hide';
     }
     return $classes;
 }
-add_filter( 'nav_menu_css_class', 'st_user_nav_menu_css_class', 99, 4 );
-add_filter( 'megamenu_nav_menu_css_class', 'st_user_nav_menu_css_class', 99, 4 );
+add_filter( 'nav_menu_css_class', 'wp_users_nav_menu_css_class', 99, 4 );
+add_filter( 'megamenu_nav_menu_css_class', 'wp_users_nav_menu_css_class', 99, 4 );
 
 
 /**
@@ -405,7 +405,7 @@ class ST_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
                 }
             </script>
 
-            <div id="<?php echo $id; ?>" class="st-user-condition">
+            <div id="<?php echo $id; ?>" class="wp-users-condition">
                 <div class="field-link-target description description-wide">
                     <label style="font-style: italic;"><?php _e( 'Who can see this menu' ); ?></label><br/>
                     <p class="description" style="clear: both; border: 1px solid #dfdfdf; padding: 7px;" >
@@ -541,8 +541,8 @@ class ST_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 
 } // Walker_Nav_Menu_Edit
 
-function st_user_menu_edit( $class_name = '' ){
+function wp_users_menu_edit( $class_name = '' ){
     return 'ST_Walker_Nav_Menu_Edit';
 }
 
-add_filter('wp_edit_nav_menu_walker', 'st_user_menu_edit' , 26 );
+add_filter('wp_edit_nav_menu_walker', 'wp_users_menu_edit' , 26 );
