@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Class ST_User_Action
+ * Class WP_Users_Action
  * Handle all User actions
  * @since 1.0
  */
-class ST_User_Action{
+class WP_Users_Action{
 
     /**
      * Let user login
@@ -14,37 +14,37 @@ class ST_User_Action{
      *
      * @return string
      */
-    public  static function do_login() {
+    public static function do_login() {
         $creds                  = array();
-        $creds['user_login']    = $_POST['st_username'];
-        $creds['user_password'] = $_POST['st_pwd'];
+        $creds['user_login']    = $_POST['wp_usersname'];
+        $creds['user_password'] = $_POST['wpu_pwd'];
         $secure_cookie          = '';
         $msgs                   = array();
         if ( trim( $creds['user_login'] ) == '' ) {
-            $msgs['invalid_username'] =  __('<strong>ERROR</strong>: Invalid username or email.', 'wp-users');
+            $msgs['wp_usersname_email'] =  __( 'Invalid username or email.', 'wp-users');
         }
 
         if ( trim( $creds['user_password'] ) == '' ) {
-            $msgs['incorrect_password'] =  __('<strong>ERROR</strong>: The password you entered for the username <strong>admin</strong> is incorrect.', 'wp-users');
+            $msgs['wpu_pwd'] =  __( 'Please enter your password', 'wp-users');
         }
 
         if ( is_email( $creds['user_login'] ) ) {
             $u =  get_user_by('email', $creds['user_login'] );
             if ( ! $u ) {
-                $msgs['invalid_username'] =  __('<strong>ERROR</strong>: This email does not exists.', 'wp-users');
+                $msgs['wp_usersname_email'] =  __( 'This email does not exists.', 'wp-users');
             } else {
                 $creds['user_login'] = $u->user_login;
             }
         }
 
-        if ( !empty( $msgs ) ) {
+        if ( ! empty( $msgs ) ) {
             return ( json_encode( $msgs ) );
         }
 
         $creds['remember'] = isset( $_POST['st_rememberme'] )  && $_POST['st_rememberme'] !='' ? true :  false;
 
         // If the user wants ssl but the session is not ssl, force a secure cookie.
-        if ( ! empty($creds['user_login']) && ! force_ssl_admin() ) {
+        if ( ! empty( $creds['user_login'] ) && ! force_ssl_admin() ) {
             $user_name = sanitize_user( $creds['user_login'] );
             if ( $user = get_user_by( 'login', $user_name ) ) {
                 if ( get_user_option( 'use_ssl', $user->ID ) ) {
@@ -62,10 +62,10 @@ class ST_User_Action{
             foreach ( $codes as $code ) {
                 switch( $code ) {
                     case 'invalid_username':
-                        $msgs['invalid_username'] =  __('<strong>ERROR</strong>: Invalid username.', 'wp-users');
+                        $msgs['wp_usersname_email'] =  __('Invalid username.', 'wp-users');
                         break;
                     case 'incorrect_password':
-                        $msgs['incorrect_password'] =  __('<strong>ERROR</strong>: The password you entered for the username <strong>admin</strong> is incorrect.', 'wp-users');
+                        $msgs['wpu_pwd'] =  __('The password you entered for the username <strong>admin</strong> is incorrect.', 'wp-users');
                         break;
                 }
             }
@@ -95,20 +95,20 @@ class ST_User_Action{
         $username   = $args['st_signup_username'];
 
         $msgs = array();
-        $pwd_length =  apply_filters('wp_users_pwd_leng', 6 );
+        $pwd_length =  apply_filters( 'wp_users_pwd_leng', 6 );
         if ( empty( $username ) || ! validate_username( $username ) ) {
-            $msgs['invalidate_username'] = __('Invalidate username','wp-users');
+            $msgs['wp_usersname'] = __('Invalidate username','wp-users');
         }
         if ( strlen( $pwd ) < $pwd_length ) {
-            $msgs['incorrect_password'] = sprintf( __('Please enter your password more than %s characters', 'wp-users'), $pwd_length );
+            $msgs['st_password'] = sprintf( __('Please enter your password more than %s characters', 'wp-users'), $pwd_length );
         }
         if ( ! is_email( $email ) ) {
-            $msgs['incorrect_email'] =  __('Please enter a correct your email', 'wp-users');
+            $msgs['st_email'] =  __('Please enter a correct your email', 'wp-users');
         }
 
         // check if show term and term checked
-        if ( apply_filters('wp_users_register_show_term_link' , true ) ) {
-            if ($args['st_accept_terms'] == '' ) {
+        if ( WP_Users()->settings['show_term']  ) {
+            if ( $args['st_accept_terms'] == '' ) {
                 $msgs['accept_terms'] = __('You must agree our Terms and Conditions to continue', 'wp-users');
             }
         }
@@ -143,18 +143,18 @@ class ST_User_Action{
         $errors =   array();
         $user_data =  false;
         if ( empty ( $_POST['wp_users_login'] ) ) {
-            $errors['invalid_combo'] = __( '<strong>ERROR</strong>: Enter a username or e-mail address.' );
+            $errors['st_input_combo'] = __( 'Enter a username or e-mail address.' );
         } elseif ( is_email( $_POST['wp_users_login'] ) ) {
             $user_data = get_user_by( 'email', trim( $_POST['wp_users_login'] ) );
             if ( empty( $user_data ) )
-                $errors['invalid_combo'] = __( '<strong>ERROR</strong>: There is no user registered with that email address.' );
+                $errors['st_input_combo'] = __( 'There is no user registered with that email address.' );
         } else {
             $login = trim( $_POST['wp_users_login'] );
             $user_data = get_user_by( 'login', $login );
         }
 
         if ( ! $user_data ) {
-            $errors['invalid_combo'] =  __( '<strong>ERROR</strong>: Invalid username or e-mail.' );
+            $errors['st_input_combo'] =  __( 'Invalid username or e-mail.' );
             return json_encode( $errors ) ;
         }
 
@@ -211,13 +211,13 @@ class ST_User_Action{
         $message = __('Someone requested that the password be reset for the following account:') . "\r\n\r\n";
         $message .= network_home_url( '/' ) . "\r\n\r\n";
         $message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
-        $message .= __('If this was a mistake, just ignore this email and nothing will happen.') . "\r\n\r\n";
-        $message .= __('To reset your password, visit the following address:') . "\r\n\r\n";
+        $message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
+        $message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
 
-        $url = apply_filters( 'wp_users_url', network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') );
+        $url = apply_filters( 'wp_users_url', network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login' ) );
         $url = remove_query_arg( array( 'action', 'key', 'login' ), $url );
         $url =  add_query_arg( array(
-                                    'st_action' => 'rp',
+                                    'wpu_action' => 'rp',
                                     'key'       => $key ,
                                     'login'     => $user_login ,
                                 ), $url );
@@ -259,8 +259,7 @@ class ST_User_Action{
 
         if ( $message && !wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
            // wp_die( __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function.') );
-            $errors['msg'] = __('The e-mail could not be sent.');
-            return json_encode($errors['msg']);
+            return __( 'The e-mail could not be sent.', 'wp-users' );
         }
 
         return 'sent';
@@ -292,11 +291,11 @@ class ST_User_Action{
 
         $errors =  array();
 
-        if ( !isset( $_REQUEST['st_pwd'] )  || $_REQUEST['st_pwd']  == '' ) {
+        if ( !isset( $_REQUEST['wpu_pwd'] )  || $_REQUEST['wpu_pwd']  == '' ) {
             $errors['pass1'] =  __( 'Please enter your password' ,'wp-users');
         }
 
-        if ( isset($_REQUEST['st_pwd']) && $_REQUEST['st_pwd'] != $_REQUEST['st_pwd2'] ) {
+        if ( isset($_REQUEST['wpu_pwd']) && $_REQUEST['wpu_pwd'] != $_REQUEST['wpu_pwd2'] ) {
             $errors['pass2'] =  __( 'The passwords do not match.' ,'wp-users');
         }
 
@@ -304,9 +303,9 @@ class ST_User_Action{
 
         if ( ! $user || is_wp_error( $user ) ) {
             if ( $user && $user->get_error_code() === 'expired_key' )
-                $errors['error'] =  __( 'Your key is expired' ,'wp-users');
+                $errors['error'] =  __( 'Your key is expired' ,'wp-users' );
             else
-                $errors['error'] =  __( 'Your key is invalid' ,'wp-users');
+                $errors['error'] =  __( 'Your key is invalid' ,'wp-users' );
 
         }
 
@@ -321,7 +320,7 @@ class ST_User_Action{
         do_action( 'validate_password_reset', $errors, $user );
 
         if ( empty( $errors )) {
-            reset_password($user, $_POST['st_pwd']);
+            reset_password($user, $_POST['wpu_pwd']);
             //<p class="message reset-pass">' . __( 'Your password has been reset.' )
             return 'changed';
         } else {
@@ -336,16 +335,14 @@ class ST_User_Action{
         }
 
         $user_data =  wp_parse_args( $_POST['wp_users_data'] , array(
-            'user_email'        => '',
-            'user_firstname'    => '',
-            'user_lastname'     => '',
+            'user_email' => '',
         ));
         $errors = array();
 
         $c_user =  wp_get_current_user();
 
         // check email
-        if ( !is_email( $user_data['user_email'] ) ) {
+        if ( ! is_email( $user_data['user_email'] ) ) {
             $errors['st-email'] =  __( 'Invalid email.' ,'wp-users' );
         } else {
             $check_u =  get_user_by('email', $user_data['user_email'] );
@@ -382,19 +379,284 @@ class ST_User_Action{
             return json_encode( $errors );
         }
 
+
+        global $wpdb;
+
+        $sql = "SHOW COLUMNS FROM ".$wpdb->users;
+        $user_cols_db = $wpdb->get_results( $sql, ARRAY_A );
+
         // update for current user only
         $user_data['ID'] = $c_user->ID;
-        $r = wp_update_user( $user_data );
+        $fields_not_used = array(
+            'user_activation_key', 'user_registered', 'user_status'
+        );
+        $black_meta_keys = apply_filters( 'st_profile_back_meta_keys', array( 'wp_capabilities', 'wp_user_level', 'session_tokens', 'default_password_nag' ) );
+
+        $table_users_data =  array();
+        foreach ( $user_cols_db as $col ) {
+            if ( ! in_array( $col['Field'], $fields_not_used ) ) {
+                $user_cols[ $col['Field'] ] = $col['Field'];
+                if ( isset ( $user_data[ $col['Field'] ] ) ) {
+                    $table_users_data[ $col['Field'] ] = $user_data[ $col['Field'] ];
+                    unset ( $user_data[ $col['Field']  ] );
+                }
+            }
+        }
+
+        foreach ( $black_meta_keys as $k ) {
+            if ( isset( $user_data[ $k ] ) ) {
+                unset( $user_data[ $k ] );
+            }
+        }
+
+        $r = wp_update_user( $table_users_data );
 
         if ( is_wp_error( $r ) ) {
             $errors['error'] =  __( 'Something wrong, please try again.' ,'wp-users');
             return json_encode( $errors );
         } else {
             // Success!
+            foreach( $user_data as $k => $v ) {
+                if ( $v ) {
+                    update_user_meta( $c_user->ID , $k, $v );
+                } else {
+                    delete_user_meta( $c_user->ID , $k );
+                }
+            }
         }
+
 
         return 'updated';
 
+    }
+
+    /**
+     * Upload image form local
+     *
+     * @see  wp_upload_dir()
+     * @see wp_handle_upload()
+     *
+     *
+     * @return bool
+     */
+    public static function media_upload( $media_type = 'avatar' ){
+        $dir = WP_Users()->settings['upload_dir'];
+        $url = WP_Users()->settings['upload_url'];
+
+        $media_type = sanitize_title( $media_type , 'avatar' );
+
+        if ( ! is_user_logged_in() ){
+            $response = Array(
+                "status" => 'error',
+                "message" => __( 'You not have permission to upload.', 'wp-users' )
+            );
+            return json_encode( $response );
+        }
+
+        $user =  wp_get_current_user();
+        $sub_path = "{$user->ID}/";
+
+        $image_path = $dir.$sub_path;
+        $image_url  = $url.$sub_path;
+
+        $allowed_exts = array( "gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG" );
+        $temp = explode( ".", $_FILES["img"]["name"] );
+        $extension = end( $temp );
+
+        // check if is image
+        if ( ! in_array( $extension, $allowed_exts ) )
+        {
+            $response = array(
+                "status" => 'error',
+                "message" => __( 'Please select an image file' , 'wp-users' ),
+            );
+            return json_encode( $response );
+        }
+
+        // Create Directory
+        // Make sure we have an uploads directory.
+        if ( ! wp_mkdir_p( $image_path ) ) {
+            $response = Array(
+                "status" => 'error',
+                "message" => 'Can\'t upload File. No write Access'
+            );
+            return  json_encode( $response ) ;
+        }
+
+
+        if ( $_FILES["img"]["error"] > 0 )
+        {
+            $response = array(
+                "status" => 'error',
+                "message" => 'ERROR Code: '. $_FILES["img"]["error"],
+            );
+        }
+        else
+        {
+
+            $filename = $_FILES["img"]["tmp_name"];
+            $new_name = $media_type.'.'.$extension;
+            $new_file = $image_path.$new_name;
+            list($width, $height) = getimagesize( $filename );
+
+            $move_new_file = @ move_uploaded_file( $filename, $new_file );
+
+            if (  false === $move_new_file) {
+                // The uploaded file could not be moved to
+                $response = array(
+                    "status" => 'error',
+                    "message" => __( 'The uploaded file could not be moved', 'wp-users' ),
+                );
+            } else {
+                // Set correct file permissions.
+                $stat = stat( dirname( $new_file ));
+                $perms = $stat['mode'] & 0000666;
+                @ chmod( $new_file, $perms );
+
+                $response = array(
+                    "status" => 'success',
+                    "url" => $image_url.$new_name.'?t='.uniqid(),
+                    "width" => $width,
+                    "height" => $height
+                );
+                update_user_meta( $user->ID, 'wpu-'.$media_type, $sub_path.$new_name );
+                update_user_meta( $user->ID, 'wpu-'.$media_type.'-img', $sub_path.$new_name );
+            }
+
+        }
+
+        return  json_encode( $response ) ;
+    }
+
+    public static function remove_media( $media_type = 'avatar' ){
+        $user =  wp_get_current_user();
+
+        $image_path = WP_Users()->get_user_media($media_type, 'path');
+        $thumb_path = WP_Users()->get_user_media($media_type.'-img', 'path' );
+        if ( file_exists( $image_path ) ){
+            @unlink( $image_path );
+        }
+
+        if ( file_exists( $thumb_path ) ){
+            @unlink( $thumb_path );
+        }
+
+        delete_user_meta( $user->ID, 'wpu-'.$media_type );
+        delete_user_meta( $user->ID, 'wpu-'.$media_type.'-img');
+    }
+
+
+    /**
+     * Crop avatar
+     * wp_crop_image
+     *
+     *
+     * @param string $media_type
+     * @return mixed|string|void
+     */
+    public static function crop_media( $media_type = 'avatar' ){
+
+        $image_url = WP_Users()->get_user_media($media_type);
+        $edited_image_url = WP_Users()->get_user_media($media_type.'-img');
+        if ( !$edited_image_url ) {
+            $edited_image_url = $image_url;
+        }
+
+        return  array(
+            "status" => 'success',
+            "url" => $edited_image_url.'?t='.uniqid()
+        );
+        // Return
+
+        /*
+
+        $media_type = sanitize_title( $media_type , 'avatar' );
+
+        if ( ! is_user_logged_in() ){
+            $response = Array(
+                "status" => 'error',
+                "message" => __( 'You not have permission to edit image', 'wp-users' )
+            );
+            return json_encode( $response );
+        }
+
+        $img_edit_path =  WP_Users()->get_user_media('cover', 'path');
+
+        if( ! $img_edit_path ) {
+            $response = Array(
+                "status" => 'error',
+                "message" => __( 'File not exists', 'wp-users' )
+            );
+            return json_encode( $response );
+        }
+
+        $user =  wp_get_current_user();
+
+        $dir = WP_Users()->settings['upload_dir'];
+        $url = WP_Users()->settings['upload_url'];
+
+        $sub_path = "{$user->ID}/".$media_type.'-img';
+
+        $temp = explode( ".", $img_edit_path );
+        $extension = end( $temp );
+        $sub_path .= '.'.$extension;
+
+
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        require_once(ABSPATH . 'wp-admin/includes/media.php');
+
+
+        // original sizes
+        $imgInitW = $_POST['imgInitW'];
+        $imgInitH = $_POST['imgInitH'];
+        // resized sizes
+        $imgW = $_POST['imgW'];
+        $imgH = $_POST['imgH'];
+        // offsets
+        $imgY1 = $_POST['imgY1'];
+        $imgX1 = $_POST['imgX1'];
+        // crop box
+        $cropW = $_POST['cropW'];
+        $cropH = $_POST['cropH'];
+        // rotation angle
+        $angle = $_POST['rotation'];
+
+
+        $settings_height = 150;
+
+        $imgInitW = $_POST['imgInitW'];
+        $imgInitH = $_POST['imgInitH'];
+        // resized sizes
+        $diff = ( $_POST['imgH'] / $imgInitH ) ;
+        // offsets
+        $imgY1 = $_POST['imgY1'];
+
+        $src_y = $imgY1 + ( $imgY1 - $imgY1 * $diff );
+        // crop box
+        $cropH = $settings_height+( $diff * $settings_height );
+
+        wp_delete_file( $dir.$sub_path );
+        $cropped = wp_crop_image( $img_edit_path , 1, $src_y, $imgInitW, $imgInitH, $imgInitW, $cropH, true, $dir.$sub_path );
+
+        if ( $cropped && ! is_wp_error( $cropped ) ) {
+            $response = Array(
+                "status" => 'success',
+                'post' => $_POST,
+                'diff' => $diff,
+                'src_y' => $src_y,
+                "url" => $url.$sub_path.'?t='.uniqid()
+            );
+            update_user_meta( $user->ID, 'wpu-'.$media_type.'-img', $sub_path );
+        } else {
+            $response = Array(
+                "status" => 'error',
+                "message" => __( 'Something went wrong', 'wp-users' )
+            );
+        }
+
+        return json_encode($response);
+        */
     }
 
 }

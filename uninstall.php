@@ -22,7 +22,7 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    ST_User
+ * @package    WP_Users
  */
 
 // If uninstall not called from WordPress, then exit.

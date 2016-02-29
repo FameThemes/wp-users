@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    ST_User
- * @subpackage ST_User/includes
+ * @package    WP_Users
+ * @subpackage WP_Users/includes
  */
 
 /**
@@ -17,7 +17,7 @@
  *
  * @since      1.0.0
  * @package    WP_Users
- * @subpackage ST_User/includes
+ * @subpackage WP_Users/includes
  * @author     SmoothThemes
  */
 class WP_Users_Deactivator {

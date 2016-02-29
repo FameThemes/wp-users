@@ -24,13 +24,13 @@ function wp_users_nav_menu_link_attributes( $atts, $item, $args = array(), $dept
         if ( is_user_logged_in() ) {
             //$title =  get_post_meta( $item->ID, '_logout_title', true );
             $atts['href']                   =  wp_logout_url( $atts['href'] );
-            $atts['data-wp-users-logout']    = 'true';
+            $atts['data-wpu-logout']    = 'true';
             $atts['class']                  = '';
         } else {
             //$title =  get_post_meta( $item->ID, '_logout_title', true );
             $atts['href']               =  wp_login_url( $atts['href'] );
-            $atts['data-wp-users-login'] = 'true';
-            $atts['class']              = 'st-login-btn';
+            $atts['data-wpu-login'] = 'true';
+            $atts['class']              = 'wpu-login-btn';
         }
 
     }
@@ -320,7 +320,9 @@ class ST_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
     <li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes ); ?>">
         <dl class="menu-item-bar">
             <dt class="menu-item-handle">
-                <span class="item-title"><span class="menu-item-title"><?php echo esc_html( $title ); ?></span> <span class="is-submenu" <?php echo $submenu_text; ?>><?php _e( 'sub item' ); ?></span></span>
+                    <span class="item-title">
+                     <span class="menu-item-title"><?php echo apply_filters( 'ST_edit_menu_item_title', esc_html( $title ), $item ); ?></span> <span class="is-submenu" <?php echo $submenu_text; ?>><?php _e( 'sub item' ); ?></span>
+                    </span>
 					<span class="item-controls">
 						<span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
 						<span class="item-order hide-if-js">
@@ -405,9 +407,9 @@ class ST_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
                 }
             </script>
 
-            <div id="<?php echo $id; ?>" class="wp-users-condition">
+            <div id="<?php echo $id; ?>" class="wpu-condition">
                 <div class="field-link-target description description-wide">
-                    <label style="font-style: italic;"><?php _e( 'Who can see this menu' ); ?></label><br/>
+                    <label style="font-style: italic;"><?php _e( 'Who can see this menu', 'wp-users' ); ?></label><br/>
                     <p class="description" style="clear: both; border: 1px solid #dfdfdf; padding: 7px;" >
                         <?php
 
@@ -433,21 +435,21 @@ class ST_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
                 <p class="description">
                     <label>
                         <input type="checkbox" id="edit-menu-item-is-logout-<?php echo $item_id; ?>" onclick="stm_<?php  echo $id; ?>(this);" value="yes" name="menu-item-is-logout[<?php echo $item_id; ?>]"<?php checked( get_post_meta( $item_id, '_is_logout', true ), 'yes' ); ?> />
-                        <?php _e( 'Login/Logout link. If user is logged in this item will be logout link' ); ?>
+                        <?php _e( 'Login/Logout link. If user is logged in this item will be logout link' , 'wp-users' ); ?>
                     </label>
                 </p>
 
                 <div class="more-title" style="<?php echo get_post_meta( $item_id, '_is_logout', true ) == 'yes' ? '' : ' display: none; '; ?>">
                     <p class="description description-thin">
                         <label for="edit-menu-login-title-<?php echo $item_id; ?>">
-                            <?php _e( 'Login Label' ); ?><br />
+                            <?php _e( 'Login Label', 'wp-users' ); ?><br />
                             <input type="text" id="edit-menu-login-title-<?php echo $item_id; ?>" class="widefat edit-menu-login-title" name="menu-item-login-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( get_post_meta( $item_id, '_login_title', true ) ); ?>" />
                         </label>
                     </p>
 
                     <p class="description description-thin">
                         <label for="edit-menu-item-logout-title-<?php echo $item_id; ?>">
-                            <?php _e( 'Logout Label' ); ?><br />
+                            <?php _e( 'Logout Label', 'wp-users' ); ?><br />
                             <input type="text" id="edit-menu-item-logout-title-<?php echo $item_id; ?>" class="widefat edit-menu-item-logout-title" name="menu-item-logout-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( get_post_meta( $item_id, '_logout_title', true ) ); ?>" />
                         </label>
                     </p>
@@ -458,7 +460,7 @@ class ST_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
                 <p class="description">
                     <label>
                         <input type="checkbox" id="edit-menu-item-hide-loggedin-<?php echo $item_id; ?>"  value="yes" name="menu-item-hide-loggedin[<?php echo $item_id; ?>]"<?php checked( get_post_meta( $item_id, '_hide_loggedin', true ), 'yes' ); ?> />
-                        <?php _e( 'Hide item when user logged in' ); ?>
+                        <?php _e( 'Hide item when user logged in', 'wp-users' ); ?>
                     </label>
                 </p>
                 <br style="clear: both;"/>

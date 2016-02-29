@@ -6,7 +6,7 @@
  *
  * @since      1.0.0
  * @package    WP_Users
- * @subpackage wp-users/includes
+ * @subpackage WP_Users/includes
  * @author     SmoothThemes
  */
 class WP_Users_Activator {
@@ -17,8 +17,8 @@ class WP_Users_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-        $account_slug   = 'account';
-        $shortcode_base = 'st_user';
+        $account_slug   = 'user';
+        $shortcode_base = 'wp_users';
         $page = array(
             'post_title'   => __('Account','wp-users'),
             'post_name'    => $account_slug,
@@ -32,7 +32,7 @@ class WP_Users_Activator {
         if ( $p ) {
             $page_id = $p->ID;
 
-            if ( ! has_shortcode( $p->post_content, $shortcode_base ) ) {
+            if ( strpos( $p->post_content, "[{$shortcode_base}]" ) === false ) {
                 $p->post_content = '['.$shortcode_base.']'."\r\n \r\n". $p->post_content;
                 wp_update_post( $p );
             }
@@ -44,17 +44,27 @@ class WP_Users_Activator {
             }
         }
 
-        $option_keys = array(
-            'wp_users_account_page'          => $page_id ,
-            'wp_users_disable_default_login' => 0 ,
-            'wp_users_login_redirect_url'    => '',
-            'wp_users_logout_redirect_url'   => '',
-            'wp_users_term_page'             => '',
+        $default = array(
+            'account_page'          => $page_id,
+            'disable_default_login' => '',
+            'login_redirect_url'    => '',
+            'logout_redirect_url'   => '',
+            'show_term'             => '',
+            'term_mgs'              => '',
+            'view_other_profiles'        =>'any', // logged,
+            'form_login_header'          => 0,
+            'form_register_header'       => 0,
+            'form_reset_header'          => 1,
+            'form_change_pass_header'    => 0,
+            'form_profile_header'        => 1,
+
+            'login_header_title'         => '',
+            'register_header_title'      => '',
+            'reset_header_title'         => '',
+            'change_pass_header_title'   => '',
         );
 
-        foreach ( $option_keys as $k => $v ) {
-            update_option( $k, $v );
-        }
+        update_option( 'wp_users_settings', $default );
 	}
 
 }

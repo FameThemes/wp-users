@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    ST_User
- * @subpackage ST_User/admin
+ * @package    WP_Users
+ * @subpackage WP_Users/admin
  */
 
 /**
@@ -16,8 +16,8 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    ST_User
- * @subpackage ST_User/admin
+ * @package    WP_Users
+ * @subpackage WP_Users/admin
  * @author     SmoothThemes
  */
 class WP_Users_Admin {
@@ -27,9 +27,9 @@ class WP_Users_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $st_user    The ID of this plugin.
+	 * @var      string    $wp_users    The ID of this plugin.
 	 */
-	private $st_user;
+	private $wp_users;
 
 	/**
 	 * The version of this plugin.
@@ -44,12 +44,12 @@ class WP_Users_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $st_user       The name of this plugin.
+	 * @param      string    $wp_users       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $st_user, $version ) {
+	public function __construct( $wp_users, $version ) {
 
-		$this->st_user = $st_user;
+		$this->wp_users = $wp_users;
 		$this->version = $version;
         add_action( 'admin_menu', array( $this ,'add_option_menu' ) );
 
@@ -60,7 +60,7 @@ class WP_Users_Admin {
     }
 
     function option_settings() {
-       include  dirname(__FILE__).'/partials/plugin-wp-users-display.php';
+       include  dirname(__FILE__).'/partials/admin-display.php';
     }
 
 	/**
@@ -82,7 +82,7 @@ class WP_Users_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->st_user, plugin_dir_url( __FILE__ ) . 'css/wp-users-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->wp_users, plugin_dir_url( __FILE__ ) . 'css/wpu-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -105,7 +105,7 @@ class WP_Users_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->st_user, plugin_dir_url( __FILE__ ) . 'js/wp-users-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->wp_users, plugin_dir_url( __FILE__ ) . 'js/wpu-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 

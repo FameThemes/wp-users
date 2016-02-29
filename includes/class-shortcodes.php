@@ -3,21 +3,21 @@
 /**
  * Shortcode of plugins
  *
- * @class ST_User_Shortcodes
+ * @class WP_Users_Shortcodes
  * @since 1.0
  */
-class ST_User_Shortcodes{
+class WP_Users_Shortcodes{
 
     /**
-     * Instance class ST_User
+     * Instance class WP_Users
      * @since 1.0
-     * @var ST_User
+     * @var WP_Users
      */
     private  $instance;
 
     function __construct( $instance ) {
         $this->instance = $instance;
-        add_shortcode( 'st_user',                  array( $this, 'user' ) );
+        add_shortcode( 'wp_users',                  array( $this, 'user' ) );
         add_shortcode( 'wp_users_login',            array( $this, 'login' ) );
         add_shortcode( 'wp_users_register',         array( $this, 'register' ) );
         add_shortcode( 'wp_users_lost_password',    array( $this, 'lost_password' ) );
@@ -55,7 +55,7 @@ class ST_User_Shortcodes{
         extract( $atts );
 
         $content =  $this->instance->get_template_content( 'login.php', $atts ) ;
-        $html = '<div '.wp_users_array_to_html_atts( $atts ).' class="wp-users-wrapper st-login-wrapper">'.$content.'</div>';
+        $html = '<div '.wp_users_array_to_html_atts( $atts ).' class="wpu-wrapper wpu-login-wrapper">'.$content.'</div>';
         return $html;
     }
 
@@ -86,7 +86,7 @@ class ST_User_Shortcodes{
             $content = $this->instance->get_template_content('register.php') ;
         }
 
-        return '<div class="wp-users-wrapper st-register-wrapper" ' . wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wpu-wrapper st-register-wrapper" ' . wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
@@ -118,7 +118,7 @@ class ST_User_Shortcodes{
             $content =  $this->instance->get_template_content('reset.php') ;
         }
 
-        return '<div class="wp-users-wrapper st-reset-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wpu-wrapper st-reset-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
@@ -150,7 +150,7 @@ class ST_User_Shortcodes{
             $content =  $this->instance->get_template_content('change-password.php') ;
         }
 
-        return '<div class="wp-users-wrapper st-change-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wpu-wrapper st-change-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
@@ -164,22 +164,26 @@ class ST_User_Shortcodes{
      */
     public function profile( $atts, $content = "" ) {
         // if user not logged in display login form instead
-        if ( !is_user_logged_in() ) {
-            return self::login( $atts, $content );
+        if ( $this->instance->settings['view_other_profiles'] != 'any' ) {
+            if ( ! is_user_logged_in() ) {
+                return self::login( $atts, $content );
+            }
         }
 
         $atts = shortcode_atts(array(
             'ajax_load' => 'false' ,
         ), $atts );
+
         $atts['action'] = 'profile-template';
+
         extract( $atts );
         $content ='';
         if ( st_is_true ( $atts['ajax_load'] ) ) {
             // leave content empty and load it via ajax
         } else {
-            $content =  $this->instance->get_template_content('profile.php') ;
+            $content =  $this->instance->get_template_content( 'profile.php' ) ;
         }
-        return '<div class="wp-users-wrapper st-profile-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wpu-wrapper st-profile-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
@@ -193,14 +197,14 @@ class ST_User_Shortcodes{
      * @param $atts
      * @return string
      */
-    public   function login_button( $atts ) {
+    public  function login_button( $atts ) {
         $atts = shortcode_atts(array(
             'class'         => '' ,
             'login_text'    => __('Login', 'wp-users'),
             'logout_text'   => __("Logout", 'wp-users'),
         ), $atts );
         extract( $atts );
-        $atts['class'].=' st-login-btn';
+        $atts['class'].=' wpu-login-btn';
 
         if ( is_user_logged_in() ) {
             $url = wp_logout_url();
@@ -225,6 +229,7 @@ class ST_User_Shortcodes{
      */
     public  function singup_button( $atts ) {
         // disable when user logged in
+
         if ( is_user_logged_in() ) {
             return '';
         }
@@ -257,17 +262,24 @@ class ST_User_Shortcodes{
      * @return string
      */
     public  function user( $atts, $content ='' ) {
-        if ( isset( $_REQUEST['st_action'] )  && $_REQUEST['st_action']  =='lost-pass' ) {
-            return $this->reset_password( $atts, $content );
-        }
-        if ( isset( $_REQUEST['st_action'] )  && $_REQUEST['st_action']  =='register' ) {
-            return $this->register( $atts, $content );
-        }
-        if ( is_user_logged_in() ) {
+        $user = WP_Users()->get_user_profile();
+
+        if ( $user && $this->instance->settings['view_other_profiles'] == 'any' ) {
             return $this->profile( $atts, $content );
-        } else {
-            return $this->login( $atts, $content );
+        } else{
+            if ( isset( $_REQUEST['wpu_action'] )  && $_REQUEST['wpu_action']  == 'lost-pass' ) {
+                return $this->reset_password( $atts, $content );
+            }
+            if ( isset( $_REQUEST['wpu_action'] )  && $_REQUEST['wpu_action']  == 'register' ) {
+                return $this->register( $atts, $content );
+            }
+            if ( $user || is_user_logged_in() ) {
+                return $this->profile( $atts, $content );
+            } else {
+                return $this->login( $atts, $content );
+            }
         }
+
     }
 
 }

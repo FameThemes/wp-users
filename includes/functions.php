@@ -5,8 +5,8 @@
  *
  * Override template in your theme
  * YOUR_THEME_DIR/templates/{$template}
- * or YOUR_THEME_DIR/templates/wp-users/{$template}
- * or YOUR_THEME_DIR/wp-users/{$template}
+ * or YOUR_THEME_DIR/templates/wpu/{$template}
+ * or YOUR_THEME_DIR/wpu/{$template}
  *
  * @since 1.0
  * @param string $template
@@ -16,13 +16,13 @@ function wp_users_get_template( $template = '' ) {
     /**
      * Overridden template in your theme
      * YOUR_THEME_DIR/templates/{$template}
-     * or YOUR_THEME_DIR/templates/wp-users/{$template}
-     * or YOUR_THEME_DIR/wp-users/{$template}
+     * or YOUR_THEME_DIR/templates/wpu/{$template}
+     * or YOUR_THEME_DIR/wpu/{$template}
      */
     $templates =  array(
         'templates/'.$template,
-        'templates/wp-users/'.$template,
-        'wp-users/'.$template,
+        'templates/wpu/'.$template,
+        'wpu/'.$template,
     );
 
     if ( $overridden_template = locate_template( $templates ) ) {
@@ -32,7 +32,7 @@ function wp_users_get_template( $template = '' ) {
     } else {
         // If neither the child nor parent theme have overridden the template,
         // we load the template from the 'templates' directory if this plugin
-        return WP_USERS_PATH . 'public/partials/'.$template;
+        return WPU_PATH . 'public/partials/'.$template;
     }
 }
 
