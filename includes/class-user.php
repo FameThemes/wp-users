@@ -1001,9 +1001,6 @@ class WP_Users {
             ),
         );
 
-
-
-
         return $country_list;
     }
 

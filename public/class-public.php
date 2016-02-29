@@ -360,11 +360,11 @@ class WP_Users_Public {
     public static function settings( $user ){
         ?>
         <form class="wpu-form-profile wpu-form form ui" action="<?php echo site_url('/'); ?>" method="post" >
-            <div class="wpu-msg <?php echo isset( $_REQUEST['st_profile_updated'] ) &&  $_REQUEST['st_profile_updated']  == 1 ? 'st-show' : ''; ?> ui success message">
+            <div class="wpu-msg <?php echo isset( $_REQUEST['wpu_profile_updated'] ) &&  $_REQUEST['wpu_profile_updated']  == 1 ? 'st-show' : ''; ?> ui success message">
                 <i class="close icon right"></i>
                 <div class="header"><?php _e( 'Your profile updated.', 'wp-users' ); ?></div>
             </div>
-            <p class="wpu-msg st-errors-msg"></p>
+            <p class="wpu-msg wpu-errors-msg"></p>
 
             <div class="wpu-form-fields">
                 <p class="fieldset wpu_input wpuname">

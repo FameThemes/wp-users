@@ -383,18 +383,18 @@ xsigin/signup popup
     }
 }
 
-#wpu-login, #st-signup, #st-reset-password , .wpu-msg , #st-change-password {
+#wpu-login, #wpu-signup, #wpu-reset-password , .wpu-msg , #wpu-change-password {
     display: none;
 }
-.wpu-login-wrapper #wpu-login, .st-register-wrapper #st-signup, .wpu-reset-password-wrapper #st-reset-password, .wpu-change-password-wrapper #st-change-password{
+.wpu-login-wrapper #wpu-login, .st-register-wrapper #wpu-signup, .wpu-reset-password-wrapper #wpu-reset-password, .wpu-change-password-wrapper #wpu-change-password{
     display: block;
 }
 
-#wpu-login.is-selected, #st-signup.is-selected, #st-reset-password.is-selected, #st-change-password.is-selected {
+#wpu-login.is-selected, #wpu-signup.is-selected, #wpu-reset-password.is-selected, #wpu-change-password.is-selected {
     display: block;
 }
 
-.st-errors-msg { color: #ff0000; }
+.wpu-errors-msg { color: #ff0000; }
 .wpu-wrapper .wpu-form-bottom-message , .wpu-wrapper .wpu-form-bottom-message a{ color: #333333; position: relative; }
 .wpu-msg.st-show {
     display: block;

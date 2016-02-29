@@ -17,7 +17,7 @@ if ( !isset( $in_modal ) ) {
 $id =  uniqid('f');
 ?>
 
-<form  id="st-change-password" class="wpu-form wpu-form-change-password<?php echo $in_modal ? ' in-wpu-modal' : ''; ?> form ui" action="<?php echo site_url('/'); ?>" method="post" >
+<form  id="wpu-change-password" class="wpu-form wpu-form-change-password<?php echo $in_modal ? ' in-wpu-modal' : ''; ?> form ui" action="<?php echo site_url('/'); ?>" method="post" >
 
     <?php if( WP_Users()->settings['form_change_pass_header'] ) { ?>
     <div class="wpu-form-header">
@@ -27,7 +27,7 @@ $id =  uniqid('f');
 
     <div class="s-form-body">
         <p class="wpu-msg"><?php echo sprintf( __( 'Your password has been reset. <a href="%1$s" class="wpu-login-link">Click here to login</a>', 'wp-users'), wp_login_url()  ); ?></p>
-        <p class="wpu-msg st-errors-msg"></p>
+        <p class="wpu-msg wpu-errors-msg"></p>
         <div class="wpu-form-fields">
             <p class="fieldset wpu_input wpu-pwd pass1">
                 <label class="image-replace wpu-password" for="signin-password<?php echo $id; ?>"><?php _e( 'New Password', 'wp-users'); ?></label>

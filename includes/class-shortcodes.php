@@ -240,7 +240,7 @@ class WP_Users_Shortcodes{
             'ajax'              => 'true'
         ), $atts );
         extract( $atts );
-        $atts['class'].=' st-singup-btn';
+        $atts['class'].=' wpu-singup-btn';
 
         if ( ! wpu_is_true( $ajax ) ) {
             $url = get_permalink();

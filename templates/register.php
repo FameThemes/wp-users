@@ -18,7 +18,7 @@ if ( !isset( $in_modal ) ) {
 
 $id = uniqid('r-');
 ?>
-<form id="st-signup" class="wpu-form wpu-register-form<?php echo $in_modal ? ' in-wpu-modal' : ''; ?> form ui"  action="<?php echo site_url('/'); ?>" method="post">
+<form id="wpu-signup" class="wpu-form wpu-register-form<?php echo $in_modal ? ' in-wpu-modal' : ''; ?> form ui"  action="<?php echo site_url('/'); ?>" method="post">
 
     <?php if( WP_Users()->settings['form_register_header'] ) { ?>
     <div class="wpu-form-header">

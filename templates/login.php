@@ -51,7 +51,7 @@ if ( ! is_user_logged_in() ) {
         <?php do_action('wp_users_before_submit_login_form'); ?>
         <p class="fieldset">
             <input class="<?php echo esc_attr( apply_filters( 'wp_users_form_submit_btn_class', 'login-submit button btn' ) ); ?>" type="submit" value="<?php echo esc_attr__( 'Login', 'wp-users' ); ?>">
-            <input type="hidden" value="<?php echo apply_filters( 'wp_users_logged_in_redirect_to', $login_redirect_url ); ?>" name="st_redirect_to" >
+            <input type="hidden" value="<?php echo apply_filters( 'wp_users_logged_in_redirect_to', $login_redirect_url ); ?>" name="wpu_redirect_to" >
         </p>
 
         <?php do_action('wp_users_after_login_form', $in_modal, $login_redirect_url ); ?>

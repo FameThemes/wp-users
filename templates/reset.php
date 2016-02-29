@@ -15,7 +15,7 @@ if ( !isset( $in_modal ) ) {
 }
 $id = uniqid('f');
 ?>
-<form  id="st-reset-password" class="wpu-form wpu-form-reset-password form ui" action="" method="post" >
+<form  id="wpu-reset-password" class="wpu-form wpu-form-reset-password form ui" action="" method="post" >
     <?php if( WP_Users()->settings['form_reset_header'] ) { ?>
     <div class="wpu-form-header">
         <h3><?php echo esc_html( WP_Users()->settings['reset_header_title'] ); ?></h3>
