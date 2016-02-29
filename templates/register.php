@@ -18,7 +18,7 @@ if ( !isset( $in_modal ) ) {
 
 $id = uniqid('r-');
 ?>
-<form id="st-signup" class="wpu-form st-register-form<?php echo $in_modal ? ' in-st-modal' : ''; ?> form ui"  action="<?php echo site_url('/'); ?>" method="post">
+<form id="st-signup" class="wpu-form wpu-register-form<?php echo $in_modal ? ' in-wpu-modal' : ''; ?> form ui"  action="<?php echo site_url('/'); ?>" method="post">
 
     <?php if( WP_Users()->settings['form_register_header'] ) { ?>
     <div class="wpu-form-header">
@@ -36,20 +36,20 @@ $id = uniqid('r-');
             <p class="fieldset wpu_input wp_usersname">
                 <label class="image-replace wpuname" for="signup-username<?php echo $id; ?>"><?php _e( 'Username', 'wp-users' ) ?></label>
                 <input name="st_signup_username" class="full-width has-padding has-border" id="signup-username<?php echo $id; ?>" type="text" placeholder="<?php echo esc_attr__('Username', 'wp-users'); ?>">
-                <span class="st-error-message"></span>
+                <span class="wpu-error-msg"></span>
             </p>
 
             <p class="fieldset wpu_input st_email">
-                <label class="image-replace st-email" for="signup-email<?php echo $id; ?>"><?php _e( 'E-mail', 'wp-users' ); ?></label>
+                <label class="image-replace wpu-email" for="signup-email<?php echo $id; ?>"><?php _e( 'E-mail', 'wp-users' ); ?></label>
                 <input name="st_signup_email" class="full-width has-padding has-border" id="signup-email<?php echo $id; ?>" type="email" placeholder="<?php echo esc_attr__('E-mail','wp-users'); ?>">
-                <span class="st-error-message"></span>
+                <span class="wpu-error-msg"></span>
             </p>
 
             <p class="fieldset wpu_input st_password">
-                <label class="image-replace st-password" for="signup-password<?php echo $id; ?>"><?php _e('Password','wp-users') ?></label>
+                <label class="image-replace wpu-password" for="signup-password<?php echo $id; ?>"><?php _e('Password','wp-users') ?></label>
                 <input name="st_signup_password" class="full-width has-padding has-border" id="signup-password<?php echo $id; ?>" type="password"  placeholder="<?php echo esc_attr__('Password', 'wp-users'); ?>">
                 <a href="#" class="hide-password"><?php _e('Show','wp-users') ?></a>
-                <span class="st-error-message"></span>
+                <span class="wpu-error-msg"></span>
             </p>
             <?php do_action( 'st_after_before_register_form' ); ?>
             <?php
@@ -59,10 +59,10 @@ $id = uniqid('r-');
                 ?>
                 <div class="fieldset accept_terms <?php echo WP_Users()->settings['term_mgs'] != '' ? 'custom-terms' : ''; ?>">
                     <label>
-                        <input name="st_accept_terms" value="i-agree" type="checkbox" class="st-accept-terms">
+                        <input name="wpu_accept_terms" value="i-agree" type="checkbox" class="st-accept-terms">
                         <?php
                         if ( WP_Users()->settings['term_mgs'] != '' ) {
-                            echo '<div class="st-term-mgs">'.apply_filters( 'the_content', WP_Users()->settings['term_mgs'] ).'</div>';
+                            echo '<div class="wpu-term-mgs">'.apply_filters( 'the_content', WP_Users()->settings['term_mgs'] ).'</div>';
                         } else {
                             echo sprintf( __( 'I agree to the Terms and Conditions', 'wp-users' ),  apply_filters( 'wp_users_term_link' , '#' ) );
                         }
@@ -80,7 +80,7 @@ $id = uniqid('r-');
     <div class="wpu-form-footer">
         <p>
             <?php
-            printf( __( 'Already have an account ? <a class="st-back-to-login" href="%1$s">Login</a>', 'wp-users' ), wp_login_url() );
+            printf( __( 'Already have an account ? <a class="wpu-back-to-login" href="%1$s">Login</a>', 'wp-users' ), wp_login_url() );
             ?>
         </p>
     </div>

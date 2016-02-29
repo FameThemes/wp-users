@@ -291,7 +291,7 @@ class WP_Users_Public {
                     </span>
                 </p>
                 <?php if ( WP_Users()->is_current_user( $user, $current_user ) ){ ?>
-                    <p class="fieldset wpu_input st-email">
+                    <p class="fieldset wpu_input wpu-email">
                         <label class=""><?php _e( 'E-mail:', 'wp-users' ); ?></label>
                         <span>
                             <?php echo esc_html( $user->user_email ); ?>
@@ -372,10 +372,10 @@ class WP_Users_Public {
                     <input value="<?php echo esc_attr( $user->user_login ); ?>" readonly="readonly" class="input full-width has-padding has-border" type="text"  placeholder="<?php echo esc_attr__( 'Your username', 'wp-users' ) ; ?>">
                 </p>
 
-                <p class="fieldset wpu_input st-email">
+                <p class="fieldset wpu_input wpu-email">
                     <label><?php _e( 'E-mail', 'wp-users' ); ?></label>
                     <input name="wp_users_data[user_email]" value="<?php echo esc_attr( $user->user_email ); ?>" class="full-width has-padding has-border" type="email" placeholder="<?php echo esc_attr__( 'E-mail', 'wp-users' ); ?>">
-                    <span class="st-error-message"></span>
+                    <span class="wpu-error-msg"></span>
                 </p>
 
                 <p class="fieldset wpu_input st-firstname">
@@ -418,17 +418,17 @@ class WP_Users_Public {
 
 
 
-                <p class="fieldset wpu_input st-pwd pass1">
+                <p class="fieldset wpu_input wpu-pwd pass1">
                     <label><?php _e( 'New Password', 'wp-users' ); ?></label>
                     <input name="wp_users_data[user_pass]" autocomplete="off" class="input full-width has-padding has-border" type="password"  placeholder="<?php echo esc_attr__( 'New Password', 'wp-users' ) ; ?>">
                     <a href="#0" class="hide-password"><?php _e('Show','wp-users') ?></a>
-                    <span class="st-error-message"></span>
+                    <span class="wpu-error-msg"></span>
                 </p>
-                <p class="fieldset wpu_input st-pwd pass2">
+                <p class="fieldset wpu_input wpu-pwd pass2">
                     <label><?php _e( 'Comfirm New Password', 'wp-users' ); ?></label>
                     <input name="wp_users_pwd2" autocomplete="off" class="input full-width has-padding has-border" type="password"  placeholder="<?php echo esc_attr__( 'Confirm New Password','wp-users' ) ; ?>">
                     <a href="#0" class="hide-password"><?php _e( 'Show', 'wp-users' ) ?></a>
-                    <span class="st-error-message"></span>
+                    <span class="wpu-error-msg"></span>
                 </p>
                 <p class="fieldset wpu_input st-website">
                     <label><?php _e( 'Bio', 'wp-users' ); ?></label>

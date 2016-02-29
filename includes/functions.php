@@ -89,7 +89,7 @@ function wp_users_array_to_html_atts( $array ) {
 
 }
 
-if ( ! function_exists( 'st_is_true' ) ) {
+if ( ! function_exists( 'wpu_is_true' ) ) {
     /**
     * Check a var is true ?
     *
@@ -99,7 +99,7 @@ if ( ! function_exists( 'st_is_true' ) ) {
     * @param $val
     * @return bool
     */
-    function st_is_true( $val ) {
+    function wpu_is_true( $val ) {
         $boolval = ( is_string($val) ? filter_var( $val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool) $val );
         return $boolval;
     }

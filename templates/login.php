@@ -35,18 +35,18 @@ if ( ! is_user_logged_in() ) {
         <p class="fieldset wpu_input wp_usersname_email">
             <label class="wpuname" for="signin-username<?php echo $id; ?>"><?php _e( 'Username or email', 'wp-users' ); ?></label>
             <input name="wp_usersname" class="full-width has-padding has-border" id="signin-username<?php echo $id; ?>" type="text" placeholder="<?php echo esc_attr( __( 'Username or email', 'wp-users' ) ); ?>">
-            <span class="st-error-message"></span>
+            <span class="wpu-error-msg"></span>
         </p>
 
         <p class="fieldset wpu_input wpu_pwd">
-            <label class="image-replace st-password" for="signin-password<?php echo $id; ?>"><?php _e('Password','wp-users'); ?></label>
+            <label class="image-replace wpu-password" for="signin-password<?php echo $id; ?>"><?php _e('Password','wp-users'); ?></label>
             <input name="wpu_pwd" class="full-width has-padding has-border" id="signin-password<?php echo $id; ?>" type="password"  placeholder="<?php echo esc_attr( __( 'Password', 'wp-users' ) ); ?>">
             <a href="#0" class="hide-password"><?php _e( 'Show', 'wp-users' ) ?></a>
-            <span class="st-error-message"></span>
+            <span class="wpu-error-msg"></span>
         </p>
         <p class="forgetmenot fieldset">
-            <label> <input type="checkbox" value="forever" name="st-rememberme" checked> <?php _e( 'Remember me','wp-users' ); ?></label>
-            <a class="st-lost-pwd-link" href="<?php echo wp_lostpassword_url(); ?>"><?php _e( 'Forgot password ?', 'wp-users' ); ?></a>
+            <label> <input type="checkbox" value="forever" name="wpu_rememberme" checked> <?php _e( 'Remember me','wp-users' ); ?></label>
+            <a class="wpu-lost-pwd-link" href="<?php echo wp_lostpassword_url(); ?>"><?php _e( 'Forgot password ?', 'wp-users' ); ?></a>
         </p>
         <?php do_action('wp_users_before_submit_login_form'); ?>
         <p class="fieldset">
@@ -60,7 +60,7 @@ if ( ! is_user_logged_in() ) {
     <div class="wpu-form-footer">
         <p>
         <?php
-            printf( __( 'Don\'t have an account ? <a  class="st-register-link" href="%1$s">Sing Up</a>', 'wp-users'  ), wp_registration_url() );
+            printf( __( 'Don\'t have an account ? <a  class="wpu-register-link" href="%1$s">Sing Up</a>', 'wp-users'  ), wp_registration_url() );
         ?>
         </p>
     </div>
@@ -72,7 +72,7 @@ if ( ! is_user_logged_in() ) {
     $user = wp_get_current_user();
     ?>
 
-    <div class="st-logged-in st-profile-mini" >
+    <div class="wpu-logged-in wpu-profile-mini" >
         <div class="wpu-form-header">
             <?php do_action( 'wp_users_profile_header' , $user, false , false );  ?>
         </div>

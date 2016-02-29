@@ -134,9 +134,9 @@ jQuery(document).ready(function($) {
             $form_forgot_password = $form_modal.find('#st-reset-password'),
             $form_change_password = $form_modal.find('#st-change-password'),
             $login_link = $form_modal.find( '.wpu-login-link' ),
-            $signup_link = $form_modal.find( '.st-register-link' ),
-            $forgot_password_link = $form_login.find('.st-lost-pwd-link'),
-            $back_to_login_link = $form_modal.find('.st-back-to-login');
+            $signup_link = $form_modal.find( '.wpu-register-link' ),
+            $forgot_password_link = $form_login.find('.wpu-lost-pwd-link'),
+            $back_to_login_link = $form_modal.find('.wpu-back-to-login');
 
         $form_modal.addClass('st-loaded');
 
@@ -159,7 +159,7 @@ jQuery(document).ready(function($) {
             if ( $form_modal.hasClass('st-disabled') ) {
                 return false;
             }
-            if ( $(event.target).is($form_modal) || $(event.target).is('.st-close-form') ) {
+            if ( $(event.target).is($form_modal) || $(event.target).is('.wpu-close-form') ) {
                 $form_modal.removeClass('is-visible');
             }
         });
@@ -271,8 +271,8 @@ jQuery(document).ready(function($) {
             var formData = form.serializeObject();
             formData.action = 'wp_users_ajax';
             formData.act = 'do_login';
-            form.addClass( 'st-loading loading' );
-            $( '.st-error-message', form ).removeClass( 'is-visible' );
+            form.addClass( 'wpu-loading loading' );
+            $( '.wpu-error-msg', form ).removeClass( 'is-visible' );
             $( '.has-error', form ).removeClass( 'has-error' );
 
             $.ajax({
@@ -280,7 +280,7 @@ jQuery(document).ready(function($) {
                 data: formData,
                 type: 'POST',
                 success: function( response ) {
-                    form.removeClass( 'st-loading loading' );
+                    form.removeClass( 'wpu-loading loading' );
                     if ( response === 'logged_success' ) {
                         var redirect_url = ( typeof formData.st_redirect_to !== undefined  & formData.st_redirect_to != '' ) ? formData.st_redirect_to : document.location.toString();
                         window.location = redirect_url;
@@ -291,10 +291,10 @@ jQuery(document).ready(function($) {
                             $.each( res, function ( k , msg ) {
                                 if ( $( '.'+k , form).length > 0 ) {
                                     var p = $( '.'+k , form);
-                                    if ( $('.st-error-message', p ).length <= 0 ) {
-                                        p.append( '<span class="st-error-message"></span>' );
+                                    if ( $('.wpu-error-msg', p ).length <= 0 ) {
+                                        p.append( '<span class="wpu-error-msg"></span>' );
                                     }
-                                    $('.st-error-message', p).html( msg).addClass( 'is-visible' );
+                                    $('.wpu-error-msg', p).html( msg).addClass( 'is-visible' );
                                     p.find('input').toggleClass('has-error');
                                 }
                             } );
@@ -309,7 +309,7 @@ jQuery(document).ready(function($) {
         } );
 
         // Back to login Link
-        if ( $('.st-register-form' , w ).hasClass('in-st-modal') ) {
+        if ( $('.wpu-register-form' , w ).hasClass('in-wpu-modal') ) {
             $('.wpu-login-link', w ).click(function() {
                 login_selected();
                 return false;
@@ -319,15 +319,15 @@ jQuery(document).ready(function($) {
         /**
          * Register form submit
          */
-        $('.st-register-form' , w ).submit( function() {
+        $('.wpu-register-form' , w ).submit( function() {
 
             var form = $( this );
             var formData = form.serializeObject();
             formData.action = 'wp_users_ajax';
             formData.act = 'do_register';
 
-            if ( $('input[name="st_accept_terms"]:checked', form ).length == 0  ) {
-                $('.accept-terms .st-error-message' , form ).toggleClass('is-visible');
+            if ( $('input[name="wpu_accept_terms"]:checked', form ).length == 0  ) {
+                $('.accept-terms .wpu-error-msg' , form ).toggleClass('is-visible');
             }
 
             var submit_btn =  $('.st-submit', form);
@@ -338,8 +338,8 @@ jQuery(document).ready(function($) {
                 submit_btn.attr('disabled', 'disabled');
             }
 
-            form.addClass( 'st-loading loading' );
-            $( '.st-error-message', form ).removeClass( 'is-visible' );
+            form.addClass( 'wpu-loading loading' );
+            $( '.wpu-error-msg', form ).removeClass( 'is-visible' );
             $( '.has-error', form ).removeClass( 'has-error' );
 
             $.ajax({
@@ -348,7 +348,7 @@ jQuery(document).ready(function($) {
                 type: 'POST',
                 success: function( response ) {
 
-                    form.removeClass( 'st-loading loading' );
+                    form.removeClass( 'wpu-loading loading' );
 
                     submit_btn.val( submit_btn.data('default-text') ) ;
                     submit_btn.removeAttr('disabled');
@@ -368,10 +368,10 @@ jQuery(document).ready(function($) {
                             $.each( res, function ( k , msg ) {
                                 if ( $( '.'+k , form).length > 0 ) {
                                     var p = $( '.'+k , form);
-                                    if ( $('.st-error-message', p ).length <= 0 ) {
-                                        p.append( '<span class="st-error-message"></span>' );
+                                    if ( $('.wpu-error-msg', p ).length <= 0 ) {
+                                        p.append( '<span class="wpu-error-msg"></span>' );
                                     }
-                                    $('.st-error-message', p).html( msg ).addClass( 'is-visible' );
+                                    $('.wpu-error-msg', p).html( msg ).addClass( 'is-visible' );
                                     p.find('input').toggleClass('has-error');
                                 }
                             } );
@@ -400,8 +400,8 @@ jQuery(document).ready(function($) {
                 submit_btn.attr('disabled', 'disabled');
             }
 
-            form.addClass( 'st-loading loading' );
-            $( '.st-error-message', form ).removeClass( 'is-visible' );
+            form.addClass( 'wpu-loading loading' );
+            $( '.wpu-error-msg', form ).removeClass( 'is-visible' );
             $( '.has-error', form ).removeClass( 'has-error' );
 
             $.ajax({
@@ -409,7 +409,7 @@ jQuery(document).ready(function($) {
                 data: formData,
                 type: 'POST',
                 success: function( response ) {
-                    form.removeClass( 'st-loading loading' );
+                    form.removeClass( 'wpu-loading loading' );
                     submit_btn.val( submit_btn.data('default-text') ) ;
                     submit_btn.removeAttr('disabled');
                     if ( response == 'sent' ) {
@@ -423,10 +423,10 @@ jQuery(document).ready(function($) {
                             $.each( res, function ( k , msg ) {
                                 if ( $( '.'+k , form).length > 0 ) {
                                     var p = $( '.'+k , form);
-                                    if ( $('.st-error-message', p ).length <= 0 ) {
-                                        p.append( '<span class="st-error-message"></span>' );
+                                    if ( $('.wpu-error-msg', p ).length <= 0 ) {
+                                        p.append( '<span class="wpu-error-msg"></span>' );
                                     }
-                                    $('.st-error-message', p).html( msg ).addClass( 'is-visible' );
+                                    $('.wpu-error-msg', p).html( msg ).addClass( 'is-visible' );
                                     p.find('input').toggleClass('has-error');
                                 }
                             } );
@@ -460,7 +460,7 @@ jQuery(document).ready(function($) {
             }
 
             $('.wpu-msg', form).hide(1);
-            form.addClass( 'st-loading loading' );
+            form.addClass( 'wpu-loading loading' );
             $( '.has-error', form ).removeClass( 'has-error' );
 
             $.ajax({
@@ -468,7 +468,7 @@ jQuery(document).ready(function($) {
                 data: formData,
                 type: 'POST',
                 success: function( response ) {
-                    form.removeClass( 'st-loading loading' );
+                    form.removeClass( 'wpu-loading loading' );
                     submit_btn.val( submit_btn.data('default-text') ) ;
                     submit_btn.removeAttr('disabled');
 
@@ -485,7 +485,7 @@ jQuery(document).ready(function($) {
                             }
                             $.each( res, function ( key, value ) {
                                 var  p = $('.' + key, form );
-                                $('.st-error-message', p).html( value ).toggleClass('is-visible');
+                                $('.wpu-error-msg', p).html( value ).toggleClass('is-visible');
                                 p.find('.input').toggleClass('has-error');
                             } );
                         } catch ( e ){
@@ -517,7 +517,7 @@ jQuery(document).ready(function($) {
 
             $('.wpu-msg', form).hide(1);
 
-            form.addClass( 'st-loading loading' );
+            form.addClass( 'wpu-loading loading' );
 
             $.ajax({
                 url: WP_Users.ajax_url,
@@ -525,7 +525,7 @@ jQuery(document).ready(function($) {
                 type: 'POST',
                 success: function( response ) {
 
-                    form.removeClass( 'st-loading loading' );
+                    form.removeClass( 'wpu-loading loading' );
 
                     submit_btn.val( submit_btn.data('default-text') ) ;
                     submit_btn.removeAttr('disabled');
@@ -552,7 +552,7 @@ jQuery(document).ready(function($) {
                             }
                             $.each( res, function ( key, value ) {
                                 var  p = $('.' + key, form );
-                                $('.st-error-message', p).html( value ).toggleClass('is-visible');
+                                $('.wpu-error-msg', p).html( value ).toggleClass('is-visible');
                                 p.find('.input').toggleClass('has-error');
                             } );
                         } catch ( e ) {

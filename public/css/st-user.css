@@ -113,17 +113,17 @@ xsigin/signup popup
     padding: 1.4em;
     position: relative;
 }
-.wpu-form .st-loading .st-loading-icon{
+.wpu-form .wpu-loading .wpu-loading-icon{
     position: absolute;
     top:0px;
     left: 0px;
     width: 100%;
     height: 100%;
     display: block;
-    background: url("../img/st-loading.svg") center no-repeat ;
+    background: url("../img/loading.svg") center no-repeat ;
 
 }
-.wpu-form .st-loading .st-loading-md {
+.wpu-form .wpu-loading .wpu-loading-md {
     position: absolute;
     top:0px;
     left: 0px;
@@ -177,11 +177,11 @@ xsigin/signup popup
     background-image: url("../img/st-icon-username.svg");
 }
 
-.wpu-form label.st-email {
+.wpu-form label.wpu-email {
     background-image: url("../img/st-icon-email.svg");
 }
 
-.wpu-form label.st-password {
+.wpu-form label.wpu-password {
     background-image: url("../img/st-icon-password.svg");
 }
 .wpu-form label.st-website{
@@ -267,7 +267,7 @@ xsigin/signup popup
     color: #343642;
 }
 
-.wpu-form .st-error-message {
+.wpu-form .wpu-error-msg {
     display: inline-block;
     position: absolute;
     left: -5px;
@@ -288,7 +288,7 @@ xsigin/signup popup
     transition: opacity 0.2s 0, visibility 0 0.2s;
 }
 
-.wpu-form .st-error-message::after {
+.wpu-form .wpu-error-msg::after {
     /* triangle */
     content: '';
     position: absolute;
@@ -301,7 +301,7 @@ xsigin/signup popup
     border-bottom: 8px solid rgba(215, 102, 102, 0.9);
 }
 
-.wpu-form .st-error-message.is-visible {
+.wpu-form .wpu-error-msg.is-visible {
     opacity: 1;
     visibility: visible;
     -webkit-transition: opacity 0.2s 0, visibility 0 0;
@@ -363,7 +363,7 @@ xsigin/signup popup
 .wpu-form-bottom-message a:hover {
     color: #ffffff;
 }
-.st-close-form {
+.wpu-close-form {
     /* form X button on top right */
     display: block;
     position: absolute;
@@ -378,7 +378,7 @@ xsigin/signup popup
 }
 
 @media only screen and (min-width: 1170px) {
-    .st-close-form {
+    .wpu-close-form {
         display: none;
     }
 }
@@ -386,7 +386,7 @@ xsigin/signup popup
 #wpu-login, #st-signup, #st-reset-password , .wpu-msg , #st-change-password {
     display: none;
 }
-.wpu-login-wrapper #wpu-login, .st-register-wrapper #st-signup, .st-reset-password-wrapper #st-reset-password, .st-change-password-wrapper #st-change-password{
+.wpu-login-wrapper #wpu-login, .st-register-wrapper #st-signup, .wpu-reset-password-wrapper #st-reset-password, .wpu-change-password-wrapper #st-change-password{
     display: block;
 }
 

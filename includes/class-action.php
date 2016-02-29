@@ -41,7 +41,7 @@ class WP_Users_Action{
             return ( json_encode( $msgs ) );
         }
 
-        $creds['remember'] = isset( $_POST['st_rememberme'] )  && $_POST['st_rememberme'] !='' ? true :  false;
+        $creds['remember'] = isset( $_POST['wpu_rememberme'] )  && $_POST['wpu_rememberme'] !='' ? true :  false;
 
         // If the user wants ssl but the session is not ssl, force a secure cookie.
         if ( ! empty( $creds['user_login'] ) && ! force_ssl_admin() ) {
@@ -87,7 +87,7 @@ class WP_Users_Action{
             'st_signup_email'       => '',
             'st_signup_password'    => '',
             'st_signup_username'    => '',
-            'st_accept_terms'       => '',
+            'wpu_accept_terms'       => '',
         ) );
 
         $email      = $args['st_signup_email'];
@@ -108,7 +108,7 @@ class WP_Users_Action{
 
         // check if show term and term checked
         if ( WP_Users()->settings['show_term']  ) {
-            if ( $args['st_accept_terms'] == '' ) {
+            if ( $args['wpu_accept_terms'] == '' ) {
                 $msgs['accept_terms'] = __('You must agree our Terms and Conditions to continue', 'wp-users');
             }
         }
@@ -143,18 +143,18 @@ class WP_Users_Action{
         $errors =   array();
         $user_data =  false;
         if ( empty ( $_POST['wp_users_login'] ) ) {
-            $errors['st_input_combo'] = __( 'Enter a username or e-mail address.' );
+            $errors['wpu_input_combo'] = __( 'Enter a username or e-mail address.' );
         } elseif ( is_email( $_POST['wp_users_login'] ) ) {
             $user_data = get_user_by( 'email', trim( $_POST['wp_users_login'] ) );
             if ( empty( $user_data ) )
-                $errors['st_input_combo'] = __( 'There is no user registered with that email address.' );
+                $errors['wpu_input_combo'] = __( 'There is no user registered with that email address.' );
         } else {
             $login = trim( $_POST['wp_users_login'] );
             $user_data = get_user_by( 'login', $login );
         }
 
         if ( ! $user_data ) {
-            $errors['st_input_combo'] =  __( 'Invalid username or e-mail.' );
+            $errors['wpu_input_combo'] =  __( 'Invalid username or e-mail.' );
             return json_encode( $errors ) ;
         }
 
@@ -343,12 +343,12 @@ class WP_Users_Action{
 
         // check email
         if ( ! is_email( $user_data['user_email'] ) ) {
-            $errors['st-email'] =  __( 'Invalid email.' ,'wp-users' );
+            $errors['wpu-email'] =  __( 'Invalid email.' ,'wp-users' );
         } else {
             $check_u =  get_user_by('email', $user_data['user_email'] );
             if ( !empty( $check_u ) ) {
                 if ( $check_u->ID != $c_user->ID ) {
-                    $errors['st-email'] = __( 'Sorry, that email address is already used by other account!', 'wp-users' ); // __( 'This email is used by other account.' ,'wp-users');
+                    $errors['wpu-email'] = __( 'Sorry, that email address is already used by other account!', 'wp-users' ); // __( 'This email is used by other account.' ,'wp-users');
                 }
             }
         }

@@ -80,7 +80,7 @@ class WP_Users_Shortcodes{
         $atts['action'] = 'register-template';
         extract( $atts );
         $content ='';
-        if ( st_is_true ( $atts['ajax_load'] ) ) {
+        if ( wpu_is_true ( $atts['ajax_load'] ) ) {
             // leave content empty and load it via ajax
         } else {
             $content = $this->instance->get_template_content('register.php') ;
@@ -112,13 +112,13 @@ class WP_Users_Shortcodes{
         $atts['action'] = 'reset-template';
         extract( $atts );
         $content ='';
-        if ( st_is_true ( $atts['ajax_load'] ) ) {
+        if ( wpu_is_true ( $atts['ajax_load'] ) ) {
             // leave content empty and load it via ajax
         } else {
             $content =  $this->instance->get_template_content('reset.php') ;
         }
 
-        return '<div class="wpu-wrapper st-reset-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wpu-wrapper wpu-reset-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
@@ -144,13 +144,13 @@ class WP_Users_Shortcodes{
         $atts['action'] = 'change-pwd-template';
         extract( $atts );
         $content ='';
-        if ( st_is_true ( $atts['ajax_load'] ) ) {
+        if ( wpu_is_true ( $atts['ajax_load'] ) ) {
             // leave content empty and load it via ajax
         } else {
             $content =  $this->instance->get_template_content('change-password.php') ;
         }
 
-        return '<div class="wpu-wrapper st-change-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wpu-wrapper wpu-change-password-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
@@ -178,12 +178,12 @@ class WP_Users_Shortcodes{
 
         extract( $atts );
         $content ='';
-        if ( st_is_true ( $atts['ajax_load'] ) ) {
+        if ( wpu_is_true ( $atts['ajax_load'] ) ) {
             // leave content empty and load it via ajax
         } else {
             $content =  $this->instance->get_template_content( 'profile.php' ) ;
         }
-        return '<div class="wpu-wrapper st-profile-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
+        return '<div class="wpu-wrapper wpu-profile-wrapper" '.wp_users_array_to_html_atts( $atts ).'>'.$content.'</div>';
     }
 
     /**
@@ -242,7 +242,7 @@ class WP_Users_Shortcodes{
         extract( $atts );
         $atts['class'].=' st-singup-btn';
 
-        if ( ! st_is_true( $ajax ) ) {
+        if ( ! wpu_is_true( $ajax ) ) {
             $url = get_permalink();
             $url =  add_query_arg( array('logout'=>'true') , $url );
         } else {

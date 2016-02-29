@@ -27,7 +27,7 @@ if ( ! $user ) {
     $action = isset( $_REQUEST['wpu_action'] ) ? strtolower( $_REQUEST['wpu_action'] ) : '';
 
     ?>
-    <div class="st-profile-wrapper wpu-form-profile" >
+    <div class="wpu-profile-wrapper wpu-form-profile" >
 
         <div class="wpu-form-header">
             <?php do_action( 'wp_users_profile_header' , $user, $current_user , $action );  ?>

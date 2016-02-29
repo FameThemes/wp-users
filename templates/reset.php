@@ -26,10 +26,10 @@ $id = uniqid('f');
         <p class="wpu-form-message"><?php _e( 'Please enter your email address. You will receive a link to create a new password.', 'wp-users' ); ?></p>
         <p class="wpu-msg"><?php _e( 'Check your e-mail for the confirmation link.', 'wp-users' ); ?></p>
         <div class="wpu-form-fields">
-            <p class="fieldset wpu_input st_input_combo">
-                <label class="st-email" for="reset-email<?php echo $id; ?>"><?php _e('User name or E-mail', 'wp-users' ); ?></label>
+            <p class="fieldset wpu_input wpu_input_combo">
+                <label class="wpu-email" for="reset-email<?php echo $id; ?>"><?php _e('User name or E-mail', 'wp-users' ); ?></label>
                 <input name="wp_users_login" class="full-width has-padding has-border" id="reset-email<?php echo $id; ?>" type="text" placeholder="<?php echo esc_attr__( 'User name or E-mail', 'wp-users'); ?>">
-                <span class="st-error-message"></span>
+                <span class="wpu-error-msg"></span>
             </p>
             <p class="fieldset">
                 <input class="<?php echo esc_attr( apply_filters( 'wp_users_form_submit_btn_class', 'reset-submit button btn' ) ); ?>" data-loading-text="<?php echo esc_attr__( 'Loading...', 'wp-users' ); ?>" type="submit" value="<?php echo esc_attr__( 'Submit', 'wp-users' ); ?>">
@@ -37,6 +37,6 @@ $id = uniqid('f');
         </div>
     </div>
     <div class="wpu-form-footer">
-        <p><?php printf( __( 'Remember your password ? <a class="st-back-to-login" href="%1$s">Login</a>', 'wp-users' ), wp_login_url() ); ?></p>
+        <p><?php printf( __( 'Remember your password ? <a class="wpu-back-to-login" href="%1$s">Login</a>', 'wp-users' ), wp_login_url() ); ?></p>
     </div>
 </form>

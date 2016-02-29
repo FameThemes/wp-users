@@ -25,6 +25,6 @@ if ( ! isset( $current_action ) ) {
             echo $this->get_template_content( 'change-password.php', array('in_modal' => true ) );
         }
         ?>
-        <a href="#0" class="st-close-form"><?php _e('Close','wp-users'); ?></a>
+        <a href="#0" class="wpu-close-form"><?php _e('Close','wp-users'); ?></a>
     </div> <!-- wpu-modal-container -->
 </div> <!-- wpu-modal -->
