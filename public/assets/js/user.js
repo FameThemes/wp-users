@@ -40,7 +40,6 @@
 })(jQuery);
 
 
-
 (function ( $ ) {
 
     window.WP_Users = window.WP_Users || {};
@@ -86,79 +85,15 @@
                 }
             });
 
-            wpu._init();
+            wpu.events_handle();
+            wpu.forms();
+            wpu.profile_avatar();
+            wpu.profile_cover();
+
         },
 
-        close_modal: function(){
-            $('.wpu-modal' ).removeClass('is-visible');
-        },
+        events_handle: function(){
 
-        login_selected: function() {
-            var $form_modal = $('.wpu-modal' ),
-                $form_login = $form_modal.find('#wpu-login'),
-                $form_signup = $form_modal.find('#wpu-signup'  ),
-                $form_forgot_password = $form_modal.find('#wpu-reset-password'),
-                $form_change_password = $form_modal.find('#wpu-change-password'),
-                $login_link = $form_modal.find( '.wpu-login-link' ),
-                $signup_link = $form_modal.find( '.wpu-register-link' ),
-                $forgot_password_link = $form_login.find('.wpu-lost-pwd-link'),
-                $back_to_login_link = $form_modal.find('.wpu-back-to-login');
-
-            $form_login.addClass('is-selected');
-            $form_signup.removeClass('is-selected');
-            $form_forgot_password.removeClass('is-selected');
-            $form_change_password.removeClass('is-selected');
-            $login_link.addClass('selected');
-            $signup_link.removeClass('selected');
-        },
-
-        signup_selected: function () {
-
-            var $form_modal =  $('.wpu-modal' ),
-                $form_login = $form_modal.find('#wpu-login'),
-                $form_signup = $form_modal.find('#wpu-signup'  ),
-                $form_forgot_password = $form_modal.find('#wpu-reset-password'),
-                $form_change_password = $form_modal.find('#wpu-change-password'),
-                $login_link = $form_modal.find( '.wpu-login-link' ),
-                $signup_link = $form_modal.find( '.wpu-register-link' ),
-                $forgot_password_link = $form_login.find('.wpu-lost-pwd-link'),
-                $back_to_login_link = $form_modal.find('.wpu-back-to-login');
-
-            $form_login.removeClass('is-selected');
-            $form_signup.addClass('is-selected');
-            $form_forgot_password.removeClass('is-selected');
-            $form_change_password.removeClass('is-selected');
-            $login_link.removeClass('selected');
-            $signup_link.addClass('selected');
-        },
-        forgot_password_selected: function () {
-
-            var $form_modal =  $('.wpu-modal' ),
-                $form_login = $form_modal.find('#wpu-login'),
-                $form_signup = $form_modal.find('#wpu-signup'  ),
-                $form_forgot_password = $form_modal.find('#wpu-reset-password'),
-                $form_change_password = $form_modal.find('#wpu-change-password'),
-                $login_link = $form_modal.find( '.wpu-login-link' ),
-                $signup_link = $form_modal.find( '.wpu-register-link' ),
-                $forgot_password_link = $form_login.find('.wpu-lost-pwd-link'),
-                $back_to_login_link = $form_modal.find('.wpu-back-to-login');
-
-            $form_login.removeClass('is-selected');
-            $form_signup.removeClass('is-selected');
-            $form_change_password.removeClass('is-selected');
-            $form_forgot_password.addClass('is-selected');
-        },
-
-        hide_all_errors: function () {
-            // hide all errors fields when load
-            $( 'body' ).on( 'click', '.wpu-form .fieldset', function( ) {
-                var p = $(this);
-                p.find('input').removeClass('has-error');
-                p.find('span').removeClass('is-visible');
-            });
-        },
-
-        _init: function() {
             var wpu = this;
             wpu.hide_all_errors();
 
@@ -210,7 +145,192 @@
                 });
             }
 
+        },
+        close_modal: function(){
+            $('.wpu-modal' ).removeClass('is-visible');
+        },
+        login_selected: function() {
+            var $form_modal = $('.wpu-modal' ),
+                $form_login = $form_modal.find('#wpu-login'),
+                $form_signup = $form_modal.find('#wpu-signup'  ),
+                $form_forgot_password = $form_modal.find('#wpu-reset-password'),
+                $form_change_password = $form_modal.find('#wpu-change-password'),
+                $login_link = $form_modal.find( '.wpu-login-link' ),
+                $signup_link = $form_modal.find( '.wpu-register-link' );
 
+            $form_login.addClass('is-selected');
+            $form_signup.removeClass('is-selected');
+            $form_forgot_password.removeClass('is-selected');
+            $form_change_password.removeClass('is-selected');
+            $login_link.addClass('selected');
+            $signup_link.removeClass('selected');
+        },
+
+        signup_selected: function () {
+
+            var $form_modal =  $('.wpu-modal' ),
+                $form_login = $form_modal.find('#wpu-login'),
+                $form_signup = $form_modal.find('#wpu-signup'  ),
+                $form_forgot_password = $form_modal.find('#wpu-reset-password'),
+                $form_change_password = $form_modal.find('#wpu-change-password'),
+                $login_link = $form_modal.find( '.wpu-login-link' ),
+                $signup_link = $form_modal.find( '.wpu-register-link' );
+
+            $form_login.removeClass('is-selected');
+            $form_signup.addClass('is-selected');
+            $form_forgot_password.removeClass('is-selected');
+            $form_change_password.removeClass('is-selected');
+            $login_link.removeClass('selected');
+            $signup_link.addClass('selected');
+        },
+
+        forgot_password_selected: function () {
+            var $form_modal =  $('.wpu-modal' ),
+                $form_login = $form_modal.find('#wpu-login'),
+                $form_signup = $form_modal.find('#wpu-signup'  ),
+                $form_forgot_password = $form_modal.find('#wpu-reset-password'),
+                $form_change_password = $form_modal.find('#wpu-change-password');
+
+            $form_login.removeClass('is-selected');
+            $form_signup.removeClass('is-selected');
+            $form_change_password.removeClass('is-selected');
+            $form_forgot_password.addClass('is-selected');
+        },
+
+        hide_all_errors: function () {
+            // hide all errors fields when load
+            $( 'body' ).on( 'click', '.wpu-form .fieldset', function( ) {
+                var p = $(this);
+                p.find('input').removeClass('has-error');
+                p.find('span').removeClass('is-visible');
+            });
+        },
+
+        profile_avatar: function(){
+            var wpu = this;
+            var html =  '<div class="wpu-media">' +
+                '<div class="cp-btn"><i class="cp-icon"></i><span>'+WP_Users.avatar_text+'</span> </div>' +
+                '<div class="cp-actions"> ' +
+                '<div class="cp-upload" id="profile">'+WP_Users.upload_text+'</div> ' +
+                '<div class="cp-remove">'+WP_Users.remove_text+'</div> ' +
+                '</div> ' +
+                '</div>';
+
+            $( '.wpu-profile-avatar[data-change="true"]').each( function(){
+                var obj = $( html );
+                $( this ).append( obj );
+                wpu.handle_upload( 'avatar', obj );
+
+                // Remove avatar
+                $( '.cp-remove', obj).on( 'click', function(){
+                    $.post( WP_Users.ajax_url, {
+                        _wpnonce: WP_Users._wpnonce,
+                        act: "remove_media",
+                        media_type: 'avatar',
+                        action: "wp_users_ajax"
+                    }, function () {
+                        $( '.wpu-profile-avatar').css( { backgroundImage: '' } );
+                    } );
+                    $( '.cp-actions', obj ).removeClass('cp-active');
+                    return false;
+                } );
+
+            } );
+        },
+
+        profile_cover: function(){
+
+            var wpu = this;
+            var html =  '<div class="wpu-media">' +
+                '<div class="cp-btn"><i class="cp-icon"></i><span>'+WP_Users.cover_text+'</span> </div>' +
+                '<div class="cp-actions"> ' +
+                '<div class="cp-upload" id="profile">'+WP_Users.upload_text+'</div> ' +
+                '<div class="cp-remove">'+WP_Users.remove_text+'</div> ' +
+                '</div> ' +
+                '</div>';
+
+            $( '.wpu-profile-cover[data-change="true"]').each( function(){
+                var obj = $( html );
+                $( this ).append( obj );
+                wpu.handle_upload( 'cover', obj );
+
+                // Remove avatar
+                $( '.cp-remove', obj).on( 'click', function(){
+                    $.post( WP_Users.ajax_url, {
+                        _wpnonce: WP_Users._wpnonce,
+                        act: "remove_media",
+                        media_type: 'cover',
+                        action: "wp_users_ajax"
+                    }, function () {
+                        $( '.wpu-profile-cover').css( { backgroundImage: '' } );
+                    } );
+                    $( '.cp-actions', obj ).removeClass('cp-active');
+                    return false;
+                } );
+
+            } );
+
+        },
+
+        handle_upload: function( type, obj ){
+            var wpu = this;
+
+            $( document ).mouseup( function ( e ) {
+                if (!obj.is(e.target) // if the target of the click isn't the container...
+                    && obj.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    $( '.cp-actions', obj ).removeClass('cp-active');
+                }
+            });
+
+            // Drop downmenu
+            $( '.cp-btn', obj ).on( 'click', function(){
+                $( '.cp-actions', obj ).toggleClass('cp-active');
+            });
+
+            // Upload image
+            $( '.cp-upload', obj ).on( 'click', function(){
+                wpu._upload_form( type );
+            });
+        },
+
+        _upload_form: function( type ){
+            var form;
+            if ( $( '#wpu_form_update_'+type ).length > 0 ) {
+                $( '#wpu_form_update_'+type).remove();
+            }
+
+            form = $( '<form style="display:none;" method="post" id="wpu_form_update_'+type+'" enctype="multipart/form-data" />' );
+            form.append( '<input type="hidden" name="_wpnonce" value="'+WP_Users._wpnonce+'"/>' );
+            form.append( '<input type="hidden" name="act" value="update_'+type+'"/>' );
+            form.append( '<input type="hidden" name="action" value="wp_users_ajax"/>' );
+            form.append( '<input type="hidden" name="redirect_url"/>' );
+            form.append( '<input type="file" name="img" class="upload-file">' );
+            $( 'body').append( form );
+            $( 'input[name="redirect_url"]').val( window.location );
+            form.attr( 'action' , WP_Users.ajax_url );
+            $( '.upload-file', form).trigger( 'click' );
+            $( '.upload-file', form).on( 'change', function(){
+                var file = $( '.upload-file', form).val();
+                var ext = file.match(/\.(.+)$/)[1];
+                switch (ext) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'gif':
+                        break;
+                    default:
+                        alert( WP_Users.invalid_file_type );
+                        return false;
+                }
+
+                form.submit();
+            } );
+
+        },
+
+        forms: function() {
+            var wpu = this;
             /**
              * Login form submit
              */
@@ -231,7 +351,7 @@
                     success: function( response ) {
                         form.removeClass( 'wpu-loading loading' );
                         if ( response === 'logged_success' ) {
-                            var redirect_url = ( typeof formData.wpu_redirect_to !== undefined  & formData.wpu_redirect_to != '' ) ? formData.wpu_redirect_to : document.location.toString();
+                            var redirect_url = ( typeof formData.wpu_redirect_to !== undefined  & formData.wpu_redirect_to != '' ) ? formData.wpu_redirect_to : window.location;
                             window.location = redirect_url;
                             return ;
                         } else {
@@ -380,7 +500,6 @@
 
                 return false;
             } );
-
 
             // change pwd form submit
             $('.wpu-form-change-password').submit( function() {

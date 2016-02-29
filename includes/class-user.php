@@ -106,7 +106,7 @@ class WP_Users {
      */
     public function profile_rewrite() {
         // for paging
-        $string =  'index.php?page_id='.intval( $this->settings['account_page'] ).'&wp_users_name=$matches[1]&st_paged=$matches[2]';
+        $string =  'index.php?page_id='.intval( $this->settings['account_page'] ).'&wp_users_name=$matches[1]&wpu_paged=$matches[2]';
         add_rewrite_rule( '^'.$this->settings['profile_rewrite'].'/([^/]*)/page/?([0-9]{1,})/?', $string , 'top');
 
         $string =  'index.php?page_id='.intval( $this->settings['account_page'] ).'&wp_users_name=$matches[1]';
@@ -120,7 +120,7 @@ class WP_Users {
      */
     public function profile_rewrite_tag() {
          add_rewrite_tag('%wp_users_name%', '([^&]+)');
-         add_rewrite_tag('%st_paged%', '([^&]+)');
+         add_rewrite_tag('%wpu_paged%', '([^&]+)');
     }
 
     /**
@@ -137,6 +137,13 @@ class WP_Users {
         } else {
             return is_user_logged_in() ? wp_get_current_user() : false;
         }
+    }
+
+    function can_edit_profile(){
+        $user = WP_Users()->get_user_profile();
+        $current_user = wp_get_current_user();
+        $is_current_user =  WP_Users()->is_current_user( $user, $current_user );
+        return $is_current_user;
     }
 
     /**
@@ -645,6 +652,7 @@ class WP_Users {
         }
 
         $r =  apply_filters( 'wp_users_get_user_media', $r, $media_type, $type, $user );
+        $r =  add_query_arg( array( 't'=> uniqid() ), $r );
 
         return $r;
 
@@ -701,19 +709,8 @@ class WP_Users {
                 echo WP_Users_Action::media_upload( 'cover' );
                 break;
             case 'update_avatar':
-                // echo WP_Users_Action::media_upload( 'cover' );
                 echo WP_Users_Action::media_upload( 'avatar' );
                 break;
-
-            case 'crop_cover':
-                // echo WP_Users_Action::media_upload( 'cover' );
-                echo WP_Users_Action::crop_media( 'cover' );
-                break;
-            case 'crop_avatar':
-                // echo WP_Users_Action::media_upload( 'cover' );
-                echo WP_Users_Action::crop_media( 'avatar' );
-                break;
-
             case 'remove_media':
                 // echo WP_Users_Action::media_upload( 'cover' );
                 WP_Users_Action::remove_media( $_REQUEST['media_type'] );

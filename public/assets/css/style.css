@@ -51,8 +51,8 @@ xsigin/signup popup
 
 .wpu-modal-container {
     position: relative;
-    width: 326px;
-    max-width: 600px;
+    width: 420px;
+    max-width: 100%;
     background: #FFF;
     margin: 3em auto 4em;
     cursor: auto;
@@ -302,7 +302,7 @@ NAV helper - Use for menu conditions
 .wpu-form-header {
 
 }
-.st-profile-cover {
+.wpu-profile-cover {
     width: 100%;
     height: 150px;
     position:relative; /* or fixed or absolute */
@@ -313,26 +313,26 @@ NAV helper - Use for menu conditions
     background-repeat: no-repeat;
     background-size: cover;
 }
-.st-profile-avatar.coppic ,  .st-profile-avatar.coppic .croppic-div{
+.wpu-profile-avatar.coppic ,  .wpu-profile-avatar.coppic .croppic-div{
     width: 120px;
     height: 120px;
     display: block;
     overflow: inherit;
 }
 
-.st-profile-avatar.coppic {
+.wpu-profile-avatar.coppic {
     border-radius: 50%;
     background-color: #d5ff8a;
 }
 
-.st-profile-avatar.coppic .coppic-settings {
+.wpu-profile-avatar.coppic .wpu-media {
     top: auto;
     bottom: 0px;
     left: 50%;
     margin-left: -33px;
     width: 75px;
 }
-.st-profile-avatar.coppic .coppic-settings .cp-actions {
+.wpu-profile-avatar.coppic .wpu-media .cp-actions {
     left: 0px;
     right: auto;
     border: 1px solid #ededed;
@@ -344,7 +344,7 @@ NAV helper - Use for menu conditions
     border-top: 0px none transparent;
     border-bottom: 0px solid #DCDCDC;
 }
-.wpu-form-profile .st-profile-meta, .wpu-profile-mini .st-profile-meta {
+.wpu-form-profile .wpu-profile-meta, .wpu-profile-mini .wpu-profile-meta {
     border-left: 1px solid #DCDCDC;
     border-right: 1px solid #DCDCDC;
     border-bottom: 1px solid #DCDCDC;
@@ -352,16 +352,16 @@ NAV helper - Use for menu conditions
     padding-top: 10px;
 }
 
-.st-profile-avatar {
+.wpu-profile-avatar {
     float: left;
     margin-top: -60px;
     margin-left: 2rem;
 }
-.st-profile-meta-info {
+.wpu-profile-meta-info {
     float: left;
     padding-left: 15px;
 }
-.st-profile-meta:after {
+.wpu-profile-meta:after {
     clear: both; content: ""; display: block;
 }
 .st-display-name {
@@ -440,21 +440,21 @@ NAV helper - Use for menu conditions
 }
 
 /* Responsive & Sidebar Profile */
-.sidebar .st-profile-avatar.coppic,
-.widget-area .st-profile-avatar.coppic {
+.sidebar .wpu-profile-avatar.coppic,
+.widget-area .wpu-profile-avatar.coppic {
     width: 90px;
     height: 90px;
     margin-top: -45px;
 }
-.sidebar .wpu-form-header .st-profile-avatar,
-.widget-area .wpu-form-header .st-profile-avatar
+.sidebar .wpu-form-header .wpu-profile-avatar,
+.widget-area .wpu-form-header .wpu-profile-avatar
 {
     float: none;
     margin-left: auto;
     margin-right: auto;
 }
-.sidebar .wpu-form-header .st-profile-meta-info,
-.widget-area .wpu-form-header .st-profile-meta-info {
+.sidebar .wpu-form-header .wpu-profile-meta-info,
+.widget-area .wpu-form-header .wpu-profile-meta-info {
     padding: 0px;
     float: none;
     text-align: center;
@@ -487,24 +487,96 @@ NAV helper - Use for menu conditions
     width: 100%;
 }
 
+
+
+.coppic {
+    width: 100%;
+    height: 150px;
+    position:relative; /* or fixed or absolute */
+    background-color: #f0f0f0;
+    overflow: hidden;
+    background-position: center center;
+    background-repeat: no-repeat ;
+    background-size: cover; /*100% auto;*/
+}
+
+
+.wpu-media {
+    position: absolute;
+    top: 10px; right: 10px ;
+    z-index: 3;
+
+}
+.wpu-media .cp-btn {
+    background:rgba(0,0,0,0.4);
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 10px;
+    padding: 5px;
+    line-height: 12px;
+    text-transform: uppercase;
+}
+.wpu-media.hide {
+    display: none;
+}
+.wpu-media i.cp-icon {
+    display: inline-block;
+}
+.wpu-media span {
+    display: inline-block;
+    vertical-align: middle;
+}
+.wpu-media i.cp-icon:before {
+    font-family: "dashicons";
+    content: "\f111";
+    font-size: 12px;
+    line-height: 10px;
+    font-style: normal;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.wpu-media .cp-actions {
+    position: absolute;
+    text-transform: none;
+    top: 24px;
+    right: 0px;
+    background: #ffffff;
+    color: #666666;
+    padding: 10px;
+    font-size: 12px;
+    display: none;
+    width: 120px;
+}
+.wpu-media .cp-actions.cp-active {
+    display: block;
+}
+.cp-actions > div {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.cp-actions > div:last-child {
+    margin-bottom: 0px;
+}
+
+
 /*
 MEDIA QUERY
 --------------------------------------------
 */
 @media only screen and (max-width: 763px) {
 
-    .st-profile-avatar.coppic {
+    .wpu-profile-avatar.coppic {
         width: 90px;
         height: 90px;
         margin-top: -45px;
     }
-    .wpu-form-header .st-profile-avatar
+    .wpu-form-header .wpu-profile-avatar
     {
         float: none;
         margin-left: auto;
         margin-right: auto;
     }
-    .wpu-form-header .st-profile-meta-info {
+    .wpu-form-header .wpu-profile-meta-info {
         padding: 0px;
         float: none;
         text-align: center;

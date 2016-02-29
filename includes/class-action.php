@@ -439,7 +439,7 @@ class WP_Users_Action{
      *
      * @return bool
      */
-    public static function media_upload( $media_type = 'avatar' ){
+    public static function media_upload( $media_type = 'avatar', $return = false ){
         $dir = WP_Users()->settings['upload_dir'];
         $url = WP_Users()->settings['upload_url'];
 
@@ -524,8 +524,14 @@ class WP_Users_Action{
             }
 
         }
-
-        return  json_encode( $response ) ;
+        if ( $return ) {
+            return  json_encode( $response ) ;
+        } else {
+            if ( isset( $_REQUEST['redirect_url'] ) ){
+                wp_redirect( $_REQUEST['redirect_url'] );
+                die();
+            }
+        }
     }
 
     public static function remove_media( $media_type = 'avatar' ){
@@ -566,97 +572,7 @@ class WP_Users_Action{
             "status" => 'success',
             "url" => $edited_image_url.'?t='.uniqid()
         );
-        // Return
 
-        /*
-
-        $media_type = sanitize_title( $media_type , 'avatar' );
-
-        if ( ! is_user_logged_in() ){
-            $response = Array(
-                "status" => 'error',
-                "message" => __( 'You not have permission to edit image', 'wp-users' )
-            );
-            return json_encode( $response );
-        }
-
-        $img_edit_path =  WP_Users()->get_user_media('cover', 'path');
-
-        if( ! $img_edit_path ) {
-            $response = Array(
-                "status" => 'error',
-                "message" => __( 'File not exists', 'wp-users' )
-            );
-            return json_encode( $response );
-        }
-
-        $user =  wp_get_current_user();
-
-        $dir = WP_Users()->settings['upload_dir'];
-        $url = WP_Users()->settings['upload_url'];
-
-        $sub_path = "{$user->ID}/".$media_type.'-img';
-
-        $temp = explode( ".", $img_edit_path );
-        $extension = end( $temp );
-        $sub_path .= '.'.$extension;
-
-
-        require_once(ABSPATH . 'wp-admin/includes/image.php');
-        require_once(ABSPATH . 'wp-admin/includes/file.php');
-        require_once(ABSPATH . 'wp-admin/includes/media.php');
-
-
-        // original sizes
-        $imgInitW = $_POST['imgInitW'];
-        $imgInitH = $_POST['imgInitH'];
-        // resized sizes
-        $imgW = $_POST['imgW'];
-        $imgH = $_POST['imgH'];
-        // offsets
-        $imgY1 = $_POST['imgY1'];
-        $imgX1 = $_POST['imgX1'];
-        // crop box
-        $cropW = $_POST['cropW'];
-        $cropH = $_POST['cropH'];
-        // rotation angle
-        $angle = $_POST['rotation'];
-
-
-        $settings_height = 150;
-
-        $imgInitW = $_POST['imgInitW'];
-        $imgInitH = $_POST['imgInitH'];
-        // resized sizes
-        $diff = ( $_POST['imgH'] / $imgInitH ) ;
-        // offsets
-        $imgY1 = $_POST['imgY1'];
-
-        $src_y = $imgY1 + ( $imgY1 - $imgY1 * $diff );
-        // crop box
-        $cropH = $settings_height+( $diff * $settings_height );
-
-        wp_delete_file( $dir.$sub_path );
-        $cropped = wp_crop_image( $img_edit_path , 1, $src_y, $imgInitW, $imgInitH, $imgInitW, $cropH, true, $dir.$sub_path );
-
-        if ( $cropped && ! is_wp_error( $cropped ) ) {
-            $response = Array(
-                "status" => 'success',
-                'post' => $_POST,
-                'diff' => $diff,
-                'src_y' => $src_y,
-                "url" => $url.$sub_path.'?t='.uniqid()
-            );
-            update_user_meta( $user->ID, 'wpu-'.$media_type.'-img', $sub_path );
-        } else {
-            $response = Array(
-                "status" => 'error',
-                "message" => __( 'Something went wrong', 'wp-users' )
-            );
-        }
-
-        return json_encode($response);
-        */
     }
 
 }

@@ -116,7 +116,6 @@ class WP_Users_Public {
 
         if ( is_page( $this->instance->settings['account_page'] ) ) {
             wp_enqueue_style( 'dashicons' );
-            wp_enqueue_style( 'croppic' , WPU_URL.'public/assets//js/croppic/croppic.css'  );
         }
         wp_enqueue_style( $this->wp_users );
 	}
@@ -143,20 +142,17 @@ class WP_Users_Public {
         wp_enqueue_script( 'jquery' );
         wp_enqueue_script( 'json2' );
 
-        if ( is_user_logged_in() ) {
-            wp_enqueue_script( 'croppic' , WPU_URL.'public/assets/js/croppic/croppic.js', array('jquery'), false, true  );
-        }
-
-        // wp_enqueue_script( 'modernizr', WPU_URL.'public/js/modernizr.js', array('jquery'), '2.7.1', true  );
         wp_enqueue_script( $this->wp_users , WPU_URL.'public/assets/js/user.js', array('jquery'), '1.0', true  );
 
         wp_localize_script( $this->wp_users , 'WP_Users',
             apply_filters('wp_users_localize_script', array(
                 'ajax_url'          => admin_url( 'admin-ajax.php' ),
                 'current_action'    => $this->current_action,
+                'is_current_user'   => WP_Users()->can_edit_profile(),
                 'hide_txt'          => __('Hide','wp-users'),
                 'show_txt'          => __('Show','wp-users'),
                 'current_url'       => $_SERVER['REQUEST_URI'],
+                'invalid_file_type' => esc_html__('This is not an allowed file type.','wp-users'),
                 '_wpnonce'          => wp_create_nonce(),
                 'cover_text'        => __('Cover image','wp-users'),
                 'avatar_text'       => __('Avatar','wp-users'),
@@ -197,12 +193,12 @@ class WP_Users_Public {
         }
 
         ?>
-        <div id="st-profile-cover" data-change="<?php echo $is_edit ? 'true' : 'false'; ?>" class="st-profile-cover coppic" <?php echo ( $image_url !='' ) ? ' style="background-image: url(\''.esc_attr( $image_url ).'\');"' : '';   ?> data-cover="<?php echo ( $image_url ) ? $image_url : '';  ?>"></div>
+        <div id="wpu-profile-cover" data-change="<?php echo $is_edit ? 'true' : 'false'; ?>" class="wpu-profile-cover coppic" <?php echo ( $image_url !='' ) ? ' style="background-image: url(\''.esc_attr( $image_url ).'\');"' : '';   ?> data-cover="<?php echo ( $image_url ) ? $image_url : '';  ?>"></div>
 
-        <div class="st-profile-meta clear-fix">
-            <div data-change="<?php echo $is_edit ? 'true' : 'false'; ?>"  <?php echo ( $avatar_url !='' ) ? ' style="background-image: url(\''.esc_attr( $avatar_url ).'\');"' : '';   ?>  data-cover="<?php echo ( $avatar_url && $is_avatar ) ? $avatar_url : '';  ?>" class="st-profile-avatar coppic"></div>
+        <div class="wpu-profile-meta clear-fix">
+            <div data-change="<?php echo $is_edit ? 'true' : 'false'; ?>"  <?php echo ( $avatar_url !='' ) ? ' style="background-image: url(\''.esc_attr( $avatar_url ).'\');"' : '';   ?>  data-cover="<?php echo ( $avatar_url && $is_avatar ) ? $avatar_url : '';  ?>" class="wpu-profile-avatar coppic"></div>
 
-            <div class="st-profile-meta-info">
+            <div class="wpu-profile-meta-info">
                 <span class="st-display-name"><?php echo esc_html( $user->display_name ); ?></span>
                 <div class="list-meta-info">
                     <?php
@@ -259,7 +255,7 @@ class WP_Users_Public {
         $link =  WP_Users()->get_profile_link( $user );
         ?>
         <ul class="wpu-form-sidebar">
-            <li class="<?php echo $is_edit ? '' : 'active'; ?>"><a class="st-profile-link" href="<?php echo $link; ?>"><?php _e( 'Public profile', 'wp-users' ); ?></a></li>
+            <li class="<?php echo $is_edit ? '' : 'active'; ?>"><a class="wpu-profile-link" href="<?php echo $link; ?>"><?php _e( 'Public profile', 'wp-users' ); ?></a></li>
             <?php if ( WP_Users()->is_current_user( $user, $current_user ) ){ ?>
             <li class="<?php echo $is_edit ? 'active' : ''; ?>"><a class="st-edit-link" href="<?php echo WP_Users()->get_edit_profile_link( $user ); ?>"><?php _e( 'Edit profile', 'wp-users' ); ?></a></li>
             <?php } ?>

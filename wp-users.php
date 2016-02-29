@@ -25,6 +25,8 @@ if ( ! defined( 'WPU_PATH' ) ) {
 	define('WPU_URL', trailingslashit(plugins_url('', __FILE__)));
 	define('WPU_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 
+	global $WP_Users;
+
 	/**
 	 * The code that runs during plugin activation.
 	 * This action is documented in includes/class-wpu-activator.php
@@ -65,9 +67,10 @@ if ( ! defined( 'WPU_PATH' ) ) {
 	 */
 	function wp_users_init()
 	{
-        if ( ! isset( $GLOBALS['WP_Users'] ) ) {
+		global $WP_Users;
+        if ( ! isset( $WP_Users ) ) {
             $plugin = new WP_Users();
-            $GLOBALS['WP_Users'] = $plugin;
+			$WP_Users = $plugin;
         }
 
 	}
@@ -81,6 +84,9 @@ if ( ! defined( 'WPU_PATH' ) ) {
      */
     function WP_Users(){
         global $WP_Users;
+		if ( ! $WP_Users instanceof WP_Users ) {
+			$WP_Users = new WP_Users();
+		}
         return $WP_Users;
     }
 }
