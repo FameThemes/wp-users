@@ -23,7 +23,7 @@ $id = uniqid('f');
 if ( ! is_user_logged_in() ) {
 ?>
 
-<form id="wpu-login" class="wpu-form wpu-login-form form ui" action="<?php echo site_url('/'); ?>" method="post">
+<form id="<?php esc_attr_e( $in_modal ? 'wpu-login' : 'wpu-f-login' ); ?>" class="wpu-form wpu-login-form form ui" action="<?php echo site_url('/'); ?>" method="post">
     <?php if( WP_Users()->settings['form_login_header'] ) { ?>
     <div class="wpu-form-header">
         <h3><?php echo esc_html( WP_Users()->settings['login_header_title'] ); ?></h3>

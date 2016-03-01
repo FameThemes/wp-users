@@ -47,9 +47,31 @@
     window.WP_Users = $.extend({
         init: function(){
             var wpu = this;
+            wpu.events_handle();
+            wpu.forms();
+            wpu.profile_avatar();
+            wpu.profile_cover();
 
-            // load singup modal
+        },
+
+        events_handle: function(){
+
+            var wpu = this;
+            wpu.hide_all_errors();
+
+            // force reset password form
+            /*
+            if ( WP_Users.current_action == 'rp' ) {
+                $('.wpu-modal').addClass('is-visible');
+                $('#wpu-login').removeClass('is-selected');
+                console.log( $('#wpu-change-password') );
+                $('#wpu-change-password').addClass('is-selected');
+            }
+            */
+
+            // When click to login, singup button
             $('body').on( 'click', '.wpu-singup-btn, .wpu-login-btn', function( event ) {
+                event.preventDefault();
                 var target = $( event.target );
                 var is_login = target.is('.wpu-login-btn');
 
@@ -66,8 +88,6 @@
                 } else {
                     wpu.signup_selected();
                 }
-
-                return false;
             } );
 
             //close modal when clicking the esc keyboard button
@@ -77,37 +97,32 @@
                 }
             });
 
-            // Hen click to overlay
-            $('.wpu-modal').on('click', function(event) {
+            // When click to overlay
+            $('body').on('click', '.wpu-modal', function(event) {
                 var $form_modal = $('.wpu-modal' );
                 if ( $(event.target).is($form_modal) || $(event.target).is('.wpu-close-form') ) {
                     wpu.close_modal();
                 }
             });
 
-            wpu.events_handle();
-            wpu.forms();
-            wpu.profile_avatar();
-            wpu.profile_cover();
+            // When click X Button
+            $('body').on('click', '.wpu-modal .wpu-close-form', function(event) {
+                wpu.close_modal();
+            });
 
-        },
-
-        events_handle: function(){
-
-            var wpu = this;
-            wpu.hide_all_errors();
-
-            $( 'body' ).on( 'click', '.wpu-register-link', function( event ) {
+            // When click to Register button/link in Modal
+            $( 'body' ).on( 'click', '.wpu-modal .wpu-register-link', function( event ) {
                 event.preventDefault();
                 wpu.signup_selected();
             } );
 
-            $('body').on( 'click', '.wpu-login-link', function( event ) {
+            // When click to Login button/link on Modal
+            $('body').on( 'click', '.wpu-modal .wpu-login-link', function( event ) {
                 event.preventDefault();
                 wpu.login_selected();
             } );
 
-            //hide or show password
+            //Hide or show password
             $('body' ).on('click', '.fieldset .hide-password', function( event ) {
                 event.preventDefault();
                 var $this= $(this),
@@ -125,30 +140,36 @@
                 $password_field.putCursorAtEnd();
             });
 
-            //show forgot-password form
-            $('body').on('click', '.wpu-lost-pwd-link', function(event) {
+            //Show forgot-password form
+            $('body').on('click', '.wpu-modal .wpu-lost-pwd-link', function(event) {
                 event.preventDefault();
                 wpu.forgot_password_selected();
             });
 
             //back to login from the forgot-password form
-            $('body').on('click', '.wpu-back-to-login', function(event) {
+            $('body').on('click', '.wpu-modal .wpu-back-to-login', function(event) {
                 event.preventDefault();
                 wpu.login_selected();
             });
 
             // Back to login Link
             if ( $('.wpu-register-form' ).hasClass('in-wpu-modal') ) {
-                $( 'body' ).on( 'click', '.wpu-login-link', function( event ) {
+                $( 'body' ).on( 'click', '.wpu-modal .wpu-login-link', function( event ) {
                     event.preventDefault();
                     wpu.login_selected();
                 });
             }
 
         },
+        /**
+         * Remove modal
+         */
         close_modal: function(){
             $('.wpu-modal' ).removeClass('is-visible');
         },
+        /**
+         * Switch to login tab in modal
+         */
         login_selected: function() {
             var $form_modal = $('.wpu-modal' ),
                 $form_login = $form_modal.find('#wpu-login'),
@@ -165,7 +186,9 @@
             $login_link.addClass('selected');
             $signup_link.removeClass('selected');
         },
-
+        /**
+         * Switch to Singup tab in modal
+         */
         signup_selected: function () {
 
             var $form_modal =  $('.wpu-modal' ),
@@ -183,7 +206,9 @@
             $login_link.removeClass('selected');
             $signup_link.addClass('selected');
         },
-
+        /**
+         * Switch to forgot pwd tab in modal
+         */
         forgot_password_selected: function () {
             var $form_modal =  $('.wpu-modal' ),
                 $form_login = $form_modal.find('#wpu-login'),
@@ -196,7 +221,9 @@
             $form_change_password.removeClass('is-selected');
             $form_forgot_password.addClass('is-selected');
         },
-
+        /**
+         * Hide all error on inputs
+         */
         hide_all_errors: function () {
             // hide all errors fields when load
             $( 'body' ).on( 'click', '.wpu-form .fieldset', function( ) {
@@ -205,7 +232,9 @@
                 p.find('span').removeClass('is-visible');
             });
         },
-
+        /**
+         * Avatar action
+         */
         profile_avatar: function(){
             var wpu = this;
             var html =  '<div class="wpu-media">' +
@@ -237,7 +266,9 @@
 
             } );
         },
-
+        /**
+         * Cover action
+         */
         profile_cover: function(){
 
             var wpu = this;
@@ -328,7 +359,9 @@
             } );
 
         },
-
+        /**
+         * Handle forms event
+         */
         forms: function() {
             var wpu = this;
             /**

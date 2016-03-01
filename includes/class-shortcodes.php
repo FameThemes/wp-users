@@ -267,10 +267,14 @@ class WP_Users_Shortcodes{
         if ( $user && $this->instance->settings['view_other_profiles'] == 'any' ) {
             return $this->profile( $atts, $content );
         } else{
-            if ( isset( $_REQUEST['wpu_action'] )  && $_REQUEST['wpu_action']  == 'lost-pass' ) {
+            $action =  isset( $_REQUEST['wpu_action'] )  && $_REQUEST['wpu_action']  ? $_REQUEST['wpu_action'] : false;
+            if ( $action == 'rp' ) {
+                return $this->change_password( $atts, $content );
+            }
+            if ( $action == 'lost-pass' ) {
                 return $this->reset_password( $atts, $content );
             }
-            if ( isset( $_REQUEST['wpu_action'] )  && $_REQUEST['wpu_action']  == 'register' ) {
+            if ( $action  == 'register' ) {
                 return $this->register( $atts, $content );
             }
             if ( $user || is_user_logged_in() ) {

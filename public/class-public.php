@@ -169,7 +169,10 @@ class WP_Users_Public {
      * @since 1.0
      */
     function modal() {
-        echo $this->instance->get_template_content( 'modal.php', array('current_action' => $this->current_action ) ) ;
+        // Show modal when user not logged in only
+        if ( ! is_user_logged_in() ) {
+            echo $this->instance->get_template_content( 'modal.php', array('current_action' => $this->current_action ) ) ;
+        }
     }
 
     /**
@@ -374,27 +377,27 @@ class WP_Users_Public {
                     <span class="wpu-error-msg"></span>
                 </p>
 
-                <p class="fieldset wpu_input st-firstname">
+                <p class="fieldset wpu_input wpu-firstname">
                     <label><?php _e( 'First Name', 'wp-users' ); ?></label>
                     <input name="wp_users_data[first_name]" value="<?php echo esc_attr( get_user_meta( $user->ID, 'first_name', true ) ); ?>" class="input full-width has-padding has-border" type="text"  placeholder="<?php echo esc_attr__( 'First name', 'wp-users' ) ; ?>">
                 </p>
 
-                <p class="fieldset wpu_input st-lastname">
+                <p class="fieldset wpu_input wpu-lastname">
                     <label><?php _e( 'Last Name', 'wp-users' ); ?></label>
                     <input name="wp_users_data[last_name]" value="<?php echo esc_attr( get_user_meta( $user->ID, 'last_name', true ) ); ?>" class="input full-width has-padding has-border"  type="text"  placeholder="<?php echo esc_attr__('Last name','wp-users') ; ?>">
                 </p>
 
-                <p class="fieldset wpu_input st-input-display-name">
+                <p class="fieldset wpu_input wpu-input-display-name">
                     <label><?php _e( 'Display Name', 'wp-users' ); ?></label>
                     <input name="wp_users_data[display_name]" value="<?php echo esc_attr( $user->display_name ); ?>" class="input full-width has-padding has-border"  type="text"  placeholder="<?php echo esc_attr__( 'Display name','wp-users' ) ; ?>">
                 </p>
 
-                <p class="fieldset wpu_input st-website">
+                <p class="fieldset wpu_input wpu-website">
                     <label><?php _e( 'Website', 'wp-users' ); ?></label>
                     <input name="wp_users_data[user_url]" value="<?php echo esc_attr( $user->user_url ); ?>" class="input full-width has-padding has-border"  type="text"  placeholder="<?php echo esc_attr__( 'Website', 'wp-users' ) ; ?>">
                 </p>
 
-                <p class="fieldset wpu_input st-website">
+                <p class="fieldset wpu_input wpu-website">
                     <label><?php _e( 'Country', 'wp-users' ); ?></label>
                     <select name="wp_users_data[country]">
                         <option value=""><?php _e( 'Select your country', 'wp-users' ); ?></option>
@@ -426,19 +429,19 @@ class WP_Users_Public {
                     <a href="#0" class="hide-password"><?php _e( 'Show', 'wp-users' ) ?></a>
                     <span class="wpu-error-msg"></span>
                 </p>
-                <p class="fieldset wpu_input st-website">
+                <p class="fieldset wpu_input wpu-bio">
                     <label><?php _e( 'Bio', 'wp-users' ); ?></label>
                     <textarea class="full-width" name="wp_users_data[description]"><?php echo esc_attr( get_user_meta( $user->ID, 'description', true ) ); ?></textarea>
                 </p>
-                <p class="fieldset wpu_input st-firstname">
+                <p class="fieldset wpu_input">
                     <label><?php _e( 'Facebook URL', 'wp-users' ); ?></label>
                     <input name="wp_users_data[facebook]" value="<?php echo esc_attr( get_user_meta( $user->ID, 'facebook', true ) ); ?>" class="input full-width has-padding has-border" type="text"  placeholder="<?php echo esc_attr__( 'Facebook URL', 'wp-users' ) ; ?>">
                 </p>
-                <p class="fieldset wpu_input st-firstname">
+                <p class="fieldset wpu_input">
                     <label><?php _e( 'Twitter URL', 'wp-users' ); ?></label>
                     <input name="wp_users_data[twitter]" value="<?php echo esc_attr( get_user_meta( $user->ID, 'twitter', true ) ); ?>" class="input full-width has-padding has-border" type="text"  placeholder="<?php echo esc_attr__( 'Twitter URL', 'wp-users' ) ; ?>">
                 </p>
-                <p class="fieldset wpu_input st-firstname">
+                <p class="fieldset wpu_input">
                     <label ><?php _e( 'Google+ URL', 'wp-users' ); ?></label>
                     <input name="wp_users_data[google]" value="<?php echo esc_attr( get_user_meta( $user->ID, 'google', true ) ); ?>" class="input full-width has-padding has-border" type="text"  placeholder="<?php echo esc_attr__( 'Google+ URL', 'wp-users' ) ; ?>">
                 </p>

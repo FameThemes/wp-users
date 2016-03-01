@@ -6,7 +6,9 @@
     clear: both;
     display: block;
 }
-
+.wpu-hide {
+    display: none;
+}
 /* --------------------------------
 
 xsigin/signup popup 
@@ -215,9 +217,7 @@ xsigin/signup popup
     transition: opacity 0.2s 0, visibility 0 0;
 }
 .wpu-msg {
-    font-size: 14px;
-    line-height: 1.4;
-    display: none;
+
 }
 .wpu-msg.st-show,
 .form .wpu-msg.st-show,

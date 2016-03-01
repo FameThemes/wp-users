@@ -188,6 +188,7 @@ class WP_Users_Action{
         }
 
         // Now insert the key, hashed, into the DB.
+        /*
         if ( empty( $wp_hasher ) ) {
             require_once ABSPATH . WPINC . '/class-phpass.php';
             $wp_hasher = new PasswordHash( 8, true );
@@ -195,6 +196,20 @@ class WP_Users_Action{
         // Generate something random for a password reset key.
         $key = wp_generate_password( 20, false );
         $hashed = $wp_hasher->HashPassword( $key );
+        */
+
+        /**
+         * Fires before errors are returned from a password reset request.
+         *
+         * @since 2.1.0
+         * @since 4.4.0 Added the `$errors` parameter.
+         *
+         * @param WP_Error $errors A WP_Error object containing any errors generated
+         *                         by using invalid credentials.
+         */
+        do_action( 'lostpassword_post' );
+
+        $key = get_password_reset_key( $user_data );
 
         /**
          * Fires when a password reset key is generated.
@@ -205,8 +220,6 @@ class WP_Users_Action{
          * @param string $key        The generated password reset key.
          */
         do_action( 'retrieve_password_key', $user_login, $key );
-
-        $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
 
         $message = __('Someone requested that the password be reset for the following account:') . "\r\n\r\n";
         $message .= network_home_url( '/' ) . "\r\n\r\n";
@@ -222,7 +235,7 @@ class WP_Users_Action{
                                     'login'     => $user_login ,
                                 ), $url );
 
-        $message .= '<' . $url . ">\r\n";
+        $message .= '' . $url . "\r\n";
 
         if ( is_multisite() )
             $blogname = $GLOBALS['current_site']->site_name;
@@ -256,9 +269,9 @@ class WP_Users_Action{
          * @param WP_User $user_data  WP_User object.
          */
         $message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
+        //return $message;
 
         if ( $message && !wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
-           // wp_die( __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function.') );
             return __( 'The e-mail could not be sent.', 'wp-users' );
         }
 
@@ -266,13 +279,23 @@ class WP_Users_Action{
     }
 
     /**
-     * Reset password
-     * @since 1.0
-     * @return string
+     * Check if someone can reset pwd
+     *
+     * @param string $key
+     * @param string $login
      */
-    static function  reset_pass() {
-        $rp_key =  isset( $_REQUEST['key'] ) ?  $_REQUEST['key'] : null;
-        $rp_login = isset( $_REQUEST['login'] ) ?  $_REQUEST['login'] :  null;
+    static function can_reset_pass( $key = '', $login = '' ){
+
+        if ( $key ) {
+            $rp_key =  $key;
+        } else {
+            $rp_key =  isset( $_REQUEST['key'] ) ?  $_REQUEST['key'] : null;
+        }
+        if ( $login ) {
+            $rp_login =  $login;
+        } else {
+            $rp_login = isset( $_REQUEST['login'] ) ?  $_REQUEST['login'] :  null;
+        }
 
         // check if not request change in modal
         if ( empty( $rp_key ) || empty ( $rp_login ) ) {
@@ -289,8 +312,38 @@ class WP_Users_Action{
             $rp_login =  $data['login'];
         }
 
-        $errors =  array();
+        $error  =  '';
+        $user = check_password_reset_key( $rp_key, $rp_login );
 
+        if ( ! $user || is_wp_error( $user ) ) {
+            if ( $user && $user->get_error_code() === 'expired_key' ) {
+                $error =  __( 'Your key is expired' ,'wp-users' );
+            } else {
+                $error =  __( 'Your key is invalid' ,'wp-users' );
+            }
+        }
+
+        return array(
+            'status' => ! $error ? true : false,
+            'error'  => $error,
+            'login'  => $rp_login,
+            'key'    => $rp_key,
+            'user'   => $user
+        );
+    }
+
+    /**
+     * Reset password
+     * @since 1.0
+     * @return string
+     */
+    static function  reset_pass() {
+        $check = self::can_reset_pass();
+
+        $errors = array();
+        if ( ! $check['status'] ) {
+            $errors['key'] = $check['error'];
+        }
         if ( !isset( $_REQUEST['wpu_pwd'] )  || $_REQUEST['wpu_pwd']  == '' ) {
             $errors['pass1'] =  __( 'Please enter your password' ,'wp-users');
         }
@@ -299,28 +352,8 @@ class WP_Users_Action{
             $errors['pass2'] =  __( 'The passwords do not match.' ,'wp-users');
         }
 
-        $user = check_password_reset_key( $rp_key, $rp_login );
-
-        if ( ! $user || is_wp_error( $user ) ) {
-            if ( $user && $user->get_error_code() === 'expired_key' )
-                $errors['error'] =  __( 'Your key is expired' ,'wp-users' );
-            else
-                $errors['error'] =  __( 'Your key is invalid' ,'wp-users' );
-
-        }
-
-        /**
-         * Fires before the password reset procedure is validated.
-         *
-         * @since 3.5.0
-         *
-         * @param object           $errors WP Error object.
-         * @param WP_User|WP_Error $user   WP_User object if the login and reset key match. WP_Error object otherwise.
-         */
-        do_action( 'validate_password_reset', $errors, $user );
-
-        if ( empty( $errors )) {
-            reset_password($user, $_POST['wpu_pwd']);
+        if ( empty( $errors ) ) {
+            reset_password( $check['user'], $_POST['wpu_pwd']);
             //<p class="message reset-pass">' . __( 'Your password has been reset.' )
             return 'changed';
         } else {
