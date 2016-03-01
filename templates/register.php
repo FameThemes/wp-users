@@ -41,7 +41,7 @@ $id = uniqid('r-');
 
             <p class="fieldset wpu_input st_email">
                 <label class="image-replace wpu-email" for="signup-email<?php echo $id; ?>"><?php _e( 'E-mail', 'wp-users' ); ?></label>
-                <input name="st_signup_email" class="full-width has-padding has-border" id="signup-email<?php echo $id; ?>" type="email" placeholder="<?php echo esc_attr__('E-mail','wp-users'); ?>">
+                <input name="st_signup_email" class="full-width has-padding has-border" id="signup-email<?php echo $id; ?>" type="text" placeholder="<?php echo esc_attr__('E-mail','wp-users'); ?>">
                 <span class="wpu-error-msg"></span>
             </p>
 

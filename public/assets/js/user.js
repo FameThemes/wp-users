@@ -425,7 +425,7 @@
                     $('.accept-terms .wpu-error-msg' , form ).toggleClass('is-visible');
                 }
 
-                var submit_btn =  $('.st-submit', form);
+                var submit_btn =  $('input[type="submit"], button[type="submit"]', form);
                 var txt = submit_btn.val();
                 submit_btn.data('default-text', txt );
                 if ( submit_btn.data('loading-text') !== '' ) {
@@ -442,9 +442,7 @@
                     data: formData,
                     type: 'POST',
                     success: function( response ) {
-
                         form.removeClass( 'wpu-loading loading' );
-
                         submit_btn.val( submit_btn.data('default-text') ) ;
                         submit_btn.removeAttr('disabled');
 
@@ -486,7 +484,7 @@
                 formData.action = 'wp_users_ajax';
                 formData.act = 'retrieve_password';
 
-                var submit_btn =  $('.st-submit', form);
+                var submit_btn =  $('input[type="submit"], button[type="submit"]', form);
                 var txt = submit_btn.val();
                 submit_btn.data('default-text', txt );
                 if ( submit_btn.data('loading-text') !== '' ) {
@@ -542,7 +540,7 @@
                 formData.action = 'wp_users_ajax';
                 formData.act = 'do_reset_pass';
 
-                var submit_btn =  $('.st-submit', form);
+                var submit_btn =  $('input[type="submit"], button[type="submit"]', form);
                 var txt = submit_btn.val();
                 submit_btn.data('default-text', txt );
                 if ( submit_btn.data('loading-text') !== '' ) {
@@ -597,8 +595,7 @@
                 var formData = form.serializeObject();
                 formData.action = 'wp_users_ajax';
                 formData.act = 'do_update_profile';
-
-                var submit_btn =  $('.st-submit', form);
+                var submit_btn =  $('input[type="submit"], button[type="submit"]', form);
                 var txt = submit_btn.val();
                 submit_btn.data('default-text', txt );
                 if ( submit_btn.data('loading-text') !== '' ) {
