@@ -23,7 +23,7 @@ $id = uniqid('f');
     <?php } ?>
 
     <div class="wpu-form-body">
-        <p class="wpu-form-message"><?php _e( 'Please enter your email address. You will receive a link to create a new password.', 'wp-users' ); ?></p>
+        <p class="wpu-form-message wpu-hide"><?php _e( 'Please enter your email address. You will receive a link to create a new password.', 'wp-users' ); ?></p>
         <p class="wpu-msg"><?php _e( 'Check your e-mail for the confirmation link.', 'wp-users' ); ?></p>
         <div class="wpu-form-fields">
             <p class="fieldset wpu_input wpu_input_combo">
