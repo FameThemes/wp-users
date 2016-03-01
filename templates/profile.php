@@ -11,9 +11,7 @@
  * @version     1.0
  */
 
-
 $user = WP_Users()->get_user_profile();
-
 
 if ( ! $user ) {
     ?>
@@ -41,7 +39,6 @@ if ( ! $user ) {
             ?>
         </div>
     </div>
-
     <?php
 
 }

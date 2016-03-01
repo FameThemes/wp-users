@@ -125,7 +125,7 @@ class WP_Users_Action{
            return json_encode( $msgs );
         } else {
             // __('Registration complete. Please check your e-mail.');
-            wp_new_user_notification( $r, $pwd );
+            wp_new_user_notification( $r );
             return $r;
         }
 

@@ -28,8 +28,8 @@ $id = uniqid('r-');
 
     <div class="wpu-form-body">
 
-        <p class="wpu-msg">
-            <?php echo sprintf( __( 'Registration complete ! <a class="wpu-login-link" href="%1$s" title="Login">Click here to login</a> ', 'wp-users' ), apply_filters( 'st_login_url', '#' ) ); ?>
+        <p class="wpu-msg wpu-hide">
+            <?php echo sprintf( __( 'Registration complete ! <a class="wpu-login-link" href="%1$s" title="Login">Click here to login</a> ', 'wp-users' ), wp_login_url() ); ?>
         </p>
         <div class="wpu-form-fields">
             <?php do_action( 'wp_users_before_register_form' ); ?>
