@@ -5,8 +5,8 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    WP_Users
- * @subpackage WP_Users/includes
+ * @package    wp-users
+ * @subpackage wp-users/includes
  * @author     SmoothThemes
  */
 class WP_Users_Activator {

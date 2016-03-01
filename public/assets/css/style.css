@@ -119,22 +119,22 @@ xsigin/signup popup
     margin-bottom: 15px;
 }
 
-.wpu-form .fieldset input:not([type=checkbox]),
-.wpu-form .fieldset textarea,
+.wpu-form input:not([type=checkbox]),
+.wpu-form textarea,
 .wpu-form .btn{
     width: 100%;
     padding: 10px 10px;
 }
-.wpu-form .fieldset input[type="checkbox"] {
+.wpu-form input[type="checkbox"] {
     margin: 5px 5px 5px 0px;
 }
-.wpu-form .fieldset input[readonly=readonly] {
+.wpu-form input[readonly=readonly] {
     background: #ededed;
 }
 .wpu-form .fieldset:after {
     content: ' '; clear: both; display: block;
 }
-.wpu-form .custom-terms .st-accept-terms {
+.wpu-form .custom-terms .wpu-accept-terms {
     float: left;
     margin: 5px 0 5px 5px;
 }
@@ -173,8 +173,28 @@ xsigin/signup popup
     /* space left for the HIDE button */
     padding-right: 65px;
 }
+.wpu-pwd-toggle {
+    display: block;
+    position: relative;
+}
+.wpu-form .wpu-pwd-toggle input {
+    padding-right: 65px;
+}
 .wpu-form .hide-password {
-   display: none;
+    vertical-align: middle;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 65px;
+    text-align: center;
+    line-height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    outline: none;
 }
 
 .wpu-form .wpu-error-msg {
@@ -364,7 +384,7 @@ NAV helper - Use for menu conditions
 .wpu-profile-meta:after {
     clear: both; content: ""; display: block;
 }
-.st-display-name {
+.wpu-display-name {
     font-size: 23px;
     display: block;
     font-weight: bold;
@@ -399,7 +419,6 @@ NAV helper - Use for menu conditions
     vertical-align: middle;
     border: 1px solid #ededed;
     border-radius: 50%;
-
 }
 .wpu-socials a span {
     padding-top: 1.5px;
@@ -438,6 +457,7 @@ NAV helper - Use for menu conditions
 .wpu-form-sidebar li.active  a {
     background: #e0e0e0;
 }
+
 
 /* Responsive & Sidebar Profile */
 .sidebar .wpu-profile-avatar.coppic,

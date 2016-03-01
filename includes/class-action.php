@@ -84,15 +84,15 @@ class WP_Users_Action{
      */
     public static function do_register() {
         $args = wp_parse_args( $_POST, array(
-            'st_signup_email'       => '',
-            'st_signup_password'    => '',
-            'st_signup_username'    => '',
+            'wpu_signup_email'       => '',
+            'wpu_signup_password'    => '',
+            'wpu_signup_username'    => '',
             'wpu_accept_terms'       => '',
         ) );
 
-        $email      = $args['st_signup_email'];
-        $pwd        = $args['st_signup_password'];
-        $username   = $args['st_signup_username'];
+        $email      = $args['wpu_signup_email'];
+        $pwd        = $args['wpu_signup_password'];
+        $username   = $args['wpu_signup_username'];
 
         $msgs = array();
         $pwd_length =  apply_filters( 'wp_users_pwd_leng', 6 );
@@ -100,10 +100,10 @@ class WP_Users_Action{
             $msgs['wp_usersname'] = __('Invalidate username','wp-users');
         }
         if ( strlen( $pwd ) < $pwd_length ) {
-            $msgs['st_password'] = sprintf( __('Please enter your password more than %s characters', 'wp-users'), $pwd_length );
+            $msgs['wpu_password'] = sprintf( __('Please enter your password more than %s characters', 'wp-users'), $pwd_length );
         }
         if ( ! is_email( $email ) ) {
-            $msgs['st_email'] =  __('Please enter a correct your email', 'wp-users');
+            $msgs['wpu_email'] =  __('Please enter a correct your email', 'wp-users');
         }
 
         // check if show term and term checked

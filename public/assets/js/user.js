@@ -123,7 +123,7 @@
             } );
 
             //Hide or show password
-            $('body' ).on('click', '.fieldset .hide-password', function( event ) {
+            $('body' ).on('click', '.wpu-pwd-toggle .hide-password', function( event ) {
                 event.preventDefault();
                 var $this= $(this),
                     p = $this.parent(),
@@ -137,7 +137,10 @@
                     $this.text( WP_Users.show_txt );
                 }
                 //focus and move cursor to the end of input field
-                $password_field.putCursorAtEnd();
+                var v =  $password_field.val();
+                var l = v.length;
+                $password_field.focus();
+                $password_field[0].setSelectionRange(l, l);
             });
 
             //Show forgot-password form

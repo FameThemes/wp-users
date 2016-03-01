@@ -202,7 +202,7 @@ class WP_Users_Public {
             <div data-change="<?php echo $is_edit ? 'true' : 'false'; ?>"  <?php echo ( $avatar_url !='' ) ? ' style="background-image: url(\''.esc_attr( $avatar_url ).'\');"' : '';   ?>  data-cover="<?php echo ( $avatar_url && $is_avatar ) ? $avatar_url : '';  ?>" class="wpu-profile-avatar coppic"></div>
 
             <div class="wpu-profile-meta-info">
-                <span class="st-display-name"><?php echo esc_html( $user->display_name ); ?></span>
+                <span class="wpu-display-name"><?php echo esc_html( $user->display_name ); ?></span>
                 <div class="list-meta-info">
                     <?php
                     $country = get_user_meta( $user->ID, 'country', true );

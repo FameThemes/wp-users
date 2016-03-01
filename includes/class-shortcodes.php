@@ -20,7 +20,7 @@ class WP_Users_Shortcodes{
         add_shortcode( 'wp_users',                  array( $this, 'user' ) );
         add_shortcode( 'wp_users_login',            array( $this, 'login' ) );
         add_shortcode( 'wp_users_register',         array( $this, 'register' ) );
-        add_shortcode( 'wp_users_lost_password',    array( $this, 'lost_password' ) );
+        add_shortcode( 'wp_users_lowpu_password',    array( $this, 'lowpu_password' ) );
         add_shortcode( 'wp_users_reset_password',   array( $this, 'reset_password' ) );
         add_shortcode( 'wp_users_change_password',  array( $this, 'change_password' ) );
         add_shortcode( 'wp_users_profile',          array( $this, 'profile' ) );

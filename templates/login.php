@@ -40,8 +40,10 @@ if ( ! is_user_logged_in() ) {
 
         <p class="fieldset wpu_input wpu_pwd">
             <label class="image-replace wpu-password" for="signin-password<?php echo $id; ?>"><?php _e('Password','wp-users'); ?></label>
-            <input name="wpu_pwd" class="full-width has-padding has-border" id="signin-password<?php echo $id; ?>" type="password"  placeholder="<?php echo esc_attr( __( 'Password', 'wp-users' ) ); ?>">
-            <a href="#0" class="hide-password"><?php _e( 'Show', 'wp-users' ) ?></a>
+            <span class="wpu-pwd-toggle">
+                <input name="wpu_pwd" class="full-width has-padding has-border" id="signin-password<?php echo $id; ?>" type="password"  placeholder="<?php echo esc_attr( __( 'Password', 'wp-users' ) ); ?>">
+                <a href="#0" class="hide-password"><?php _e( 'Show', 'wp-users' ) ?></a>
+            </span>
             <span class="wpu-error-msg"></span>
         </p>
         <p class="forgetmenot fieldset">
