@@ -80,7 +80,7 @@ if ( ! defined( 'WPU_PATH' ) ) {
      * A Alias of class WP_USERS
      *
      * @see WP_Users
-     * @return mixed
+     * @return WP_Users
      */
     function WP_Users(){
         global $WP_Users;

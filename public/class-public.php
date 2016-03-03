@@ -207,14 +207,13 @@ class WP_Users_Public {
                     <?php
                     $country = get_user_meta( $user->ID, 'country', true );
                     $name = WP_Users()->get_country_name( $country );
-                    if ( ! $name ){
+                    if ( $name != '' ){
                     ?>
                     <span class="user-country">
                         <i class="dashicons dashicons-admin-site"></i>
                         <?php echo $name; ?>
                     </span>
                     <?php } ?>
-
                     <span class="user-join-date">
                         <i class="dashicons dashicons-calendar-alt"></i>
                         <?php
