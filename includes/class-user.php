@@ -134,9 +134,11 @@ class WP_Users {
             $user_data = get_user_by( 'login', $wp_query->query_vars['wp_users_name'] );
             return ( $user_data && $user_data->data->ID > 0 ) ?  $user_data->data : false;
 
-        } else {
-            return is_user_logged_in() ? wp_get_current_user() : false;
+        } else if ( is_user_logged_in () ){
+            return wp_get_current_user();
         }
+
+        return false;
     }
 
     function can_edit_profile(){
@@ -155,18 +157,22 @@ class WP_Users {
      * @return string
      */
     public function get_profile_link( $user = null ){
-        if ( ! is_user_logged_in() ) {
+        if ( ! $user && ! is_user_logged_in() ) {
             return wp_login_url();
         }
-        if (  ! $user ) {
+
+        if ( ! $user ) {
             $user = wp_get_current_user();
         }
+
         global $wp_rewrite;
+
         if ( $wp_rewrite->using_permalinks() ){
-            return trailingslashit( site_url() ).$this->settings['profile_rewrite'].'/'.$user->user_login;
+            $url = trailingslashit( site_url() ).$this->settings['profile_rewrite'].'/'.$user->user_login;
         } else {
-            return add_query_arg( array( 'wp_users_name' => $user->user_login ), $this->settings['url']  );
+            $url = add_query_arg( array( 'wp_users_name' => $user->user_login ), $this->settings['url']  );
         }
+        return $url;
     }
 
     /**
