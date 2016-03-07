@@ -156,7 +156,8 @@ class WP_Users_Public {
                 '_wpnonce'          => wp_create_nonce(),
                 'cover_text'        => __('Cover image','wp-users'),
                 'avatar_text'       => __('Avatar','wp-users'),
-                'remove_text'       => __('Remove','wp-users'),
+                'remove_text'       => __('Default','wp-users'),
+                //'remove_avatar'     => __('Default','wp-users'),
                 'upload_text'       => __('Upload Photo','wp-users'),
             ) )
         );
@@ -190,16 +191,18 @@ class WP_Users_Public {
 
         $is_avatar = true;
 
+        $default_avatar_url = get_avatar_url( $user->user_email, array( 'size'=> 150, 'default'=> 'mystery' ) );
+
         if ( $avatar_url == '' ){
             $is_avatar = false;
-            $avatar_url = get_avatar_url( $user->user_email, array( 'size'=> 150, 'default'=> 'mystery' ) );
+            $avatar_url = $default_avatar_url;
         }
 
         ?>
         <div id="wpu-profile-cover" data-change="<?php echo $is_edit ? 'true' : 'false'; ?>" class="wpu-profile-cover coppic" <?php echo ( $image_url !='' ) ? ' style="background-image: url(\''.esc_attr( $image_url ).'\');"' : '';   ?> data-cover="<?php echo ( $image_url ) ? $image_url : '';  ?>"></div>
 
         <div class="wpu-profile-meta clear-fix">
-            <div data-change="<?php echo $is_edit ? 'true' : 'false'; ?>"  <?php echo ( $avatar_url !='' ) ? ' style="background-image: url(\''.esc_attr( $avatar_url ).'\');"' : '';   ?>  data-cover="<?php echo ( $avatar_url && $is_avatar ) ? $avatar_url : '';  ?>" class="wpu-profile-avatar coppic"></div>
+            <div data-change="<?php echo $is_edit ? 'true' : 'false'; ?>"  <?php echo ( $avatar_url !='' ) ? ' style="background-image: url(\''.esc_attr( $avatar_url ).'\');"' : '';   ?> data-default="<?php echo esc_attr( $default_avatar_url ); ?>" data-cover="<?php echo ( $avatar_url && $is_avatar ) ? $avatar_url : '';  ?>" class="wpu-profile-avatar coppic"></div>
 
             <div class="wpu-profile-meta-info">
                 <span class="wpu-display-name"><?php echo esc_html( $user->display_name ); ?></span>
@@ -211,7 +214,7 @@ class WP_Users_Public {
                     ?>
                     <span class="user-country">
                         <i class="dashicons dashicons-admin-site"></i>
-                        <?php echo $name; ?>
+                        <?php esc_html_e( $name ); ?>
                     </span>
                     <?php } ?>
                     <span class="user-join-date">
@@ -411,21 +414,22 @@ class WP_Users_Public {
                         }
                         ?>
                     </select>
-
                 </p>
-
-
 
                 <p class="fieldset wpu_input wpu-pwd pass1">
                     <label><?php _e( 'New Password', 'wp-users' ); ?></label>
-                    <input name="wp_users_data[user_pass]" autocomplete="off" class="input full-width has-padding has-border" type="password"  placeholder="<?php echo esc_attr__( 'New Password', 'wp-users' ) ; ?>">
-                    <a href="#0" class="hide-password"><?php _e('Show','wp-users') ?></a>
+                    <span class="wpu-pwd-toggle">
+                        <input name="wp_users_data[user_pass]" autocomplete="off" class="input full-width has-padding has-border" type="password"  placeholder="<?php echo esc_attr__( 'New Password', 'wp-users' ) ; ?>">
+                        <a href="#0" class="hide-password"><?php _e('Show','wp-users') ?></a>
+                     </span>
                     <span class="wpu-error-msg"></span>
                 </p>
                 <p class="fieldset wpu_input wpu-pwd pass2">
                     <label><?php _e( 'Comfirm New Password', 'wp-users' ); ?></label>
-                    <input name="wp_users_pwd2" autocomplete="off" class="input full-width has-padding has-border" type="password"  placeholder="<?php echo esc_attr__( 'Confirm New Password','wp-users' ) ; ?>">
-                    <a href="#0" class="hide-password"><?php _e( 'Show', 'wp-users' ) ?></a>
+                    <span class="wpu-pwd-toggle">
+                        <input name="wp_users_pwd2" autocomplete="off" class="input full-width has-padding has-border" type="password"  placeholder="<?php echo esc_attr__( 'Confirm New Password','wp-users' ) ; ?>">
+                        <a href="#0" class="hide-password"><?php _e( 'Show', 'wp-users' ) ?></a>
+                     </span>
                     <span class="wpu-error-msg"></span>
                 </p>
                 <p class="fieldset wpu_input wpu-bio">

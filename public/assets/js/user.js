@@ -71,7 +71,7 @@
 
             // When click to login, singup button
             $('body').on( 'click', '.wpu-singup-btn, .wpu-login-btn', function( event ) {
-                event.preventDefault();
+
                 var target = $( event.target );
                 var is_login = target.is('.wpu-login-btn');
 
@@ -88,6 +88,8 @@
                 } else {
                     wpu.signup_selected();
                 }
+
+                return false;
             } );
 
             //close modal when clicking the esc keyboard button
@@ -261,7 +263,14 @@
                         media_type: 'avatar',
                         action: "wp_users_ajax"
                     }, function () {
-                        $( '.wpu-profile-avatar').css( { backgroundImage: '' } );
+
+                        var _default =  $( '.wpu-profile-avatar').attr( 'data-default' ) || '';
+                        if ( _default !== '' ) {
+                            $( '.wpu-profile-avatar').css( { backgroundImage: 'url("'+ _default +'")'} );
+                        } else {
+                            $( '.wpu-profile-avatar').css( { backgroundImage: ''} );
+                        }
+
                     } );
                     $( '.cp-actions', obj ).removeClass('cp-active');
                     return false;
@@ -289,17 +298,23 @@
                 wpu.handle_upload( 'cover', obj );
 
                 // Remove avatar
-                $( '.cp-remove', obj).on( 'click', function(){
+                $( '.cp-remove', obj).on( 'click', function( e ){
+                    e.preventDefault();
                     $.post( WP_Users.ajax_url, {
                         _wpnonce: WP_Users._wpnonce,
                         act: "remove_media",
                         media_type: 'cover',
                         action: "wp_users_ajax"
                     }, function () {
-                        $( '.wpu-profile-cover').css( { backgroundImage: '' } );
+                        var _default =  $( '.wpu-profile-cover').attr( 'data-default' ) || '';
+                        if ( _default !== '' ) {
+                            $( '.wpu-profile-cover').css( { backgroundImage: 'url("'+ _default +'")'} );
+                        } else {
+                            $( '.wpu-profile-cover').css( { backgroundImage: ''} );
+                        }
+
                     } );
                     $( '.cp-actions', obj ).removeClass('cp-active');
-                    return false;
                 } );
 
             } );

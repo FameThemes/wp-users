@@ -630,7 +630,6 @@ class WP_Users {
      * @return bool|string
      */
     public static function get_user_media( $media_type = 'avatar', $type = 'url' ,  $user  = false ){
-
         if ( ! $user ) {
             $user =  wp_get_current_user();
         }
@@ -652,7 +651,9 @@ class WP_Users {
         }
 
         $r =  apply_filters( 'wp_users_get_user_media', $r, $media_type, $type, $user );
-        $r =  add_query_arg( array( 't'=> uniqid() ), $r );
+        if ( $r ) {
+            $r =  add_query_arg( array( 't'=> uniqid() ), $r );
+        }
 
         return $r;
 
