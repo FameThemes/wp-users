@@ -38,6 +38,7 @@ xsigin/signup popup
 .wpu-modal.is-visible {
     visibility: visible;
     opacity: 1;
+    z-index: 9999;
     -webkit-transition: opacity 0.3s 0, visibility 0 0;
     -moz-transition: opacity 0.3s 0, visibility 0 0;
     transition: opacity 0.3s 0, visibility 0 0;
