@@ -236,7 +236,7 @@ class WP_Users_Shortcodes{
         $atts = shortcode_atts(array(
             'class'             => '' ,
             'hide_when_logged'  =>  'true' ,
-            'text'              => __('Singup', 'wp-users'),
+            'text'              => __('Sign Up', 'wp-users'),
             'ajax'              => 'true'
         ), $atts );
         extract( $atts );

@@ -62,7 +62,7 @@ if ( ! is_user_logged_in() ) {
     <div class="wpu-form-footer">
         <p>
         <?php
-            printf( __( 'Don\'t have an account ? <a  class="wpu-register-link" href="%1$s">Sing Up</a>', 'wp-users'  ), wp_registration_url() );
+            printf( __( 'Don\'t have an account ? <a  class="wpu-register-link" href="%1$s">Sign Up</a>', 'wp-users'  ), wp_registration_url() );
         ?>
         </p>
     </div>

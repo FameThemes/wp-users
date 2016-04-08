@@ -192,7 +192,7 @@
             $signup_link.removeClass('selected');
         },
         /**
-         * Switch to Singup tab in modal
+         * Switch to Signup tab in modal
          */
         signup_selected: function () {
 
