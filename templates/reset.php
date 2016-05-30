@@ -15,7 +15,7 @@ if ( !isset( $in_modal ) ) {
 }
 $id = uniqid('f');
 ?>
-<form id="<?php esc_attr_e( $in_modal ? 'wpu-reset-password' : 'wpu-f-reset-password' ); ?>" class="wpu-form wpu-form-reset-password form ui" action="" method="post" >
+<form id="<?php esc_attr_e( $in_modal ? 'wpu-reset-password' : 'wpu-f-reset-password' ); ?>" class="wpu-form wpu-form-reset-password form ui" action="<?php echo site_url('/'); ?>" method="post" >
     <?php if( WP_Users()->settings['form_reset_header'] ) { ?>
     <div class="wpu-form-header">
         <h3><?php echo esc_html( WP_Users()->settings['reset_header_title'] ); ?></h3>

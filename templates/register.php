@@ -59,16 +59,14 @@ $id = uniqid('r-');
             if ( WP_Users()->settings['show_term']  ) {
                 ?>
                 <div class="fieldset accept_terms <?php echo WP_Users()->settings['term_mgs'] != '' ? 'custom-terms' : ''; ?>">
-                    <label>
-                        <input name="wpu_accept_terms" value="i-agree" type="checkbox" class="wpu-accept-terms">
-                        <?php
-                        if ( WP_Users()->settings['term_mgs'] != '' ) {
-                            echo '<div class="wpu-term-mgs">'.wp_kses_post( WP_Users()->settings['term_mgs'] ).'</div>';
-                        } else {
-                            esc_html_e( 'I agree to the Terms and Conditions', 'wp-users' );
-                        }
-                        ?>
-                    </label>
+                    <input name="wpu_accept_terms" value="i-agree" type="checkbox" class="wpu-accept-terms">
+                    <?php
+                    if ( WP_Users()->settings['term_mgs'] != '' ) {
+                        echo '<div class="wpu-term-mgs">'.wp_kses_post( WP_Users()->settings['term_mgs'] ).'</div>';
+                    } else {
+                        esc_html_e( 'I agree to the Terms and Conditions', 'wp-users' );
+                    }
+                    ?>
                 </div>
             <?php } ?>
             <p class="fieldset">
