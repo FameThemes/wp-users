@@ -73,7 +73,6 @@ class WP_Users {
 
         $this->settings();
 		$this->load_dependencies();
-        add_action( 'plugins_loaded', array( $this, 'set_locale'  ) );
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -239,12 +238,7 @@ class WP_Users {
 
 	}
 
-    /**
-     * Load the plugin text domain for translation.
-     */
-    function set_locale() {
-        load_plugin_textdomain( $this->get_wp_users() , false, WPU_PATH . 'languages/' );
-    }
+
 
 	/**
 	 * Register all of the hooks related to the admin area functionality

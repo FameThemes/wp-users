@@ -3,13 +3,12 @@
  * Plugin Name:       WP Users
  * Plugin URI:        http://smooththemes.com/wp-users/
  * Description:       Advance Ajax WordPress Login & Register Form.
- * Version:           1.0.1
+ * Version:           1.0.3
  * Author:            SmoothThemes
  * Author URI:        http://smoothemes.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       wpu
- * Domain Path:       /languages
+ * Text Domain:       wp-users
  */
 
 // If this file is called directly, abort.
@@ -75,6 +74,16 @@ if ( ! defined( 'WPU_PATH' ) ) {
 
 	}
 	add_action('init', 'wp_users_init');
+
+	/**
+	 * Load the plugin text domain for translation.
+	 */
+	function wp_users_set_locale() {
+		//echo  WPU_PATH . 'languages/'; die();
+		$r = load_plugin_textdomain( 'wp-users' , false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+	}
+
+	add_action( 'plugins_loaded', 'wp_users_set_locale' );
 
     /**
      * A Alias of class WP_USERS
