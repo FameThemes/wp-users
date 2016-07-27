@@ -48,6 +48,9 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 2. This is the second screen shot
 
 == Changelog ==
+= 1.0.4 =
+* Remove missing image.
+
 = 1.0.3 =
 * Fix translate issues.
 
