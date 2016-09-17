@@ -76,15 +76,6 @@ class WP_Users {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-        add_action( 'set_current_user', 'csstricks_hide_admin_bar' );
-
-        /*
-        $rules = get_option( 'rewrite_rules' );
-        if ( ! isset( $rules['^'.$this->settings['profile_rewrite'].'/([^/]*)/?'] ) ) {
-
-        }
-        */
-
         flush_rewrite_rules() ;
 
         $this->profile_rewrite();
