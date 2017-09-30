@@ -3,7 +3,7 @@
  * Plugin Name:       WP Users
  * Plugin URI:        http://smooththemes.com/wp-users/
  * Description:       Advance Ajax WordPress Login & Register Form.
- * Version:           1.0.5
+ * Version:           1.0.6
  * Author:            SmoothThemes
  * Author URI:        http://smoothemes.com/
  * License:           GPL-2.0+

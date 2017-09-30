@@ -16,8 +16,8 @@ class WP_Users_Action{
      */
     public static function do_login() {
         $creds                  = array();
-        $creds['user_login']    = $_POST['wp_usersname'];
-        $creds['user_password'] = $_POST['wpu_pwd'];
+        $creds['user_login']    = isset( $_POST['wp_usersname'] ) ? $_POST['wp_usersname'] : false;
+        $creds['user_password'] = isset( $_POST['wpu_pwd'] ) ? $_POST['wpu_pwd'] : false ;
         $secure_cookie          = '';
         $msgs                   = array();
         if ( trim( $creds['user_login'] ) == '' ) {
@@ -28,6 +28,7 @@ class WP_Users_Action{
             $msgs['wpu_pwd'] =  __( 'Please enter your password', 'wp-users');
         }
 
+        /*
         if ( is_email( $creds['user_login'] ) ) {
             $u =  get_user_by('email', $creds['user_login'] );
             if ( ! $u ) {
@@ -36,6 +37,7 @@ class WP_Users_Action{
                 $creds['user_login'] = $u->user_login;
             }
         }
+        */
 
         if ( ! empty( $msgs ) ) {
             return ( json_encode( $msgs ) );
@@ -126,6 +128,16 @@ class WP_Users_Action{
         } else {
             // __('Registration complete. Please check your e-mail.');
             wp_new_user_notification( $r );
+
+            /**
+             * Fires after a new user registration has been recorded.
+             *
+             * @since 4.4.0
+             *
+             * @param int $user_id ID of the newly registered user.
+             */
+            do_action( 'register_new_user', $r );
+
             return $r;
         }
 
