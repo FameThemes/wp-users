@@ -125,7 +125,7 @@
             } );
 
             //Hide or show password
-            $('body' ).on('click', '.wpu-pwd-toggle .hide-password', function( event ) {
+            $('body' ).on('click', '.wpu-pwd-toggle .hide-password, .wpu-form-fields .hide-password', function( event ) {
                 event.preventDefault();
                 var $this= $(this),
                     p = $this.parent(),

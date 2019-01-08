@@ -33,14 +33,18 @@ $check = WP_Users_Action::can_reset_pass();
         <div class="wpu-form-fields">
             <p class="fieldset wpu_input wpu-pwd pass1">
                 <label class="image-replace wpu-password" for="signin-password<?php echo $id; ?>"><?php _e( 'New Password', 'wp-users'); ?></label>
-                <input name="wpu_pwd" class="input full-width has-padding has-border" id="signin-password<?php echo $id; ?>" type="password"  placeholder="<?php echo esc_attr__( 'New Password', 'wp-users' ) ; ?>">
-                <a href="#0" class="hide-password"><?php _e('Hide','wp-users') ?></a>
+                <span class="wpu-pwd-toggle">
+                    <input name="wpu_pwd" class="input full-width has-padding has-border" id="signin-password<?php echo $id; ?>" type="password"  placeholder="<?php echo esc_attr__( 'New Password', 'wp-users' ) ; ?>">
+                    <a href="#0" class="hide-password"><?php _e('Show','wp-users') ?></a>
+                </span>
                 <span class="wpu-error-msg"></span>
             </p>
             <p class="fieldset wpu_input wpu-pwd pass2">
                 <label class="image-replace wpu-password" for="signin-password<?php echo $id; ?>"><?php _e( 'Comfirm New Password', 'wp-users' ); ?></label>
-                <input name="wpu_pwd2" class="input full-width has-padding has-border" id="signin-password<?php echo $id; ?>" type="password"  placeholder="<?php echo esc_attr__( 'Confirm New Password', 'wp-users' ) ; ?>">
-                <a href="#0" class="hide-password"><?php _e( 'Hide', 'wp-users' ) ?></a>
+                <span class="wpu-pwd-toggle">
+                    <input name="wpu_pwd2" class="input full-width has-padding has-border" id="signin-password<?php echo $id; ?>" type="password"  placeholder="<?php echo esc_attr__( 'Confirm New Password', 'wp-users' ) ; ?>">
+                    <a href="#0" class="hide-password"><?php _e( 'Show', 'wp-users' ) ?></a>
+                </span>
                 <span class="wpu-error-msg"></span>
             </p>
             <p class="fieldset">
