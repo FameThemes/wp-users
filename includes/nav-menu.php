@@ -94,6 +94,12 @@ function wp_users_can_see_nav_item( $item ){
         }
     }
 
+    if ( !is_user_logged_in() ){
+        if ( 'yes' == get_post_meta( $item->ID, '_hide_loggedout', true) ) {
+            $user_can_see = false;
+        }
+    }
+
     return $user_can_see;
 }
 
@@ -166,6 +172,7 @@ function st_wp_update_nav_menu_item( $menu_id, $menu_item_db_id, $args ){
         'menu-item-see'            => '',
         'menu-item-is-logout'      => '',
         'menu-item-hide-loggedin'  => '',
+        'menu-item-hide-loggedout' => '',
     );
 
     $values = array();
@@ -461,6 +468,13 @@ class ST_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
                     <label>
                         <input type="checkbox" id="edit-menu-item-hide-loggedin-<?php echo $item_id; ?>"  value="yes" name="menu-item-hide-loggedin[<?php echo $item_id; ?>]"<?php checked( get_post_meta( $item_id, '_hide_loggedin', true ), 'yes' ); ?> />
                         <?php _e( 'Hide item when user logged in', 'wp-users' ); ?>
+                    </label>
+                </p>
+
+                <p class="description">
+                    <label>
+                        <input type="checkbox" id="edit-menu-item-hide-loggedout-<?php echo $item_id; ?>"  value="yes" name="menu-item-hide-loggedout[<?php echo $item_id; ?>]"<?php checked( get_post_meta( $item_id, '_hide_loggedout', true ), 'yes' ); ?> />
+                        <?php _e( 'Hide item when user logged out', 'wp-users' ); ?>
                     </label>
                 </p>
                 <br style="clear: both;"/>
